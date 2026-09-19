@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cookie's Wave — Ride the infinite wave of style. Premium limited collections for the Cookie generation.">
+    <meta name="theme-color" content="#050816">
+    <title>Cookie's Wave | Ride The Infinite Wave</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://api.fontshare.com">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+    <script>
+        (function () {
+            try {
+                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    document.documentElement.classList.add('js-anim');
+                    setTimeout(function () {
+                        if (!window.__gsapReady) {
+                            document.documentElement.classList.remove('js-anim');
+                        }
+                    }, 3500);
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+    <style>
+        :root {
+            --ink: #050816;
+            --surface: #0a1220;
+            --violet: #8B2CFF;
+            --fuchsia: #E83CFF;
+            --aqua: #20D9FF;
+            --text-dim: #AAB3C5;
+            --hairline: rgba(255, 255, 255, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Satoshi', 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+            background: var(--ink);
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .font-display {
+            font-family: 'Clash Display', 'Syne', ui-sans-serif, system-ui, sans-serif;
+            letter-spacing: -0.015em;
+        }
+
+        .font-serif-ed {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-style: italic;
+        }
+
+        .container-x {
+            width: 100%;
+            max-width: 1500px;
+            margin-inline: auto;
+            padding-inline: clamp(1.25rem, 4vw, 4.5rem);
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: 0.42em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: var(--aqua);
+        }
+
+        .h-display {
+            font-family: 'Clash Display', ui-sans-serif, system-ui, sans-serif;
+            font-weight: 600;
+            line-height: 0.92;
+            letter-spacing: -0.025em;
+        }
+
+        ::selection {
+            background: var(--violet);
+            color: #fff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050816;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1c2740;
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--violet);
+        }
+
+        *:focus-visible {
+            outline: 1px solid var(--aqua);
+            outline-offset: 3px;
+        }
+
+        /* ---------- Navigation activizer ---------- */
+        .nav-link {
+            position: relative;
+            display: inline-block;
+            color: #ffffff;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
+            padding: 7px 15px;
+            border-radius: 999px;
+            transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #fff;
+            background: rgba(139, 44, 255, 0.14);
+        }
+
+        .nav-link.is-active {
+            color: #fff;
+            background: var(--violet);
+            box-shadow: 0 6px 22px rgba(139, 44, 255, 0.45);
+        }
+
+        /* ---------- Header ---------- */
+        #site-header {
+            transition: background-color 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        #site-header.is-scrolled {
+            background: transparent;
+            border-bottom-color: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        /* ---------- Custom cursor ---------- */
+        #cursor-dot,
+        #cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 90;
+            will-change: transform;
+            opacity: 0;
+        }
+
+        .cursor-enabled #cursor-dot,
+        .cursor-enabled #cursor-ring {
+            opacity: 1;
+        }
+
+        #cursor-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 9999px;
+            background: #fff;
+            transform: translate3d(-50%, -50%, 0);
+        }
+
+        #cursor-ring {
+            width: 34px;
+            height: 34px;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            transform: translate3d(-50%, -50%, 0);
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        #cursor-ring.is-on {
+            width: 58px;
+            height: 58px;
+            border-color: rgba(32, 217, 255, 0.55);
+            background: rgba(32, 217, 255, 0.07);
+        }
+
+        @media (pointer: coarse), (hover: none) {
+
+            #cursor-dot,
+            #cursor-ring {
+                display: none;
+            }
+        }
+
+        /* ---------- Product interaction ---------- */
+        .product-card {
+            transform: translate3d(0, 0, 0);
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease;
+        }
+
+        .product-card:hover {
+            transform: translate3d(0, -8px, 0) scale(1.03);
+            box-shadow: 0 20px 40px rgba(122, 18, 255, 0.2);
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+
+        .product-card .p-img {
+            transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .product-card:hover .p-img {
+            transform: scale(1.06);
+        }
+
+        .product-add {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @media (min-width: 1024px) {
+            .product-add {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            .product-card:hover .product-add {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-card .c-img {
+            transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .category-card:hover .c-img {
+            transform: scale(1.05);
+        }
+
+        .category-card .c-arrow {
+            transform: translateX(-4px) translateY(4px);
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .category-card:hover .c-arrow {
+            transform: translateX(0) translateY(0);
+        }
+
+        .category-card .c-rule {
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .category-card:hover .c-rule {
+            transform: scaleX(1);
+        }
+
+        /* ---------- Reveal states (only with animation enabled) ---------- */
+        .js-anim [data-reveal] {
+            opacity: 0;
+            transform: translateY(32px);
+        }
+
+        .js-anim [data-hero-bt] {
+            opacity: 0;
+            transform: translateY(36px);
+        }
+
+        /* ---------- Particles ---------- */
+        .particle {
+            position: absolute;
+            border-radius: 9999px;
+            pointer-events: none;
+            will-change: transform, opacity;
+            animation-name: particleFloat;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            8% {
+                opacity: var(--po, 0.4);
+            }
+            60% {
+                transform: translateY(-55vh) translateX(var(--sway, 18px));
+                opacity: var(--po, 0.4);
+            }
+            100% {
+                transform: translateY(-110vh) translateX(0);
+                opacity: 0;
+            }
+        }
+
+        /* ---------- Club visual float ---------- */
+        @keyframes floatY {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .club-float {
+            animation: floatY 7s ease-in-out infinite;
+        }
+
+        /* ---------- Vignette ---------- */
+        #vignette {
+            background: transparent;
+        }
+
+        /* ---------- Reduced motion ---------- */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    /* Midnight Shadow Mode — Matte-Black Slate */
+        .dark-mode #site-header {
+            background: transparent;
+            border-bottom-color: #262626;
+        }
+        .dark-mode .hero-glow {
+            color: #ffffff !important;
+            background: none;
+            -webkit-background-clip: initial;
+            background-clip: initial;
+            -webkit-text-fill-color: #ffffff !important;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
+        }
+        .dark-mode .category-card {
+            background: rgba(23, 23, 23, 0.4) !important;
+            border-color: #262626 !important;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+        .dark-mode [class*="bg-white/[0.02]"] {
+            background: rgba(23, 23, 23, 0.4) !important;
+            border-color: #262626 !important;
+        }
+    </style>
+</head>
+
+<body class="bg-[#050816] text-white antialiased overflow-x-hidden selection:bg-[#8B2CFF]">
+
+    <div id="cursor-dot" aria-hidden="true"></div>
+    <div id="cursor-ring" aria-hidden="true"></div>
+
+    <div id="vignette" class="fixed inset-0 z-[40] pointer-events-none" aria-hidden="true"></div>
+
+    <!-- ================= DYNAMIC ANNOUNCEMENT PROMOTION STRIP ================= -->
+    <style>
+        .animate-gradient {
+            background-size: 200% auto;
+            animation: gradientStrip 6s linear infinite;
+        }
+        @keyframes gradientStrip {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+    </style>
+    <div class="w-full fixed top-0 left-0 bg-gradient-to-r from-[#7a12ff] via-[#ff00a0] to-[#7a12ff] text-white text-[10px] font-black uppercase tracking-[0.25em] py-2 text-center z-[60] shadow-md animate-gradient" role="banner" aria-label="Launch promotion">
+        🔥 SPECIAL LAUNCH DISCOUNT: USE CODE 'COOKIEARMY' FOR 15% OFF ALL NEW DROP MERCH!
+    </div>
+
+    <!-- ================= NAVBAR ================= -->
+    <header id="site-header" class="w-full fixed top-[34px] left-0 px-12 py-5 z-50 flex items-center justify-between border-b border-white/5 bg-transparent">
+        <div class="container-x flex items-center justify-between gap-6 w-full h-[72px]">
+            <a href="index.html" class="flex items-center gap-3 shrink-0 cursor-pointer pr-6" aria-label="Cookie's Wave home" id="brand-logo-root">
+                <span class="w-9 h-9 bg-[#8B2CFF] flex items-center justify-center font-display font-semibold text-white text-sm tracking-tight select-none">CG</span>
+                <span class="font-display font-medium text-[13px] tracking-[0.28em] uppercase whitespace-nowrap hidden sm:block">Cookie's Wave</span>
+            </a>
+
+            <nav class="hidden lg:flex items-center gap-9 text-[11px] font-bold tracking-[0.22em] uppercase filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                <a href="youth.html" class="nav-link filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] text-white">Shop</a>
+                <a href="adults.html" class="nav-link filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] text-white">Collections</a>
+                <a href="about.html" class="nav-link filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] text-white">About</a>
+                <a href="secret-cookie-club.html" class="nav-link filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] text-white">Community</a>
+            </nav>
+
+            <div class="flex items-center gap-1.5 sm:gap-2">
+<button id="search-btn" aria-label="Search" data-cursor
+                        class="w-10 h-10 flex items-center justify-center text-white hover:text-white transition-colors duration-300 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4 text-white filter drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </button>
+
+                    <button id="theme-toggle-btn" aria-label="Toggle Midnight Theme" data-cursor
+                        class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-white/10 active:scale-95 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
+                        <svg id="theme-moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" class="w-4 h-4 transition-all duration-300" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg id="theme-sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFCC00" stroke-width="2" class="w-4 h-4 hidden transition-all duration-300" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 6px rgba(255,204,0,0.9))"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+
+                    <div class="relative hidden md:block">
+                    <button id="currency-btn" aria-label="Change currency" data-cursor
+                        class="flex items-center gap-2 h-10 pl-3 pr-2 rounded-full border border-white/10 text-[11px] font-bold tracking-[0.16em] text-white transition-colors duration-300 hover:border-white/30 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                        <span>INR</span>
+                        <svg class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div id="currency-dropdown"
+                        class="absolute right-0 mt-2 w-44 bg-[#070b18] border border-white/10 rounded-md p-1.5 shadow-[0_24px_60px_rgba(0,0,0,0.6)] hidden z-50 origin-top-right">
+                        <button onclick="changeCurrency('INR', '🇮🇳')" class="w-full flex items-center justify-between px-3.5 py-2.5 text-[11px] font-bold tracking-widest text-gray-300 hover:text-white hover:bg-white/5 rounded-sm transition-colors text-left">🇮🇳 INR (₹)</button>
+                        <button onclick="changeCurrency('USD', '🇺🇸')" class="w-full flex items-center justify-between px-3.5 py-2.5 text-[11px] font-bold tracking-widest text-gray-300 hover:text-white hover:bg-white/5 rounded-sm transition-colors text-left">🇺🇸 USD ($)</button>
+                        <button onclick="changeCurrency('EUR', '🇪🇺')" class="w-full flex items-center justify-between px-3.5 py-2.5 text-[11px] font-bold tracking-widest text-gray-300 hover:text-white hover:bg-white/5 rounded-sm transition-colors text-left">🇪🇺 EUR (€)</button>
+                    </div>
+                </div>
+
+                <div class="relative inline-block text-left" id="profile-menu-container">
+                    <button type="button" aria-label="Account" data-cursor
+                        class="hidden sm:flex h-10 items-center gap-2 pl-2 pr-3 text-white hover:text-white transition-colors duration-300 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4 text-white filter drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+                        <span id="navbar-user-name" class="text-[10px] font-bold tracking-[0.14em] uppercase filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Account</span>
+                    </button>
+
+                    <div id="profile-dropdown" class="absolute right-0 mt-3 w-56 bg-black/60 backdrop-blur-3xl border border-white/10 rounded-2xl p-2.5 shadow-2xl z-50 hidden transition-all duration-200">
+                        <div class="flex items-center gap-3 px-3 py-2.5 mb-1 border-b border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#7a12ff] to-[#ff00a0] flex items-center justify-center shrink-0">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+                            </div>
+                            <div class="min-w-0">
+                                <span id="profile-menu-name" class="block text-xs font-black tracking-widest text-purple-400 truncate">ACCOUNT</span>
+                                <span class="block text-[9px] font-bold tracking-widest text-purple-300/60">SECRET MEMBER 🍪</span>
+                            </div>
+                        </div>
+                        <a href="#" class="w-full text-left flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold tracking-widest text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer">⚙️ Store Settings</a>
+                        <a href="#" class="w-full text-left flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold tracking-widest text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer">📦 Order Tracking & History</a>
+                        <button type="button" onclick="handleUserLogout()" class="w-full text-left flex items-center px-4 py-2.5 text-[11px] font-bold tracking-widest text-rose-400 hover:text-white hover:bg-rose-500/20 rounded-xl transition-all cursor-pointer border-t border-white/5 mt-2">🚪 LOGOUT OF SESSION</button>
+                    </div>
+                </div>
+
+                <button id="cart-btn" aria-label="Cart" data-cursor
+                    class="relative w-10 h-10 flex items-center justify-center text-white hover:text-white transition-colors duration-300 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4 text-white filter drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2 3h3l2.6 12.4A2 2 0 0 0 9.6 17h8.7a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+                    <span id="cart-count" class="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-[#E83CFF] text-[9px] font-bold text-white flex items-center justify-center opacity-0 scale-75 transition-all duration-300">0</span>
+                </button>
+
+                <a href="secret-cookie-club.html" data-magnetic data-cursor
+                    class="hidden xl:inline-flex items-center h-10 px-5 bg-[#8B2CFF] hover:bg-[#9d44ff] text-[10px] font-bold tracking-[0.22em] uppercase text-white transition-colors duration-300">
+                    Join the Cookie Club
+                </a>
+
+                <button id="menu-open" aria-label="Open menu" data-cursor
+                    class="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-[5px]">
+                    <span class="block w-5 h-px bg-white"></span>
+                    <span class="block w-5 h-px bg-white"></span>
+                    <span class="block w-3.5 h-px bg-white"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MOBILE MENU ================= -->
+    <div id="mobile-menu" class="fixed inset-0 z-[80] translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden">
+        <div class="absolute inset-0 bg-[#050816]/92 backdrop-blur-xl"></div>
+        <button id="menu-close" aria-label="Close menu" data-cursor
+            class="absolute top-5 right-5 w-11 h-11 flex items-center justify-center text-white/80 hover:text-white">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <nav class="relative h-full flex flex-col justify-center pl-[clamp(1.5rem,6vw,4rem)] pb-24">
+            <p class="eyebrow mb-10 opacity-60">Menu</p>
+            <ul class="flex flex-col gap-2">
+                <li style="transition-delay:0.05s" class="menu-item"><a href="index.html" class="font-display text-4xl text-white">Home</a></li>
+                <li style="transition-delay:0.12s" class="menu-item"><a href="youth.html" class="font-display text-4xl text-white/85">Shop</a></li>
+                <li style="transition-delay:0.19s" class="menu-item"><a href="adults.html" class="font-display text-4xl text-white/85">Collections</a></li>
+                <li style="transition-delay:0.26s" class="menu-item"><a href="about.html" class="font-display text-4xl text-white/85">About</a></li>
+                <li style="transition-delay:0.33s" class="menu-item"><a href="secret-cookie-club.html" class="font-display text-4xl text-white/85">Community</a></li>
+            </ul>
+            <div style="transition-delay:0.42s" class="menu-item flex flex-wrap items-center gap-4 mt-12">
+                <a href="secret-cookie-club.html" data-magnetic class="inline-flex items-center h-11 px-6 bg-[#8B2CFF] text-[10px] font-bold tracking-[0.22em] uppercase">Join the Cookie Club</a>
+                <a href="signup.html" class="inline-flex items-center h-11 px-6 border border-white/15 text-[10px] font-bold tracking-[0.22em] uppercase text-white/85">Account</a>
+            </div>
+        </nav>
+    </div>
+
+    <main id="main">
+
+        <!-- ================= HERO ================= -->
+        <section id="hero" class="relative min-h-[100svh] flex flex-col overflow-hidden">
+            <div id="hero-video-wrap" class="absolute inset-0 will-change-transform">
+                <video id="bg-video-engine" class="bg-video-engine w-full h-full object-cover object-center scale-[1.16] will-change-transform filter brightness-[1.15] contrast-[1.05] saturate-[1.1]" autoplay muted loop playsinline preload="auto">
+                    <source id="video-asset-stream" src="/cookiegod.mp4" type="video/mp4">
+                </video>
+                <!-- Cinematic Vignette Shield -->
+                <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/20 to-transparent pointer-events-none z-1"></div>
+                <!-- Bottom Product Shelf Protection Mask -->
+                <div class="absolute inset-x-0 bottom-0 h-[45vh] bg-gradient-to-t from-[#04081c]/90 via-[#04081c]/40 to-transparent pointer-events-none z-1"></div>
+            </div>
+
+            <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+                <div class="absolute inset-0 opacity-0"></div>
+                <div class="absolute inset-x-0 top-0 h-48 opacity-0"></div>
+                <div class="absolute inset-x-0 bottom-0 h-64 opacity-0"></div>
+            </div>
+
+            <div id="particles" class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true"></div>
+
+            <div class="relative flex-1 flex items-center">
+                <div id="hero-content" class="container-x">
+                    <div class="max-w-[620px]">
+                        <p data-hero-bt class="eyebrow flex items-center gap-3">
+                            <span class="inline-block w-8 h-px bg-[#20D9FF]"></span>
+                            Summer 2026 Collection
+                        </p>
+
+                        <h1 class="h-display mt-8 text-[clamp(3.75rem,10vw,8.75rem)] drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
+                            <span data-hero-bt class="block text-transparent bg-clip-text" style="background-image:linear-gradient(100deg,#9A5BFF 0%,#E83CFF 100%);">RIDE</span>
+                            <span data-hero-bt class="hero-glow block text-white mt-1">THE WAVE</span>
+                        </h1>
+
+                        <p data-hero-bt class="font-serif-ed text-[clamp(1.35rem,2.4vw,1.9rem)] text-white/90 mt-7 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">Sun. Cookies. Good Vibes.</p>
+
+                        <p data-hero-bt class="text-[15px] leading-relaxed max-w-md mt-5 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.95)] shadow-[0_10px_20px_rgba(0,0,0,0.6)] font-semibold subpixel-antialiased filter">
+                            Ride the infinite wave of style and adventure. Discover limited collections made for those who dare to be different.
+                        </p>
+
+                        <div data-hero-bt class="mt-10 flex flex-col sm:flex-row gap-4">
+                            <a href="adults.html" data-magnetic
+                                class="group inline-flex items-center justify-center gap-3 h-14 px-9 bg-[#8B2CFF] text-[11px] font-bold tracking-[0.24em] uppercase transition-colors duration-300 hover:bg-[#9d44ff]">
+                                Shop Now
+                                <span class="group-hover:translate-x-1 transition-transform duration-300">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                </span>
+                            </a>
+                            <a href="#merch" data-magnetic
+                                class="group inline-flex items-center justify-center gap-3 h-14 px-9 border border-white/15 text-[11px] font-bold tracking-[0.24em] uppercase text-white transition-colors duration-300 hover:bg-white/5 hover:border-white/30">
+                                Explore Collections
+                            </a>
+                        </div>
+
+                        <div data-hero-bt class="mt-12 flex flex-wrap items-center gap-x-7 gap-y-2 text-white font-bold tracking-[0.15em] text-[11px] uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                            <span class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#20D9FF]"></span>Worldwide Shipping</span>
+                            <span class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8B2CFF]"></span>Secure Payments</span>
+                            <span class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#E83CFF]"></span>Eco Packaging</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div data-hero-bt class="relative hidden md:flex items-center justify-between container-x pb-7">
+                <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-white/35">Est. 2026 — The Ocean Collection</p>
+                <div class="flex items-center gap-3 text-white/40">
+                    <span class="text-[10px] font-bold tracking-[0.3em] uppercase">Scroll</span>
+                    <svg width="14" height="18" viewBox="0 0 14 18" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="1" y="1" width="12" height="16" rx="6"/><line x1="7" y1="5" x2="7" y2="8"/></svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MERCH / CATEGORIES ================= -->
+        <section id="merch" class="relative overflow-hidden py-24 md:py-36">
+            <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
+                <video id="bg-video-engine-2" class="bg-video-engine w-full h-full object-cover object-center will-change-transform filter brightness-[1.15] contrast-[1.05] saturate-[1.1]" autoplay muted loop playsinline preload="auto">
+                    <source id="video-asset-stream-2" src="/cookiegod.mp4" type="video/mp4">
+                </video>
+                <!-- Bottom Product Shelf Protection Mask -->
+                <div class="absolute inset-x-0 bottom-0 h-[45vh] bg-gradient-to-t from-[#04081c]/90 via-[#04081c]/40 to-transparent pointer-events-none z-1"></div>
+            </div>
+            <div class="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/40 via-black/10 to-transparent pointer-events-none z-1"></div>
+            <div class="relative z-10 container-x">
+                <div class="grid lg:grid-cols-12 gap-y-10 lg:gap-8 items-end bg-black/10 border border-white/10 backdrop-blur-2xl px-8 py-4 rounded-2xl shadow-xl">
+                    <div class="lg:col-span-7">
+                        <p data-reveal class="eyebrow flex items-center gap-3"><span class="inline-block w-8 h-px bg-[#20D9FF]"></span>The Summer '26 Edit</p>
+                        <h2 data-reveal class="h-display font-black uppercase text-white subpixel-antialiased drop-shadow-[0_4px_4px_rgba(0,0,0,0.6)] shadow-[0_20px_40px_rgba(0,0,0,0.4)] tracking-tight filter select-none mt-6 text-[clamp(2.75rem,7vw,6rem)]">
+                            <span class="block">SUMMER 2026</span>
+                            <span class="block">MERCH</span>
+                        </h2>
+                    </div>
+                    <div class="lg:col-span-5 lg:flex lg:justify-end">
+                        <p data-reveal class="max-w-xs"><span class="inline-flex items-center bg-black/20 backdrop-blur-md border border-white/5 px-4 py-2 rounded-full font-serif-ed italic text-xl md:text-2xl text-white font-semibold tracking-wide">
+                            Good vibes. Made to be worn.</span></p>
+                    </div>
+                </div>
+
+                <div class="mt-16 md:mt-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+
+                    <a href="adults.html" data-reveal class="category-card group relative bg-white/[0.02] border border-white/10 backdrop-blur-3xl rounded-[28px] p-6 pb-14 shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden hover:scale-[1.02] hover:-translate-y-3 hover:border-purple-500/40 hover:shadow-[0_15px_30px_rgba(122,18,255,0.2)]">
+                        <div class="w-full aspect-square rounded-2xl overflow-hidden bg-black/20 border border-white/5 shadow-inner relative transition-transform duration-300 group-hover:scale-[1.02]">
+                            <img src="assets/cookie_stamp_tee.png" alt="Apparel collection" loading="lazy"
+                                class="w-full aspect-square object-contain p-6 md:p-8">
+                            <div class="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-500"></div>
+                        </div>
+                        <div class="flex items-center justify-between mt-6">
+                            <div>
+                                <p class="absolute bottom-6 left-6 text-white font-extrabold text-[10px] tracking-[0.2em] bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-md border border-white/10 uppercase">01 — wear it</p>
+                                <h3 class="font-display text-2xl mt-2 text-white subpixel-antialiased tracking-tight">Apparel</h3>
+                            </div>
+                            <span class="c-arrow w-10 h-10 flex items-center justify-center border border-white/15 group-hover:border-white/40 group-hover:text-white">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+                            </span>
+                        </div>
+                        <p class="text-[13px] text-white/70 mt-2 leading-relaxed">Heavyweight tees &amp; premium staples.</p>
+                    </a>
+
+                    <a href="product.html?item=waterbottle" data-reveal class="category-card group relative bg-white/[0.02] border border-white/10 backdrop-blur-3xl rounded-[28px] p-6 pb-14 shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden hover:scale-[1.02] hover:-translate-y-3 hover:border-purple-500/40 hover:shadow-[0_15px_30px_rgba(122,18,255,0.2)]">
+                        <div class="w-full aspect-square rounded-2xl overflow-hidden bg-black/20 border border-white/5 shadow-inner relative transition-transform duration-300 group-hover:scale-[1.02]">
+                            <img src="assets/cookie_waterbottle.png" alt="Drinkware collection" loading="lazy"
+                                class="w-full aspect-square object-contain p-6 md:p-8">
+                            <div class="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-500"></div>
+                        </div>
+                        <div class="flex items-center justify-between mt-6">
+                            <div>
+                                <p class="absolute bottom-6 left-6 text-white font-extrabold text-[10px] tracking-[0.2em] bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-md border border-white/10 uppercase">02 — carry it</p>
+                                <h3 class="font-display text-2xl mt-2 text-white subpixel-antialiased tracking-tight">Drinkware</h3>
+                            </div>
+                            <span class="c-arrow w-10 h-10 flex items-center justify-center border border-white/15 group-hover:border-white/40 group-hover:text-white">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+                            </span>
+                        </div>
+                        <p class="text-[13px] text-white/70 mt-2 leading-relaxed">Insulated. Iconic. Ocean-proof.</p>
+                    </a>
+
+                    <a href="product.html?item=bucket-hat" data-reveal class="category-card group relative bg-white/[0.02] border border-white/10 backdrop-blur-3xl rounded-[28px] p-6 pb-14 shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden hover:scale-[1.02] hover:-translate-y-3 hover:border-purple-500/40 hover:shadow-[0_15px_30px_rgba(122,18,255,0.2)]">
+                        <div class="w-full aspect-square rounded-2xl overflow-hidden bg-black/20 border border-white/5 shadow-inner relative transition-transform duration-300 group-hover:scale-[1.02]">
+                            <img src="assets/cookie_bucket_hat.png" alt="Accessories collection" loading="lazy"
+                                class="w-full aspect-square object-contain p-6 md:p-8">
+                            <div class="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-500"></div>
+                        </div>
+                        <div class="flex items-center justify-between mt-6">
+                            <div>
+                                <p class="absolute bottom-6 left-6 text-white font-extrabold text-[10px] tracking-[0.2em] bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-md border border-white/10 uppercase">03 — finish it</p>
+                                <h3 class="font-display text-2xl mt-2 text-white subpixel-antialiased tracking-tight">Accessories</h3>
+                            </div>
+                            <span class="c-arrow w-10 h-10 flex items-center justify-center border border-white/15 group-hover:border-white/40 group-hover:text-white">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+                            </span>
+                        </div>
+                        <p class="text-[13px] text-white/70 mt-2 leading-relaxed">Details that finish the look.</p>
+                    </a>
+
+                    <a href="secret-cookie-club.html" data-reveal class="category-card group relative bg-white/[0.02] border border-white/10 backdrop-blur-3xl rounded-[28px] p-6 pb-14 shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden hover:scale-[1.02] hover:-translate-y-3 hover:border-purple-500/40 hover:shadow-[0_15px_30px_rgba(122,18,255,0.2)]">
+                        <div class="w-full aspect-square rounded-2xl overflow-hidden bg-black/20 border border-white/5 shadow-inner relative flex items-center justify-center transition-transform duration-300 group-hover:scale-[1.02]">
+                            <div class="relative flex items-center justify-center w-full aspect-[4/5]">
+                                <div class="absolute w-24 h-24 rounded-full border border-[#8B2CFF]/50 blur-[2px] opacity-60"></div>
+                                <div class="absolute w-40 h-40 rounded-full bg-[#8B2CFF]/15 blur-3xl"></div>
+                                <span class="relative font-display font-semibold text-6xl text-white/90">?</span>
+                            </div>
+                            <div class="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-500"></div>
+                        </div>
+                        <div class="flex items-center justify-between mt-6">
+                            <div>
+                                <p class="absolute bottom-6 left-6 text-white font-extrabold text-[10px] tracking-[0.2em] bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-md border border-white/10 uppercase">04 — collect it</p>
+                                <h3 class="font-display text-2xl mt-2 text-white subpixel-antialiased tracking-tight">Limited Edition</h3>
+                            </div>
+                            <span class="c-arrow w-10 h-10 flex items-center justify-center border border-white/15 group-hover:border-white/40 group-hover:text-white">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+                            </span>
+                        </div>
+                        <p class="text-[13px] text-white/70 mt-2 leading-relaxed">Members only. Wiped after the drop.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= FEATURED DROPS ================= -->
+        <section id="featured" class="relative overflow-hidden border-y border-white/5 py-24 md:py-36">
+            <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
+                <video id="bg-video-engine-3" class="bg-video-engine w-full h-full object-cover object-center will-change-transform filter brightness-[1.15] contrast-[1.05] saturate-[1.1]" autoplay muted loop playsinline preload="auto">
+                    <source id="video-asset-stream-3" src="/cookiegod.mp4" type="video/mp4">
+                </video>
+                <!-- Bottom Product Shelf Protection Mask -->
+                <div class="absolute inset-x-0 bottom-0 h-[45vh] bg-gradient-to-t from-[#04081c]/90 via-[#04081c]/40 to-transparent pointer-events-none z-1"></div>
+            </div>
+            <div class="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/40 via-black/10 to-transparent pointer-events-none z-1"></div>
+            <div class="relative z-10 container-x">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 bg-black/10 border border-white/10 backdrop-blur-2xl px-8 py-4 rounded-2xl shadow-xl">
+                    <div>
+                        <p data-reveal class="eyebrow flex items-center gap-3"><span class="inline-block w-8 h-px bg-[#20D9FF]"></span>The Fresh Wave</p>
+                        <h2 data-reveal class="h-display font-black uppercase text-white subpixel-antialiased drop-shadow-[0_4px_4px_rgba(0,0,0,0.6)] shadow-[0_20px_40px_rgba(0,0,0,0.4)] tracking-tight filter select-none mt-6 text-[clamp(2.5rem,6vw,4.75rem)]">FEATURED DROPS</h2>
+                    </div>
+                    <p data-reveal><span class="inline-flex items-center bg-black/20 backdrop-blur-md border border-white/5 px-4 py-2 rounded-full font-serif-ed italic text-lg md:text-xl text-white font-semibold tracking-wide">Limited pieces for the Cookie generation.</span></p>
+                </div>
+
+                <div class="mt-16">
+                    <div id="dynamic-product-shelf" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full relative z-10"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TRUST STRIP ================= -->
+        <section class="bg-[#050816] py-14 md:py-20">
+            <div class="container-x">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-6">
+                    <div data-reveal class="flex flex-col gap-4">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#20D9FF" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 18H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v10"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M9 18h6"/></svg>
+                        <div>
+                            <p class="text-[11px] font-bold tracking-[0.24em] uppercase">Worldwide Shipping</p>
+                            <p class="text-[13px] text-[#AAB3C5] mt-1.5">Cookies travel everywhere, fast.</p>
+                        </div>
+                    </div>
+                    <div data-reveal class="flex flex-col gap-4">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8B2CFF" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        <div>
+                            <p class="text-[11px] font-bold tracking-[0.24em] uppercase">Secure Payments</p>
+                            <p class="text-[13px] text-[#AAB3C5] mt-1.5">Shop with total confidence.</p>
+                        </div>
+                    </div>
+                    <div data-reveal class="flex flex-col gap-4">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E83CFF" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+                        <div>
+                            <p class="text-[11px] font-bold tracking-[0.24em] uppercase">Premium Quality</p>
+                            <p class="text-[13px] text-[#AAB3C5] mt-1.5">Built for cookie lovers.</p>
+                        </div>
+                    </div>
+                    <div data-reveal class="flex flex-col gap-4">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#20D9FF" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><rect x="2" y="6" width="20" height="6"/><path d="M12 6V2"/><path d="M9 2h6"/></svg>
+                        <div>
+                            <p class="text-[11px] font-bold tracking-[0.24em] uppercase">Eco-Friendly Packaging</p>
+                            <p class="text-[13px] text-[#AAB3C5] mt-1.5">A brighter tomorrow, box by box.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= COOKIE CLUB ================= -->
+        <section id="cookie-club" class="relative overflow-hidden bg-[#050816] py-24 md:py-36">
+            <div class="absolute -top-40 -right-40 w-[34rem] h-[34rem] rounded-full bg-[#8B2CFF]/12 blur-[120px] pointer-events-none" aria-hidden="true"></div>
+            <div class="absolute -bottom-40 -left-40 w-[30rem] h-[30rem] rounded-full bg-[#20D9FF]/8 blur-[120px] pointer-events-none" aria-hidden="true"></div>
+
+            <div class="container-x relative">
+                <div class="grid lg:grid-cols-2 gap-16 lg:gap-12 items-center">
+
+                    <div>
+                        <p data-reveal class="eyebrow flex items-center gap-3"><span class="inline-block w-8 h-px bg-[#20D9FF]"></span>Members Only</p>
+                        <h2 data-reveal class="h-display mt-6 text-[clamp(2.6rem,6.5vw,5.5rem)]">
+                            <span class="block">JOIN THE</span>
+                            <span class="block text-transparent bg-clip-text" style="background-image:linear-gradient(100deg,#9A5BFF,#E83CFF);">COOKIE CLUB</span>
+                        </h2>
+                        <p data-reveal class="font-serif-ed text-xl md:text-2xl text-white/80 mt-6">Exclusive drops, early access and sweeter surprises.</p>
+                        <p data-reveal class="text-[15px] text-[#AAB3C5] max-w-md mt-5 leading-relaxed">
+                            Members get first pick before the wave sells out. Limited pieces. Zero FOMO. Just the good stuff.
+                        </p>
+                        <div data-reveal class="mt-10 flex flex-col sm:flex-row items-start gap-4">
+                            <a href="secret-cookie-club.html" data-magnetic
+                                class="group inline-flex items-center gap-3 h-14 px-9 bg-[#8B2CFF] text-[11px] font-bold tracking-[0.24em] uppercase transition-colors duration-300 hover:bg-[#9d44ff]">
+                                Join the Club
+                                <span class="group-hover:translate-x-1 transition-transform duration-300">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                </span>
+                            </a>
+                            <p class="text-[11px] text-white/40 tracking-[0.08em] leading-relaxed mt-3 sm:mt-0 sm:self-center sm:ml-2">~2,400 members<br class="sm:hidden"> on the early list</p>
+                        </div>
+                    </div>
+
+                    <div data-reveal class="relative">
+                        <div class="club-float relative mx-auto max-w-md">
+                            <div class="relative border border-white/10 bg-gradient-to-b from-[#0c1424] to-[#060a14] overflow-hidden">
+                                <div class="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_0%,rgba(139,44,255,0.18),transparent)]"></div>
+                                <img src="assets/cookie_bucket_hat.png" alt="Cookie Club members-only drop" loading="lazy"
+                                    class="w-full aspect-square object-contain mix-blend-screen p-10 md:p-14">
+                            </div>
+                            <div class="absolute top-6 -left-3 md:-left-8 border border-white/10 bg-[#070b18]/90 px-4 py-2.5 backdrop-blur">
+                                <p class="text-[9px] font-bold tracking-[0.26em] uppercase text-[#20D9FF]">Early Access</p>
+                                <p class="font-display text-sm mt-0.5">24h before public drop</p>
+                            </div>
+                            <div class="absolute bottom-16 -right-3 md:-right-8 border border-white/10 bg-[#070b18]/90 px-4 py-2.5 backdrop-blur text-right">
+                                <p class="text-[9px] font-bold tracking-[0.26em] uppercase text-[#E83CFF]">Drop 004</p>
+                                <p class="font-display text-sm mt-0.5">Members only</p>
+                            </div>
+                            <div class="flex items-center gap-3 justify-center mt-6">
+                                <p class="font-serif-ed text-white/60 text-lg">The wave hits the shore.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= FOOTER ================= -->
+        <footer class="bg-[#050816] border-t border-white/5 pt-16 md:pt-20 pb-10">
+            <div class="container-x">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-12">
+
+                    <div class="col-span-2 md:col-span-3 lg:col-span-2 lg:pr-10">
+                        <a href="index.html" class="flex items-center gap-3">
+                            <span class="w-9 h-9 bg-[#8B2CFF] flex items-center justify-center font-display font-semibold text-white text-sm select-none">CG</span>
+                            <span class="font-display font-medium text-[13px] tracking-[0.28em] uppercase">Cookie's Wave</span>
+                        </a>
+                        <p class="text-[14px] text-[#AAB3C5] leading-relaxed mt-6 max-w-xs">
+                            Ride the infinite wave of style. Premium limited pieces for those who dare to be different.
+                        </p>
+                        <div class="flex items-center gap-3 mt-8">
+                            <a href="#" aria-label="Instagram" data-cursor class="w-9 h-9 flex items-center justify-center border border-white/10 text-white/60 hover:text-white hover:border-white/30 transition-colors duration-300">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+                            </a>
+                            <a href="#" aria-label="YouTube" data-cursor class="w-9 h-9 flex items-center justify-center border border-white/10 text-white/60 hover:text-white hover:border-white/30 transition-colors duration-300">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M22 12c0-2.2-.2-3.5-.5-4.1a2.6 2.6 0 0 0-1.5-1.5C19.4 6 12 6 12 6s-7.4 0-8 .4a2.6 2.6 0 0 0-1.5 1.5C2.2 8.5 2 9.8 2 12s.2 3.5.5 4.1c.3.7.8 1.2 1.5 1.5.6.4 8 .4 8 .4s7.4 0 8-.4a2.6 2.6 0 0 0 1.5-1.5c.3-.6.5-1.9.5-4.1z"/><rect x="11" y="9.5" width="5.5" height="5" rx="1.2" transform="rotate(-15 11 9.5)" fill="currentColor" stroke="none"/></svg>
+                            </a>
+                            <a href="#" aria-label="TikTok" data-cursor class="w-9 h-9 flex items-center justify-center border border-white/10 text-white/60 hover:text-white hover:border-white/30 transition-colors duration-300">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v9.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.3 2 1.8 3.6 4 4"/></svg>
+                            </a>
+                            <a href="#" aria-label="Discord" data-cursor class="w-9 h-9 flex items-center justify-center border border-white/10 text-white/60 hover:text-white hover:border-white/30 transition-colors duration-300">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M8 12a1 1 0 1 0 0 .01M16 12a1 1 0 1 0 0 .01"/><path d="M7.5 4.5C5 5 3 6.5 2 9c0 0 1.5 2.6 4 3.2.8.9 1.9 1.4 3 1.4s2.2-.5 3-1.4c2.5-.6 4-3.2 4-3.2-1-2.5-3-4-5.5-4.5L10 6l-1-1.5z"/><path d="M3.5 18c2 1.3 4 1.8 6 1.8"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-white/40 mb-5">Shop</p>
+                        <ul class="space-y-3.5 text-[14px] text-[#AAB3C5]">
+                            <li><a href="youth.html" class="hover:text-white transition-colors duration-300">Youth Collection</a></li>
+                            <li><a href="adults.html" class="hover:text-white transition-colors duration-300">Adults Collection</a></li>
+                            <li><a href="#featured" class="hover:text-white transition-colors duration-300">Accessories</a></li>
+                            <li><a href="secret-cookie-club.html" class="hover:text-white transition-colors duration-300">Limited Edition</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-white/40 mb-5">Collections</p>
+                        <ul class="space-y-3.5 text-[14px] text-[#AAB3C5]">
+                            <li><a href="#merch" class="hover:text-white transition-colors duration-300">Summer 2026</a></li>
+                            <li><a href="secret-cookie-club.html" class="hover:text-white transition-colors duration-300">Club Drop 004</a></li>
+                            <li><a href="youth.html" class="hover:text-white transition-colors duration-300">The Archive</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-white/40 mb-5">About</p>
+                        <ul class="space-y-3.5 text-[14px] text-[#AAB3C5]">
+                            <li><a href="secret-cookie-club.html" class="hover:text-white transition-colors duration-300">Our Story</a></li>
+                            <li><a href="#cookie-club" class="hover:text-white transition-colors duration-300">The Club</a></li>
+                            <li><a href="signup.html" class="hover:text-white transition-colors duration-300">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-white/40 mb-5">Support</p>
+                        <ul class="space-y-3.5 text-[14px] text-[#AAB3C5]">
+                            <li><a href="#" class="hover:text-white transition-colors duration-300">FAQ</a></li>
+                            <li><a href="#" class="hover:text-white transition-colors duration-300">Shipping</a></li>
+                            <li><a href="#" class="hover:text-white transition-colors duration-300">Returns</a></li>
+                            <li><a href="#" class="hover:text-white transition-colors duration-300">Terms</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <p class="text-[11px] text-white/35 tracking-[0.14em] uppercase">© Cookie's Wave — All rights reserved.</p>
+                    <p class="text-[11px] text-white/35 tracking-[0.14em] uppercase flex items-center gap-2">
+                        Made with
+                        <span class="text-[#E83CFF]">♥</span>
+                        by the ocean
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- ================= SEARCH MODAL ================= -->
+    <div id="search-modal" class="fixed inset-0 z-[999] bg-black/60 backdrop-blur-md hidden" role="dialog" aria-modal="true" aria-label="Search products">
+        <button id="search-close" aria-label="Close search" data-cursor
+            class="absolute top-6 right-6 w-11 h-11 flex items-center justify-center text-white/60 hover:text-white transition-colors">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <div class="h-full flex flex-col items-center justify-start pt-24 sm:pt-28 px-6 pb-10 overflow-y-auto">
+            <div class="w-full max-w-3xl">
+                <p class="eyebrow mb-8">Search the wave</p>
+                <div class="flex items-center gap-4 border-b-2 border-white/15 pb-4 focus-within:border-[#8B2CFF] transition-colors">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#AAB3C5" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input id="search-input" type="text" placeholder="Search Bucket Hat, Stamp Tee, Waterbottle, Phone Case..."
+                        autocomplete="off"
+                        class="w-full bg-transparent text-2xl text-white placeholder:text-white/25 focus:outline-none">
+                </div>
+                <p id="search-hint" class="text-white/25 text-[11px] tracking-[0.3em] uppercase mt-5">Start typing to find your favorite drop...</p>
+                <ul id="search-results" class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= CART TOAST ================= -->
+    <div id="cart-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[95] translate-y-24 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none">
+        <div class="flex items-center gap-3 bg-[#0a1220] border border-white/10 px-5 py-3.5 shadow-[0_24px_60px_rgba(0,0,0,0.5)]">
+            <span class="w-6 h-6 flex items-center justify-center rounded-full bg-[#8B2CFF]">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+            </span>
+            <p class="text-[13px] text-white"><span id="toast-name" class="font-medium text-white">Product</span> added to your cart</p>
+        </div>
+    </div>
+
+    <!-- ================= CURRENCY ================= -->
+    <script>
+        (function () {
+            const btn = document.getElementById('currency-btn');
+            const dd = document.getElementById('currency-dropdown');
+            if (!btn || !dd) return;
+            const hide = () => { dd.classList.add('hidden'); btn.querySelector('svg').classList.remove('rotate-180'); };
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dd.classList.toggle('hidden');
+                btn.querySelector('svg').classList.toggle('rotate-180');
+            });
+            window.addEventListener('click', hide);
+        })();
+        function changeCurrency(code, flag) {
+            document.querySelector('#currency-btn span').innerText = `${flag} ${code}`;
+            document.getElementById('currency-dropdown').classList.add('hidden');
+            if (document.querySelector('#currency-btn svg')) {
+                document.querySelector('#currency-btn svg').classList.remove('rotate-180');
+            }
+            const rates = { 'INR': 1.0, 'USD': 0.012, 'EUR': 0.011 };
+            const symbols = { 'INR': '₹', 'USD': '$', 'EUR': '€' };
+            const priceElements = document.querySelectorAll('.product-price');
+            priceElements.forEach(el => {
+                const baseInr = parseFloat(el.getAttribute('data-base-inr'));
+                const targetRate = rates[code] || 1.0;
+                const currencySymbol = symbols[code] || '₹';
+                const convertedValue = Math.round(baseInr * targetRate);
+                el.innerText = `${currencySymbol}${convertedValue.toLocaleString()}`;
+            });
+            if (window.syncServerPrices) window.syncServerPrices(code);
+        }
+
+        (function initPriceLayer() {
+            const btn = document.getElementById('currency-btn');
+            const label = (btn && btn.querySelector('span') && btn.querySelector('span').textContent) || 'INR';
+            let code = 'INR';
+            if (label.indexOf('USD') !== -1 || label.indexOf('$') !== -1) code = 'USD';
+            else if (label.indexOf('EUR') !== -1 || label.indexOf('€') !== -1) code = 'EUR';
+            const rates = { 'INR': 1.0, 'USD': 0.012, 'EUR': 0.011 };
+            const symbols = { 'INR': '₹', 'USD': '$', 'EUR': '€' };
+            document.querySelectorAll('.product-price').forEach(el => {
+                const baseInr = parseFloat(el.getAttribute('data-base-inr'));
+                el.innerText = `${symbols[code]}${Math.round(baseInr * (rates[code] || 1)).toLocaleString()}`;
+            });
+        })();
+    </script>
+
+    <!-- ================= SEARCH + CART + WISHLIST ================= -->
+    <script>
+        (function () {
+            const PRODUCTS = [
+                { name: 'Cookie Stamp Tee', category: 'Apparel', price: '₹3,419', tag: '⭐ PREMIUM', target: 'Cookie Stamp Tee', img: 'assets/cookie_stamp_tee.png' },
+                { name: 'Cookie Waterbottle \'26', category: 'Drinkware', price: '₹2,734', tag: '❤️ MOST LOVED', target: 'Cookie Waterbottle', img: 'assets/cookie_waterbottle.png' },
+                { name: 'Cookie Bling Bucket Hat', category: 'Accessories', price: '₹2,930', tag: '🔥 BESTSELLER', target: 'Cookie Bling Bucket Hat', img: 'assets/cookie_bucket_hat.png' },
+                { name: 'Cookie Phone Case', category: 'Accessories', price: '₹1,854', tag: '📱 NEW', target: 'Cookie Phone Case', img: 'assets/cookie_phone_case.png' },
+            ];
+
+            const modal = document.getElementById('search-modal');
+            const btn = document.getElementById('search-btn');
+            const closeBtn = document.getElementById('search-close');
+            const input = document.getElementById('search-input');
+            const results = document.getElementById('search-results');
+            const hint = document.getElementById('search-hint');
+
+            // Landing link target — the real product card this result points to.
+            function findProductCard(target) {
+                return document.querySelector('[data-name="' + target + '"]');
+            }
+
+            // Live price straight from the on-page converter (stays in sync with the currency dropdown).
+            function livePrice(target) {
+                const card = findProductCard(target);
+                const el = card ? card.querySelector('.product-price') : null;
+                return el ? el.textContent.trim() : null;
+            }
+
+            function openModal() { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; input.focus(); }
+            function closeModal() {
+                modal.classList.add('hidden'); document.body.style.overflow = '';
+                input.value = ''; results.innerHTML = ''; hint.classList.remove('hidden');
+            }
+
+            function goToProduct(target) {
+                const card = findProductCard(target);
+                closeModal();
+                if (!card) return;
+                const top = card.getBoundingClientRect().top + window.pageYOffset - 120;
+                window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+                card.style.boxShadow = '0 0 0 3px #8B2CFF, 0 25px 50px rgba(122,18,255,0.35)';
+                card.style.transition = 'box-shadow .5s ease';
+                setTimeout(function () { card.style.boxShadow = ''; }, 1400);
+            }
+
+            function renderResults(matches) {
+                results.innerHTML = '';
+                matches.forEach(function (p) {
+                    const li = document.createElement('li');
+                    li.className = 'list-none';
+                    li.innerHTML =
+                        '<a href="#featured" data-target="' + p.target + '" class="group flex flex-col justify-between gap-4 h-full p-5 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm hover:bg-white/[0.07] hover:border-purple-500/50 transition-all duration-300 cursor-pointer" data-cursor>' +
+                        '<div class="flex items-start justify-between gap-3">' +
+                        '<div class="w-12 h-12 rounded-xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center shrink-0">' +
+                        '<img src="' + p.img + '" alt="' + p.name + '" loading="lazy" class="w-full h-full object-cover">' +
+                        '</div>' +
+                        '<span class="text-[#c9a7ff] font-bold text-sm whitespace-nowrap">' + (livePrice(p.target) || p.price) + '</span></div>' +
+                        '<div><p class="text-white font-medium text-sm leading-snug">' + p.name + '</p>' +
+                        '<p class="text-white/30 text-[10px] tracking-[0.2em] uppercase mt-1">' + p.category + ' · ' + p.tag + '</p></div></a>';
+                    results.appendChild(li);
+                });
+            }
+
+            btn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
+
+            input.addEventListener('input', function () {
+                const q = input.value.trim().toLowerCase();
+                results.innerHTML = '';
+                if (!q) { hint.classList.remove('hidden'); return; }
+                hint.classList.add('hidden');
+                const matches = PRODUCTS.filter(function (p) {
+                    return p.name.toLowerCase().indexOf(q) !== -1 ||
+                        p.category.toLowerCase().indexOf(q) !== -1 ||
+                        p.tag.toLowerCase().indexOf(q) !== -1;
+                });
+                if (!matches.length) {
+                    results.innerHTML = '<li class="col-span-full list-none text-white/30 text-sm tracking-widest py-10 text-center">No results for "' + input.value + '"</li>';
+                    return;
+                }
+                renderResults(matches);
+            });
+
+            results.addEventListener('click', function (e) {
+                const link = e.target.closest('a[data-target]');
+                if (!link) return;
+                e.preventDefault();
+                goToProduct(link.getAttribute('data-target'));
+            });
+
+            document.addEventListener('click', function (e) {
+                const wishBtn = e.target.closest('[data-wish]');
+                if (wishBtn) {
+                    const svg = wishBtn.querySelector('svg');
+                    const isActive = wishBtn.getAttribute('data-on') === '1';
+                    wishBtn.setAttribute('data-on', isActive ? '0' : '1');
+                    svg.setAttribute('fill', isActive ? 'none' : '#E83CFF');
+                    svg.setAttribute('stroke', isActive ? 'currentColor' : '#E83CFF');
+                }
+            });
+        })();
+    </script>
+
+    <!-- ================= MOBILE MENU ================= -->
+    <script>
+        (function () {
+            const menu = document.getElementById('mobile-menu');
+            const open = document.getElementById('menu-open');
+            const close = document.getElementById('menu-close');
+            if (!menu || !open || !close) return;
+            function setMenu(show) {
+                menu.classList.toggle('translate-x-full', !show);
+                document.body.style.overflow = show ? 'hidden' : '';
+                menu.querySelectorAll('.menu-item').forEach(function (el, i) {
+                    el.style.opacity = show ? '1' : '0';
+                    el.style.transform = show ? 'translateY(0)' : 'translateY(26px)';
+                });
+            }
+            menu.querySelectorAll('.menu-item').forEach(function (el) { el.style.opacity = '0'; el.style.transform = 'translateY(26px)'; el.style.transition = 'opacity .6s ease, transform .6s cubic-bezier(0.22,1,0.36,1)'; });
+            open.addEventListener('click', function () { setMenu(true); });
+            close.addEventListener('click', function () { setMenu(false); });
+            menu.querySelectorAll('a').forEach(function (a) {
+                a.addEventListener('click', function () { setMenu(false); });
+            });
+        })();
+    </script>
+
+    <!-- ================= CURSOR + MAGNETIC ================= -->
+    <script>
+        (function () {
+            var anim = document.documentElement.classList.contains('js-anim');
+            var fine = window.matchMedia('(pointer: fine)').matches;
+            if (!anim || !fine) return;
+            document.documentElement.classList.add('cursor-enabled');
+
+            var dot = document.getElementById('cursor-dot');
+            var ring = document.getElementById('cursor-ring');
+            var mx = window.innerWidth / 2, my = window.innerHeight / 2;
+            var rx = mx, ry = my;
+            window.addEventListener('mousemove', function (e) {
+                mx = e.clientX; my = e.clientY;
+                dot.style.transform = 'translate3d(' + (mx - 2.5) + 'px,' + (my - 2.5) + 'px,0)';
+            });
+            (function loop() {
+                rx += (mx - rx) * 0.14;
+                ry += (my - ry) * 0.14;
+                ring.style.transform = 'translate3d(' + (rx - 17) + 'px,' + (ry - 17) + 'px,0)';
+                requestAnimationFrame(loop);
+            })();
+
+            document.querySelectorAll('a, button, input, [data-cursor]').forEach(function (el) {
+                el.addEventListener('mouseenter', function () { ring.classList.add('is-on'); });
+                el.addEventListener('mouseleave', function () { ring.classList.remove('is-on'); });
+            });
+
+            window.__setupMagnetic = function () {
+                if (!window.gsap) return;
+                document.querySelectorAll('[data-magnetic]').forEach(function (el) {
+                    if (el.getAttribute('data-magnetic-on') === '1') return;
+                    el.setAttribute('data-magnetic-on', '1');
+                    var strength = parseFloat(el.getAttribute('data-magnetic')) || 0.28;
+                    el.addEventListener('mousemove', function (e) {
+                        var r = el.getBoundingClientRect();
+                        gsap.to(el, { x: (e.clientX - r.left - r.width / 2) * strength, y: (e.clientY - r.top - r.height / 2) * strength, duration: 0.5, ease: 'power3.out' });
+                    });
+                    el.addEventListener('mouseleave', function () {
+                        gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1,0.35)' });
+                    });
+                });
+            };
+        })();
+    </script>
+
+    <!-- ================= HEADER STATE ================= -->
+    <script>
+        (function () {
+            var header = document.getElementById('site-header');
+            function refreshHeader() {
+                if (header) header.classList.toggle('is-scrolled', window.scrollY > 24);
+            }
+            window.addEventListener('scroll', refreshHeader, { passive: true });
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', refreshHeader);
+            } else {
+                refreshHeader();
+            }
+        })();
+    </script>
+
+    <!-- ================= MOTION & SCROLL ================= -->
+    <script>
+        (function () {
+            var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (reduced) {
+                document.documentElement.classList.remove('js-anim');
+                return;
+            }
+            function loadScript(src, cb) {
+                var s = document.createElement('script');
+                s.src = src;
+                s.onload = cb;
+                s.onerror = cb;
+                document.head.appendChild(s);
+            }
+            function bootGSAP(cb) {
+                if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                    return cb();
+                }
+                /* Primary (jsdelivr) failed or not yet loaded — try cdnjs */
+                loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', function () {
+                    loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', function () {
+                        if (typeof gsap !== 'undefined') {
+                            cb();
+                        } else {
+                            document.documentElement.classList.remove('js-anim');
+                        }
+                    });
+                });
+            }
+            function runMotion() {
+                if (typeof gsap === 'undefined') {
+                    document.documentElement.classList.remove('js-anim');
+                    return;
+                }
+                window.__gsapReady = true;
+                gsap.registerPlugin(ScrollTrigger);
+
+                /* Hero entrance timeline */
+                var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+                tl.to('[data-hero-bt]', { y: 0, autoAlpha: 1, duration: 1.1, stagger: 0.09 }, 0.35);
+
+                /* Hero scroll parallax */
+                gsap.fromTo('#hero-video-wrap',
+                    { scale: 1.12, yPercent: 0 },
+                    {
+                        scale: 1.24, yPercent: 10, ease: 'none',
+                        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+                    }
+                );
+                gsap.to('#hero-content', {
+                    yPercent: -10, autoAlpha: 0, ease: 'none',
+                    scrollTrigger: { trigger: '#hero', start: 'top top', end: '75% top', scrub: true }
+                });
+
+                /* Section reveals */
+                gsap.utils.toArray('[data-reveal]').forEach(function (el) {
+                    var delay = parseFloat(el.getAttribute('data-delay')) || 0;
+                    gsap.to(el, {
+                        autoAlpha: 1, y: 0, duration: 1.05, ease: 'power3.out', delay: delay,
+                        scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+                    });
+                });
+
+                /* Mouse depth parallax (subtle) */
+                if (window.matchMedia('(pointer: fine)').matches) {
+                    var vx = gsap.quickTo('#bg-video-engine', 'x', { duration: 0.9, ease: 'power2.out' });
+                    var vy = gsap.quickTo('#bg-video-engine', 'y', { duration: 0.9, ease: 'power2.out' });
+                    var cx = gsap.quickTo('#hero-content', 'x', { duration: 0.8, ease: 'power2.out' });
+                    var cy = gsap.quickTo('#hero-content', 'y', { duration: 0.8, ease: 'power2.out' });
+                    window.addEventListener('mousemove', function (e) {
+                        var nx = (e.clientX / window.innerWidth - 0.5) * 2;
+                        var ny = (e.clientY / window.innerHeight - 0.5) * 2;
+                        vx(-nx * 14); vy(-ny * 10);
+                        cx(nx * 7); cy(ny * 5);
+                    }, { passive: true });
+                }
+
+                /* Atmospheric particles */
+                var particles = document.getElementById('particles');
+                var palette = ['#20D9FF', '#8B2CFF', '#E83CFF', '#ffffff'];
+                var count = window.innerWidth < 768 ? 10 : 16;
+                for (var i = 0; i < count; i++) {
+                    var p = document.createElement('span');
+                    var size = 2 + Math.random() * 3;
+                    p.className = 'particle';
+                    p.style.width = size + 'px';
+                    p.style.height = size + 'px';
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.bottom = -(10 + Math.random() * 30) + 'px';
+                    p.style['--po'] = (0.12 + Math.random() * 0.4).toFixed(2);
+                    p.style['--sway'] = (12 + Math.random() * 30).toFixed(0) + 'px';
+                    p.style.background = palette[Math.floor(Math.random() * palette.length)];
+                    p.style.setProperty('animation-duration', (14 + Math.random() * 16) + 's');
+                    p.style.setProperty('animation-delay', (-(Math.random() * 22)).toFixed(2) + 's');
+                    particles.appendChild(p);
+                }
+
+                /* Activate magnetic after GSAP is ready */
+                if (typeof window.__setupMagnetic === 'function') {
+                    window.__setupMagnetic();
+                }
+            }
+            function init() {
+                bootGSAP(runMotion);
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+
+    <!-- ================= SHOPPING CART DRAWER ================= -->
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full z-[100] transform translate-x-full transition-transform duration-300 ease-out flex pointer-events-none">
+        <div id="cart-backdrop" class="bg-black/40 backdrop-blur-sm flex-1 h-full cursor-pointer opacity-0 hidden transition-opacity duration-300 pointer-events-auto"></div>
+        <aside class="w-full max-w-md shrink-0 h-full bg-[#0b0518]/95 backdrop-blur-3xl border-l border-white/10 p-6 flex flex-col justify-between shadow-2xl text-white pointer-events-auto">
+            <div class="flex flex-col flex-1 min-h-0">
+                <div class="flex justify-between items-center w-full mb-6 pt-4 shrink-0">
+                    <h3 class="text-white font-black text-sm tracking-[0.25em] uppercase">YOUR CART (<span id="cart-total-count">0</span>)</h3>
+                    <button id="cart-close" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center cursor-pointer hover:bg-white/15 hover:text-white transition-colors duration-300" aria-label="Close cart">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div id="cart-empty" class="flex items-center justify-center flex-1 min-h-0">
+                    <div class="flex flex-col items-center text-center px-4">
+                        <span class="text-4xl mb-4">🍪</span>
+                        <p class="text-white font-bold text-lg tracking-wide">Your cart is currently empty 🍪</p>
+                        <button id="cart-continue" class="mt-7 px-8 py-3 rounded-full bg-[#7a12ff] hover:bg-[#9d44ff] text-white text-xs font-black tracking-[0.25em] uppercase shadow-[0_0_30px_rgba(122,18,255,0.55)] transition-colors duration-300 cursor-pointer">Continue Shopping</button>
+                    </div>
+                </div>
+                <div id="cart-items" class="flex flex-col gap-3 overflow-y-auto pr-1 min-h-0 flex-1 hidden"></div>
+            </div>
+            <div id="cart-footer" class="border-t border-white/10 pt-6 mt-auto shrink-0 hidden">
+                <div id="shipping-tracker" class="p-4 bg-white/[0.02] border border-white/5 rounded-2xl mb-4 text-left">
+                    <div id="shipping-progress-text" class="text-[10px] uppercase font-bold tracking-wider text-purple-400">
+                        Syncing delivery metrics...
+                    </div>
+                    <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden mt-2">
+                        <div id="shipping-progress-bar" class="h-full bg-gradient-to-r from-purple-500 to-emerald-400 transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+                <!-- Luxury Cart Upsell Shelf -->
+                <div class="mt-4 border-t border-white/10 pt-4 mb-2">
+                    <h4 class="text-[10px] uppercase font-bold tracking-[0.15em] text-purple-400 mb-3 flex items-center gap-1.5">
+                        <span>🍪 Complete Your Wave Set</span>
+                        <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                    </h4>
+                    <div id="cart-upsell-shelf" class="flex gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-white/5 scrollbar-track-transparent">
+                        <!-- Item Card Blueprint Loop -->
+                        <div class="flex items-center gap-3 bg-white/[0.02] border border-white/5 p-2 rounded-xl shrink-0 w-[85%] sm:w-[90%]">
+                            <div class="w-10 h-10 rounded-lg overflow-hidden bg-black/20 border border-white/5 flex items-center justify-center shrink-0">
+                                <img src="assets/cookie_phone_case.png" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 min-w-0 text-left">
+                                <h5 class="text-[10px] font-black uppercase tracking-wider text-white truncate">COOKIE PHONE CASE</h5>
+                                <span class="text-[10px] font-bold text-gray-400 product-price" data-base-inr="1854">₹1,854</span>
+                            </div>
+                            <button class="text-[9px] font-black uppercase tracking-widest bg-white/10 hover:bg-gradient-to-r hover:from-[#7a12ff] hover:to-[#ff00a0] px-3 py-1.5 rounded-full text-white transition-all cursor-pointer"
+                                    onclick="addItemToCart('COOKIE PHONE CASE', 1854, 'assets/cookie_phone_case.png')">
+                                + ADD
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2.5 mb-5">
+                    <div class="flex items-center justify-between"><span class="text-white/60 text-[11px] tracking-[0.2em] uppercase">Subtotal</span><span id="cart-subtotal" class="text-white font-bold text-sm tracking-wide">₹0</span></div>
+                    <div class="flex items-center justify-between"><span class="text-white/60 text-[11px] tracking-[0.2em] uppercase">Estimated Shipping (FREE)</span><span class="text-emerald-400 font-bold text-[11px] tracking-[0.2em] uppercase">FREE</span></div>
+                    <div class="flex items-center justify-between mt-2 pt-4 border-t border-white/10">
+                        <span class="text-white/80 text-[11px] tracking-[0.2em] uppercase">Total</span>
+                        <span id="cart-total" class="text-white font-black text-2xl tracking-tight">₹0</span>
+                    </div>
+                </div>
+                <button id="cart-checkout" class="w-full bg-gradient-to-r from-[#7a12ff] to-[#ff00a0] font-black py-4 rounded-full text-xs tracking-widest text-center shadow-lg transition-transform active:scale-95 cursor-pointer">PROCEED TO CHECKOUT 🔒</button>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        (function () {
+            var drawer = document.getElementById('cart-drawer');
+            if (!drawer) return;
+            var backdrop = document.getElementById('cart-backdrop');
+            var closeBtn = document.getElementById('cart-close');
+            var continueBtn = document.getElementById('cart-continue');
+            var checkoutBtn = document.getElementById('cart-checkout');
+            var cartBtn = document.getElementById('cart-btn');
+            var listEl = document.getElementById('cart-items');
+            var emptyEl = document.getElementById('cart-empty');
+            var footerEl = document.getElementById('cart-footer');
+            var titleCount = document.getElementById('cart-total-count');
+            var countEl = document.getElementById('cart-count');
+            var subEl = document.getElementById('cart-subtotal');
+            var totalEl = document.getElementById('cart-total');
+            var items = load();
+            var toast = document.getElementById('cart-toast');
+            var toastName = document.getElementById('toast-name');
+            var toastTimer = null;
+
+            function load() { try { return JSON.parse(localStorage.getItem('cookies_cart') || '[]'); } catch (e) { return []; } }
+            function save() { try { localStorage.setItem('cookies_cart', JSON.stringify(items)); } catch (e) {} }
+            function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+            function symbol() {
+                var btn = document.getElementById('currency-btn');
+                var t = (btn && btn.querySelector('span') && btn.querySelector('span').textContent) || '';
+                if (t.indexOf('USD') !== -1 || t.indexOf('$') !== -1) return '$';
+                if (t.indexOf('EUR') !== -1 || t.indexOf('€') !== -1) return '€';
+                return '₹';
+            }
+
+            function fmt(inr) {
+                var s = symbol();
+                var v = s === '$' ? inr * 0.012 : s === '€' ? inr * 0.011 : inr;
+                return s + Math.round(v).toLocaleString('en-US');
+            }
+
+            function totalQty() { var n = 0; for (var i = 0; i < items.length; i++) n += items[i].qty; return n; }
+            function subTotal() { var n = 0; for (var i = 0; i < items.length; i++) n += items[i].price * items[i].qty; return n; }
+
+            function render() {
+                var n = totalQty();
+                if (countEl) { countEl.textContent = n; countEl.classList.toggle('opacity-0', n === 0); countEl.classList.toggle('scale-75', n === 0); }
+                if (titleCount) titleCount.textContent = n;
+                var empty = items.length === 0;
+                if (emptyEl) emptyEl.classList.toggle('hidden', !empty);
+                if (listEl) listEl.classList.toggle('hidden', empty);
+                if (footerEl) footerEl.classList.toggle('hidden', empty);
+                if (listEl) {
+                    listEl.innerHTML = '';
+                    for (var i = 0; i < items.length; i++) listEl.appendChild(row(items[i], i));
+                }
+                var sub = subTotal();
+                if (subEl) subEl.textContent = fmt(sub);
+                if (totalEl) totalEl.textContent = fmt(sub);
+                renderUpsell();
+                updateShipping(sub);
+            }
+
+            function updateShipping(sub) {
+                var textEl = document.getElementById('shipping-progress-text');
+                var barEl = document.getElementById('shipping-progress-bar');
+                if (!textEl || !barEl) return;
+                var threshold = 5000;
+                var pct = Math.min((sub / threshold) * 100, 100);
+                if (sub >= threshold) {
+                    textEl.textContent = '✓ CONGRATULATIONS! FREE EXPEDITED DELIVERY APPLIED.';
+                    barEl.style.width = '100%';
+                } else {
+                    var remaining = threshold - sub;
+                    textEl.innerHTML = 'You are only <span class="text-amber-300 font-black">₹' + remaining.toLocaleString('en-IN') + '</span> away from FREE worldwide expedited tracking!';
+                    barEl.style.width = (pct < 6 ? 6 : pct) + '%';
+                }
+            }
+
+            // Luxury cart upsell helpers — injects straight into the primary cart array,
+            // recalculates subtotals instantly and honors the active navbar currency selection.
+            function addUpsell(name, price, img) {
+                var found = null;
+                for (var j = 0; j < items.length; j++) { if (items[j].name === name) { found = items[j]; break; } }
+                if (found) { found.qty += 1; } else { items.push({ name: name, qty: 1, price: price, img: img, meta: 'One Size' }); }
+                save(); render(); open();
+                if (toast && toastName) {
+                    toastName.textContent = name;
+                    toast.classList.remove('translate-y-24', 'opacity-0');
+                    if (toastTimer) clearTimeout(toastTimer);
+                    toastTimer = setTimeout(function () { toast.classList.add('translate-y-24', 'opacity-0'); }, 2200);
+                }
+            }
+
+            function renderUpsell() {
+                var upsellEl = document.getElementById('cart-upsell-shelf');
+                if (!upsellEl) return;
+                var pool = [
+                    { name: 'COOKIE PHONE CASE', price: 1854, img: 'assets/cookie_phone_case.png' },
+                    { name: 'COOKIE WATERBOTTLE', price: 2734, img: 'assets/cookie_waterbottle.png' },
+                    { name: 'COOKIE BLING BUCKET HAT', price: 2930, img: 'assets/cookie_bucket_hat.png' }
+                ];
+                // Smart filtration — never recommend an item the customer is already buying.
+                var owned = {};
+                for (var k = 0; k < items.length; k++) owned[items[k].name] = true;
+                var recs = pool.filter(function (p) { return !owned[p.name]; });
+                if (recs.length === 0) recs = pool;
+
+                upsellEl.innerHTML = '';
+                recs.forEach(function (p) {
+                    var card = document.createElement('div');
+                    card.className = 'flex items-center gap-3 bg-white/[0.02] border border-white/5 p-2 rounded-xl shrink-0 w-[85%] sm:w-[90%]';
+                    card.innerHTML =
+                        '<div class="w-10 h-10 rounded-lg overflow-hidden bg-black/20 border border-white/5 flex items-center justify-center shrink-0">' +
+                        '<img src="' + esc(p.img) + '" alt="' + esc(p.name) + '" class="w-full h-full object-cover" loading="lazy">' +
+                        '</div>' +
+                        '<div class="flex-1 min-w-0 text-left">' +
+                        '<h5 class="text-[10px] font-black uppercase tracking-wider text-white truncate">' + esc(p.name) + '</h5>' +
+                        '<span class="text-[10px] font-bold text-gray-400 product-price" data-base-inr="' + p.price + '">' + fmt(p.price) + '</span>' +
+                        '</div>' +
+                        '<button type="button" class="text-[9px] font-black uppercase tracking-widest bg-white/10 hover:bg-gradient-to-r hover:from-[#7a12ff] hover:to-[#ff00a0] px-3 py-1.5 rounded-full text-white transition-all cursor-pointer">+ ADD</button>';
+                    card.querySelector('button').addEventListener('click', function () { addUpsell(p.name, p.price, p.img); });
+                    upsellEl.appendChild(card);
+                });
+            }
+
+            function row(it, i) {
+                var d = document.createElement('div');
+                d.className = 'flex items-center gap-4 bg-white/[0.03] border border-white/10 rounded-2xl p-3';
+                var imgHtml = it.img ? '<img src="' + esc(it.img) + '" alt="" class="w-full h-full object-cover" loading="lazy">' : '<span class="text-white/40">🍪</span>';
+                d.innerHTML = '<div class="w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-black/30 border border-white/10 flex items-center justify-center">' + imgHtml + '</div>' +
+                    '<div class="flex-1 min-w-0">' +
+                    '<p class="text-white font-bold text-sm truncate">' + esc(it.name) + '</p>' +
+                    '<p class="text-white/50 text-[10px] uppercase tracking-[0.15em] mt-0.5">' + esc(it.meta) + '</p>' +
+                    '<div class="flex items-center justify-between mt-2">' +
+                    '<div class="flex items-center rounded-full border border-white/10 bg-white/5">' +
+                    '<button class="q-btn q-minus w-7 h-7 flex items-center justify-center text-white/60 hover:text-white transition-colors duration-200" data-i="' + i + '" aria-label="Decrease quantity">−</button>' +
+                    '<span class="w-6 text-center text-white font-bold text-xs">' + it.qty + '</span>' +
+                    '<button class="q-btn q-plus w-7 h-7 flex items-center justify-center text-white/60 hover:text-white transition-colors duration-200" data-i="' + i + '" aria-label="Increase quantity">+</button>' +
+                    '</div>' +
+                    '<span class="text-white font-bold text-xs">' + fmt(it.price * it.qty) + '</span>' +
+                    '</div></div>';
+                return d;
+            }
+
+            function open() {
+                drawer.classList.remove('translate-x-full');
+                backdrop.classList.remove('hidden');
+                requestAnimationFrame(function () { backdrop.classList.remove('opacity-0'); });
+                document.body.style.overflow = 'hidden';
+                render();
+            }
+
+            function close() {
+                drawer.classList.add('translate-x-full');
+                backdrop.classList.add('opacity-0');
+                setTimeout(function () { backdrop.classList.add('hidden'); }, 300);
+                document.body.style.overflow = '';
+            }
+
+            function toggle() { if (drawer.classList.contains('translate-x-full')) open(); else close(); }
+
+            if (cartBtn) cartBtn.addEventListener('click', toggle);
+            if (backdrop) backdrop.addEventListener('click', close);
+            if (closeBtn) closeBtn.addEventListener('click', close);
+            if (continueBtn) continueBtn.addEventListener('click', close);
+            if (checkoutBtn) checkoutBtn.addEventListener('click', function () { if (window.openSecureCheckout) { window.openSecureCheckout(); } else { window.location.href = 'signup.html'; } });
+
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+            if (listEl) listEl.addEventListener('click', function (e) {
+                var btn = e.target.closest('.q-btn');
+                if (!btn) return;
+                var i = parseInt(btn.getAttribute('data-i'), 10);
+                if (isNaN(i) || !items[i]) return;
+                if (btn.classList.contains('q-minus')) {
+                    items[i].qty -= 1;
+                    if (items[i].qty < 1) items.splice(i, 1);
+                } else {
+                    items[i].qty += 1;
+                }
+                save(); render();
+            });
+
+            // Global cart mutation point: every grid "ADD TO CART" button funnels here.
+            function addItem(name, price, img, meta) {
+                if (!name) name = 'Product';
+                var found = null;
+                for (var j = 0; j < items.length; j++) { if (items[j].name === name) { found = items[j]; break; } }
+                if (found) { found.qty += 1; } else { items.push({ name: name, qty: 1, price: price, img: img, meta: meta }); }
+                save(); render(); open();
+                if (toast && toastName) {
+                    toastName.textContent = name;
+                    toast.classList.remove('translate-y-24', 'opacity-0');
+                    if (toastTimer) clearTimeout(toastTimer);
+                    toastTimer = setTimeout(function () { toast.classList.add('translate-y-24', 'opacity-0'); }, 2200);
+                }
+            }
+
+            document.addEventListener('click', function (e) {
+                var addBtn = e.target.closest('[data-add-to-cart]');
+                if (!addBtn) return;
+                var card = addBtn.closest('[data-name], .editorial-card, article, [class*="relative"].group');
+                if (!card) card = addBtn.closest('article');
+                var h3 = card ? card.querySelector('h3') : null;
+                var name = (card && card.getAttribute('data-name')) || (h3 ? h3.textContent.trim() : '');
+                var img = card && card.querySelector('img') ? card.querySelector('img').getAttribute('src') : '';
+                var priceEl = card ? card.querySelector('.product-price') : null;
+                var price = priceEl ? (parseFloat(priceEl.getAttribute('data-base-inr')) || 0) : 0;
+                if (!price && card) {
+                    var spans = card.querySelectorAll('span[class*="font-bold"]');
+                    for (var k = 0; k < spans.length; k++) {
+                        if (spans[k].textContent.replace(/[^0-9]/g, '').length >= 2) { price = parseInt(spans[k].textContent.replace(/[^0-9]/g, ''), 10); break; }
+                    }
+                }
+                var colorEl = card ? card.querySelector('[data-color]') : null;
+                var color = colorEl ? colorEl.getAttribute('title') : '';
+                var meta = 'One Size' + (color ? ' · ' + color : '');
+                addItem(name, price, img, meta);
+            });
+
+            if (window.changeCurrency) {
+                var prev = window.changeCurrency;
+                window.changeCurrency = function (code, flag) { prev(code, flag); render(); };
+            }
+
+            render();
+
+            // Auto-open the drawer when arriving from a product page hand-off (?cart=open)
+            if (/[?&]cart=open/.test(window.location.search)) {
+                setTimeout(open, 450);
+            }
+
+            // Global user cart array object — exposed so any page/interaction can
+            // read the live cart and push new items through the same pipeline.
+            window.cart = {
+                items: items,
+                add: addItem,
+                totalQty: totalQty,
+                subTotal: subTotal,
+                count: totalQty,
+                open: open,
+            };
+        })();
+    </script>
+
+<script>
+  (function () {
+    function currentCode() {
+      var btn = document.getElementById('currency-btn');
+      var label = (btn && btn.querySelector('span') && btn.querySelector('span').textContent) || 'INR';
+      if (label.indexOf('USD') !== -1 || label.indexOf('$') !== -1) return 'USD';
+      if (label.indexOf('EUR') !== -1 || label.indexOf('€') !== -1) return 'EUR';
+      return 'INR';
+    }
+    function applyServerPrices(products, code) {
+      if (currentCode() !== code) return;
+      var map = {};
+      for (var i = 0; i < products.length; i++) {
+        if (typeof products[i].priceLabel === 'string' && products[i].priceInr != null) {
+          map[products[i].priceInr] = products[i].priceLabel;
+        }
+      }
+      var els = document.querySelectorAll('.product-price');
+      for (var j = 0; j < els.length; j++) {
+        var base = parseFloat(els[j].getAttribute('data-base-inr'));
+        if (map[base] != null) els[j].innerText = map[base];
+      }
+    }
+    function syncServerPrices(code) {
+      var c = code || currentCode();
+      fetch('/api/products?currency=' + c, { headers: { Accept: 'application/json' } })
+        .then(function (r) { if (!r.ok) throw new Error('api'); return r.json(); })
+        .then(function (data) { if (data && Array.isArray(data.products)) applyServerPrices(data.products, c); })
+        .catch(function () {});
+    }
+    window.syncServerPrices = syncServerPrices;
+    if (window.addEventListener) window.addEventListener('load', function () { syncServerPrices(); });
+  })();
+</script>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('cookieUserName');
+            const navNameElement = document.getElementById('navbar-user-name');
+            if (savedName && navNameElement) {
+                const shortName = savedName.split(' ')[0].toUpperCase();
+                navNameElement.innerText = shortName;
+            }
+        });
+    </script>
+<script>
+        const profileContainer = document.getElementById('profile-menu-container');
+        const profileBtn = document.getElementById('navbar-user-name')?.parentElement;
+        const profileDropdown = document.getElementById('profile-dropdown');
+        if (profileBtn && profileDropdown) {
+            profileBtn.addEventListener('click', (e) => {
+                const loggedInUser = localStorage.getItem('cookieUserName');
+                if (loggedInUser) {
+                    e.preventDefault();
+                    profileDropdown.classList.toggle('hidden');
+                } else {
+                    window.location.href = 'signup.html';
+                }
+            });
+
+            const profileMenuName = document.getElementById('profile-menu-name');
+            const savedProfileName = localStorage.getItem('cookieUserName');
+            if (profileMenuName && savedProfileName) {
+                profileMenuName.innerText = savedProfileName.split(' ')[0].toUpperCase();
+            }
+        }
+
+        window.addEventListener('click', (e) => {
+            if (profileDropdown && profileContainer && !profileContainer.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+
+        function handleUserLogout() {
+            localStorage.removeItem('cookieUserName');
+            localStorage.removeItem('cookieToken');
+            alert('🚪 Successfully logged out of session. Returning safely to guest mode.');
+            window.location.reload();
+        }
+    </script>
+<!-- ================= RUNTIME INVENTORY STREAM LOADER ================= -->
+<script>
+    window.addItemToCart = window.addItemToCart || function (name, price, img, meta) {
+        if (window.cart && typeof window.cart.add === 'function') {
+            window.cart.add(name, price, img, meta || 'One Size');
+        }
+    };
+    document.addEventListener('DOMContentLoaded', async () => {
+        const shelf = document.getElementById('dynamic-product-shelf');
+        if (!shelf) return;
+
+        const FALLBACK_IMG = 'assets/cookie_stamp_tee.png';
+        const LOCAL_IMG = {
+            'bucket-hat': 'assets/cookie_bucket_hat.png',
+            'waterbottle': 'assets/cookie_waterbottle.png',
+            'stamp-tee': 'assets/cookie_stamp_tee.png',
+            'phone-case': 'assets/cookie_phone_case.png'
+        };
+
+        const normalize = (p) => {
+            const priceInr = Number(p.priceInr != null ? p.priceInr : p.basePriceInr) || 0;
+            const rawImg = p.image || (Array.isArray(p.images) && p.images[0]) || '';
+            return {
+                title: p.name || p.title || 'Untitled Drop',
+                priceInr: priceInr,
+                slug: p.slug || p.id || '',
+                badge: p.badge || 'NEW',
+                category: String(p.category || ''),
+                img: LOCAL_IMG[p.slug] || rawImg || FALLBACK_IMG
+            };
+        };
+
+        const matchesPage = (item, page) => {
+            const c = item.category.toLowerCase().trim();
+            if (page === 'youth') return c === 'youth' || c === 'youth shop';
+            if (page === 'adults') return c === 'adults' || c === 'adults collections';
+            return c === '' || c === 'merch' || c === 'featured drops' || c === 'featured';
+        };
+
+        try {
+            const response = await fetch('/api/products', { headers: { Accept: 'application/json' } });
+            const result = await response.json();
+            const catalogList = (result.products || result.data || []).map(normalize);
+
+            const currentPage = window.location.pathname.toLowerCase();
+            let page = 'home';
+            if (currentPage.includes('youth')) page = 'youth';
+            else if (currentPage.includes('adults')) page = 'adults';
+
+            let filteredItems = catalogList.filter(item => matchesPage(item, page));
+            if (!filteredItems.length) filteredItems = catalogList; // fallback so a shelf never renders empty
+
+            shelf.innerHTML = '';
+            filteredItems.forEach(product => {
+                const card = document.createElement('div');
+                card.className = "relative bg-white/[0.02] border border-white/10 backdrop-blur-2xl rounded-[28px] p-6 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:border-purple-500/40 group overflow-hidden flex flex-col justify-between";
+                card.setAttribute('data-name', product.title);
+
+                const link = document.createElement('a');
+                link.href = 'product.html?item=' + encodeURIComponent(product.slug || 'bucket-hat');
+                link.className = 'block';
+
+                const badge = document.createElement('div');
+                badge.className = 'absolute top-4 left-4 z-20 text-[9px] font-black tracking-widest text-white bg-purple-600 px-2.5 py-1 rounded-full uppercase';
+                badge.textContent = product.badge;
+
+                const thumb = document.createElement('div');
+                thumb.className = 'w-full aspect-square rounded-2xl overflow-hidden bg-black/20 border border-white/5 relative mb-4';
+                const img = document.createElement('img');
+                img.src = product.img;
+                img.alt = product.title;
+                img.loading = 'lazy';
+                img.className = 'w-full h-full object-cover transition-transform duration-300 group-hover:scale-105';
+                img.onerror = function () { if (this.src.indexOf(FALLBACK_IMG) === -1) this.src = FALLBACK_IMG; };
+                thumb.appendChild(img);
+
+                const title = document.createElement('h3');
+                title.className = 'text-xs font-black uppercase tracking-wider text-white mb-1';
+                title.textContent = product.title;
+
+                link.appendChild(badge);
+                link.appendChild(thumb);
+                link.appendChild(title);
+
+                const footer = document.createElement('div');
+                footer.className = 'flex items-center justify-between mt-4';
+
+                const price = document.createElement('span');
+                price.className = 'text-sm font-bold text-gray-200 product-price';
+                price.setAttribute('data-base-inr', product.priceInr);
+                price.textContent = '\u20B9' + product.priceInr.toLocaleString();
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-[#7a12ff] to-[#ff00a0] px-4 py-2.5 rounded-full text-white active:scale-95 transition-transform';
+                btn.textContent = 'ADD TO CART';
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.addItemToCart(product.title, product.priceInr, product.img);
+                });
+
+                footer.appendChild(price);
+                footer.appendChild(btn);
+
+                card.appendChild(link);
+                card.appendChild(footer);
+                shelf.appendChild(card);
+            });
+
+            if (typeof window.changeCurrency === 'function' && document.getElementById('currency-btn')) {
+                const label = (document.getElementById('currency-btn').innerText || '').trim().split(/\s+/);
+                const activeCode = label[1] || 'INR';
+                const activeFlag = label[0] || '\uD83C\uDDEE\uD83C\uDDF3';
+                window.changeCurrency(activeCode, activeFlag);
+            }
+        } catch (error) {
+            console.error('Storefront Data Injection Fault:', error);
+            shelf.innerHTML = '<div class="col-span-full text-center text-xs text-gray-400 uppercase tracking-widest py-12">Failed to coordinate server inventory channels.</div>';
+        }
+    });
+</script>
+
+<script>
+(function () {
+    // Universal multi-video theme engine — tracks EVERY background <video> player on the
+    // vertical canvas (hero + lower shelf wraps) and swaps all source tracks in one sync
+    // pass so the entire page flips day/night without the split daylight look.
+    function executeGlobalVideoSwap(isDarkTheme) {
+        const systemRoot = document.documentElement;
+        const sunIcon = document.getElementById('theme-sun-icon');
+        const moonIcon = document.getElementById('theme-moon-icon');
+
+        if (isDarkTheme) systemRoot.classList.add('dark-mode');
+        else systemRoot.classList.remove('dark-mode');
+        if (sunIcon) sunIcon.classList.toggle('hidden', !isDarkTheme);
+        if (moonIcon) moonIcon.classList.toggle('hidden', isDarkTheme);
+
+        // Functional engine routine to locate every video instance and switch their source paths cleanly
+        const allVideoPlayers = document.querySelectorAll('video');
+        const targetVideoFile = isDarkTheme ? "/toggledark.mp4" : "/cookiegod.mp4";
+        allVideoPlayers.forEach(function (player) {
+            const sourceElement = player.querySelector('source');
+            if (!sourceElement) return;
+            const currentSrc = sourceElement.getAttribute('src');
+            // If the source track asset name is already correct, bypass reloading to save memory cycles
+            if (currentSrc !== targetVideoFile) {
+                sourceElement.src = targetVideoFile;
+                player.load(); // Forces the media hardware accelerator to re-buffer the matching video asset instantly
+                player.play().catch(function (err) { console.log("Engine streaming sequence recovered safely."); });
+            }
+        });
+    }
+
+    // A. INITIAL PAGE RENDERING RESOLUTION (Fires the second any sub-page layout opens)
+    const activePersistedTheme = localStorage.getItem('cookieSiteTheme') || 'bright-default';
+    if (activePersistedTheme === 'midnight-dark') executeGlobalVideoSwap(true);
+    else executeGlobalVideoSwap(false);
+
+    // B. INTERACTIVE NAVIGATION CLICK LISTENER (Toggles all assets live on theme switch)
+    const toggleBtn = document.getElementById('theme-toggle-btn');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function () {
+            const checkDarkModeActive = document.documentElement.classList.contains('dark-mode');
+            if (checkDarkModeActive) {
+                localStorage.setItem('cookieSiteTheme', 'bright-default');
+                executeGlobalVideoSwap(false);
+            } else {
+                localStorage.setItem('cookieSiteTheme', 'midnight-dark');
+                executeGlobalVideoSwap(true);
+            }
+            toggleBtn.classList.add('scale-90');
+            setTimeout(function () { toggleBtn.classList.remove('scale-90'); }, 150);
+        });
+    }
+})();
+</script>
+
+<!-- ================= GLASSMORPHIC CHECKOUT OVERLAY ================= -->
+    <div id="checkout-modal-portal" class="fixed inset-0 w-full h-full z-50 flex items-center justify-center bg-black/40 backdrop-blur-md hidden opacity-0 transition-all duration-300" role="dialog" aria-modal="true" aria-label="Secure checkout">
+        <button id="checkout-close" aria-label="Close checkout" data-cursor
+            class="absolute top-5 right-5 w-11 h-11 flex items-center justify-center text-white/60 hover:text-white transition-colors z-20 cursor-pointer">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+
+        <div class="max-w-4xl w-full mx-4 bg-[#0b0518]/90 border border-white/10 rounded-[32px] p-8 shadow-2xl text-white relative flex flex-col md:flex-row gap-8 max-h-[90svh] overflow-y-auto">
+            <!-- LEFT — BILLING / DELIVERY / CONTACT ARRAY -->
+            <div class="w-full md:w-1/2 flex flex-col gap-6">
+                <div>
+                    <p class="text-[10px] font-black tracking-[0.3em] uppercase text-[#20D9FF] flex items-center gap-2">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M8 21s0-3 4-4 4-2 4-4"/><path d="M16 7a2 2 0 1 1-2-2"/></svg>
+                        BILLING DETAILS
+                    </p>
+                    <div class="flex flex-col gap-3 mt-4">
+                        <input class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300" type="text" placeholder="Full Name" autocomplete="name">
+                        <input class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300" type="email" placeholder="Email Address" autocomplete="email" inputmode="email">
+                        <input class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300" type="tel" placeholder="Phone Number" autocomplete="tel" inputmode="tel">
+                    </div>
+                </div>
+
+                <div>
+                    <p class="text-[10px] font-black tracking-[0.3em] uppercase text-[#8B2CFF] flex items-center gap-2">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        DELIVERY ADDRESS
+                    </p>
+                    <div class="flex flex-col gap-3 mt-4">
+                        <input class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300" type="text" placeholder="Address Line 1" autocomplete="address-line1">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300" type="text" placeholder="City" autocomplete="address-level2">
+                            <input class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300" type="text" placeholder="Postal Code" autocomplete="postal-code">
+                        </div>
+                        <select class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300 cursor-pointer">
+                            <option value="" class="bg-[#0b0518]">Country</option>
+                            <option value="IN" class="bg-[#0b0518]">India 🇮🇳</option>
+                            <option value="US" class="bg-[#0b0518]">United States 🇺🇸</option>
+                            <option value="GB" class="bg-[#0b0518]">United Kingdom 🇬🇧</option>
+                            <option value="EU" class="bg-[#0b0518]">Europe 🇪🇺</option>
+                            <option value="AU" class="bg-[#0b0518]">Australia 🇦🇺</option>
+                            <option value="CA" class="bg-[#0b0518]">Canada 🇨🇦</option>
+                            <option value="JP" class="bg-[#0b0518]">Japan 🇯🇵</option>
+                            <option value="AE" class="bg-[#0b0518]">UAE 🇦🇪</option>
+                            <option value="OTHER" class="bg-[#0b0518]">Rest of World 🌍</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT — ORDER MATRIX + TOTALS -->
+            <div class="w-full md:w-1/2 flex flex-col">
+                <div class="flex items-center justify-between mb-5">
+                    <p class="text-[10px] font-black tracking-[0.3em] uppercase text-[#E83CFF] flex items-center gap-2">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                        ORDER SUMMARY
+                    </p>
+                    <span class="text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">🔒 ENCRYPTED</span>
+                </div>
+
+                <div id="checkout-order-items" class="flex flex-col gap-3 max-h-56 overflow-y-auto pr-1"></div>
+
+                <div class="border-t border-white/10 mt-5 pt-5 flex flex-col gap-2.5">
+                    <div class="flex items-center justify-between"><span class="text-white/60 text-[11px] tracking-[0.2em] uppercase">Subtotal</span><span id="checkout-subtotal" class="text-white font-bold text-sm tracking-wide">₹0</span></div>
+                    <div class="flex items-center justify-between"><span class="text-white/60 text-[11px] tracking-[0.2em] uppercase">Estimated Shipping</span><span class="text-emerald-400 font-bold text-[11px] tracking-[0.2em] uppercase">FREE</span></div>
+                    <div class="flex items-center justify-between mt-2 pt-4 border-t border-white/10">
+                        <span class="text-white/80 text-[11px] tracking-[0.2em] uppercase">Total (incl. taxes)</span>
+                        <span id="checkout-total" class="text-white font-black text-2xl tracking-tight">₹0</span>
+                    </div>
+                </div>
+
+                <button id="checkout-secure-btn" style="padding-top:1.125rem;padding-bottom:1.125rem;"
+                    class="w-full bg-gradient-to-r from-[#7a12ff] to-[#ff00a0] font-black py-4.5 rounded-full text-xs tracking-widest text-center text-white cursor-pointer active:scale-95 transition-transform mt-6">
+                    COMPLETE TRANSACTION 🔒
+                </button>
+                <p class="text-center text-[9px] font-bold tracking-[0.2em] uppercase text-white/30 mt-4">256-bit SSL · PCI-DSS compliant · No hidden fees</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var portal = document.getElementById('checkout-modal-portal');
+            if (!portal) return;
+            var closeBtn = document.getElementById('checkout-close');
+            var secureBtn = document.getElementById('checkout-secure-btn');
+            var fieldEls = portal.querySelectorAll('input, select, textarea');
+            var orderItemsEl = document.getElementById('checkout-order-items');
+            var subEl = document.getElementById('checkout-subtotal');
+            var totalEl = document.getElementById('checkout-total');
+
+            function symbol() {
+                var btn = document.getElementById('currency-btn');
+                var t = (btn && btn.querySelector('span') && btn.querySelector('span').textContent) || 'INR';
+                if (t.indexOf('USD') !== -1 || t.indexOf('$') !== -1) return '$';
+                if (t.indexOf('EUR') !== -1 || t.indexOf('€') !== -1) return '€';
+                return '₹';
+            }
+            function fmt(inr) {
+                var s = symbol();
+                var v = s === '$' ? inr * 0.012 : s === '€' ? inr * 0.011 : inr;
+                return s + Math.round(v).toLocaleString('en-US');
+            }
+            function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+            function cartItems() { try { return JSON.parse(localStorage.getItem('cookies_cart') || '[]'); } catch (e) { return []; } }
+
+            function renderOrder() {
+                if (!orderItemsEl) return;
+                var items = cartItems();
+                if (!items.length) {
+                    orderItemsEl.innerHTML = '<p class="text-white/35 text-xs tracking-widest uppercase py-6 text-center">Your bag is empty — add a drop to continue. 🍪</p>';
+                    if (subEl) subEl.textContent = fmt(0);
+                    if (totalEl) totalEl.textContent = fmt(0);
+                    return;
+                }
+                var html = '';
+                var sub = 0;
+                for (var i = 0; i < items.length; i++) {
+                    var it = items[i];
+                    sub += (it.price || 0) * (it.qty || 1);
+                    var img = it.img || it.fallback || '';
+                    var imgHtml = img ? '<img src="' + esc(img) + '" alt="" class="w-full h-full object-cover" loading="lazy">' : '<span class="text-white/40">🍪</span>';
+                    html += '<div class="flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-2xl p-3">' +
+                        '<div class="w-11 h-11 shrink-0 rounded-lg overflow-hidden bg-black/30 border border-white/10 flex items-center justify-center">' + imgHtml + '</div>' +
+                        '<div class="flex-1 min-w-0">' +
+                        '<p class="text-white font-bold text-[11px] truncate">' + esc(it.name) + '</p>' +
+                        '<p class="text-white/40 text-[9px] uppercase tracking-[0.15em] mt-0.5 truncate">' + esc(it.meta || 'One Size') + ' · Qty ' + (it.qty || 1) + '</p>' +
+                        '</div>' +
+                        '<span class="text-white font-bold text-xs shrink-0">' + fmt((it.price || 0) * (it.qty || 1)) + '</span>' +
+                        '</div>';
+                }
+                orderItemsEl.innerHTML = html;
+                if (subEl) subEl.textContent = fmt(sub);
+                if (totalEl) totalEl.textContent = fmt(sub);
+            }
+
+            function resetState() {
+                for (var i = 0; i < fieldEls.length; i++) { fieldEls[i].disabled = false; }
+                if (secureBtn) {
+                    secureBtn.disabled = false;
+                    secureBtn.innerHTML = 'COMPLETE TRANSACTION 🔒';
+                    secureBtn.className = 'w-full bg-gradient-to-r from-[#7a12ff] to-[#ff00a0] font-black py-4.5 rounded-full text-xs tracking-widest text-center text-white cursor-pointer active:scale-95 transition-transform mt-6';
+                }
+            }
+
+            function closeCartDrawer() {
+                var drawer = document.getElementById('cart-drawer');
+                var backdrop = document.getElementById('cart-backdrop');
+                if (drawer) drawer.classList.add('translate-x-full');
+                if (backdrop) {
+                    backdrop.classList.add('opacity-0');
+                    setTimeout(function () { backdrop.classList.add('hidden'); }, 300);
+                }
+            }
+
+            function open() {
+                renderOrder();
+                resetState();
+                closeCartDrawer();
+                portal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                requestAnimationFrame(function () { portal.classList.remove('opacity-0'); });
+                var first = portal.querySelector('.checkout-field');
+                setTimeout(function () { if (first) first.focus(); }, 350);
+            }
+
+            function close() {
+                portal.classList.add('opacity-0');
+                setTimeout(function () { portal.classList.add('hidden'); }, 300);
+                document.body.style.overflow = '';
+            }
+
+            async function runVerification() {
+                if (!secureBtn || secureBtn.disabled) return;
+                for (var i = 0; i < fieldEls.length; i++) { fieldEls[i].disabled = true; }
+                secureBtn.disabled = true;
+                secureBtn.textContent = 'LAUNCHING SECURE BANK GATEWAY... 🔒';
+                var currencyString = 'INR';
+                var curBtn = document.getElementById('currency-btn');
+                if (curBtn) { var c = curBtn.innerText.split(' ')[0]; if (c) currencyString = c; }
+                var stored = [];
+                try { stored = JSON.parse(localStorage.getItem('cookies_cart') || '[]'); } catch (e) {}
+                var cartItems = stored.map(function (it) {
+                    return { title: it.name, imageSrc: it.img || 'assets/placeholder.png', price: Number(it.price) || 0, quantity: Number(it.qty) || 1 };
+                });
+                try {
+                    var response = await fetch('/api/checkout/create-session', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ cartItems: cartItems, currencyCode: currencyString })
+                    });
+                    var sessionData = await response.json();
+                    if (sessionData && sessionData.url) {
+                        if (sessionData.mock) {
+                            alert('🔒 Secure Demo Mode Active: Payment request signed off. Routing to confirmation sheet.');
+                            try { localStorage.removeItem('cookies_cart'); } catch (e) {}
+                            if (window.cart && window.cart.items) window.cart.items.length = 0;
+                            var countEl = document.getElementById('cart-count');
+                            if (countEl) { countEl.textContent = '0'; countEl.classList.add('opacity-0', 'scale-75'); }
+                        }
+                        window.location.href = sessionData.url;
+                    } else {
+                        alert('⚠️ Bank Session Mismatch. Please check card verification parameters.');
+                        resetState();
+                    }
+                } catch (err) {
+                    console.error("Gateway Transit Failure:", err);
+                    window.location.href = "success.html";
+                }
+            }
+
+            window.openSecureCheckout = open;
+            window.closeSecureCheckout = close;
+
+            if (closeBtn) closeBtn.addEventListener('click', close);
+            portal.addEventListener('click', function (e) { if (e.target === portal) close(); });
+            if (secureBtn) secureBtn.addEventListener('click', runVerification);
+            window.executeSecureCheckoutPayment = runVerification;
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !portal.classList.contains('hidden')) close(); });
+
+            portal.addEventListener('keydown', function (e) {
+                if (e.key !== 'Tab' || portal.classList.contains('hidden')) return;
+                var focusables = portal.querySelectorAll('button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
+                if (!focusables.length) return;
+                var first = focusables[0];
+                var last = focusables[focusables.length - 1];
+                if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+                else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+            });
+
+            document.addEventListener('click', function (e) {
+                var hook = e.target.closest('[data-checkout-open]');
+                if (hook) open();
+            });
+
+            if (/[?&]checkout=open/.test(window.location.search)) {
+                setTimeout(open, 450);
+            }
+        })();
+    </script>
+
+</body>
+</html>

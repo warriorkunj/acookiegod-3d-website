@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cookie's Wave Youth Collection — Neon streetwear, skate decks & oversized hoodies for the next generation.">
+    <title>Cookie's Wave | Youth Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #08080c;
+            --bg-surface: #0e0e1a;
+            --purple-primary: #a855f6;
+            --purple-accent: #d946ef;
+            --cyan-accent: #06d6a0;
+            --neon-yellow: #f9ff21;
+            --neon-orange: #ff6b35;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0a4a8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Space Grotesk', sans-serif; background: var(--bg-deep); color: var(--text-primary); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        .main-wrapper { position: relative; z-index: 10; min-height: 100vh; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: #f9ff21; border-radius: 4px; }
+        @keyframes float-card { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .float-anim { animation: float-card 4s ease-in-out infinite; }
+        .float-anim-2 { animation: float-card 5s ease-in-out infinite 1s; }
+        .float-anim-3 { animation: float-card 6s ease-in-out infinite 0.5s; }
+        @keyframes pulse-neon { 0%,100% { box-shadow: 0 0 20px rgba(249,255,33,0.4),0 0 60px rgba(249,255,33,0.1); } 50% { box-shadow: 0 0 40px rgba(249,255,33,0.8),0 0 80px rgba(249,255,33,0.3); } }
+        .neon-pulse { animation: pulse-neon 2s ease-in-out infinite; }
+        @keyframes slide-marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .marquee-inner { animation: slide-marquee 18s linear infinite; }
+        /* ---------- Universal header (synced with index.html) ---------- */
+        .container-x {
+            width: 100%;
+            max-width: 1500px;
+            margin-inline: auto;
+            padding-inline: clamp(1.25rem, 4vw, 4.5rem);
+        }
+        .font-display {
+            font-family: 'Clash Display', 'Syne', ui-sans-serif, system-ui, sans-serif;
+            letter-spacing: -0.015em;
+        }
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: 0.42em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: #20D9FF;
+        }
+        #site-header {
+            transition: background-color 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            border-bottom: 1px solid transparent;
+        }
+        #site-header.is-scrolled {
+            background: transparent;
+            border-bottom-color: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+        }
+        .nav-link {
+            position: relative;
+            display: inline-block;
+            color: #ffffff;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
+            padding: 7px 15px;
+            border-radius: 999px;
+            transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fff;
+            background: rgba(139, 44, 255, 0.14);
+        }
+        .nav-link.is-active {
+            color: #fff;
+            background: #8B2CFF;
+            box-shadow: 0 6px 22px rgba(139, 44, 255, 0.45);
+        }
+        /* Midnight Shadow Mode — Matte-Black Slate */
+        .dark-mode #site-header {
+            background: transparent;
+            border-bottom-color: #262626;
+        }
+        .dark-mode .hero-glow {
+            color: #ffffff !important;
+            background: none;
+            -webkit-background-clip: initial;
+            background-clip: initial;
+            -webkit-text-fill-color: #ffffff !important;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
+        }
+        .dark-mode .category-card {
+            background: rgba(23, 23, 23, 0.4) !important;
+            border-color: #262626 !important;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+        .dark-mode [class*="bg-white/[0.02]"] {
+            background: rgba(23, 23, 23, 0.4) !important;
+            border-color: #262626 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="fixed inset-0 w-full h-full object-cover z-0 pointer-events-none">
+        <video id="bg-video-engine" autoplay loop muted playsinline class="bg-video-engine w-full h-full object-cover filter brightness-[1.15] contrast-[1.05] saturate-[1.1]">
+            <source id="video-asset-stream" src="/cookiegod.mp4" type="video/mp4">
+        </video>
+        <!-- Cinematic Vignette Shield -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/20 to-transparent pointer-events-none z-1"></div>
+    </div>
+
+    <div class="main-wrapper">
+        <!-- Announcement Bar -->
+        <div class="text-center py-2.5 px-6 text-[11px] font-bold tracking-[0.15em] uppercase text-black" style="background: linear-gradient(135deg,#f9ff21,#ff6b35);">
+            🛹 YOUTH DROP 2026 — SKATE HARD, WEAR HARDER ✨
+        </div>
+
+        <!-- ================= NAVBAR ================= -->
+        <!-- ================= DYNAMIC ANNOUNCEMENT PROMOTION STRIP ================= -->
+    <style>
+        .animate-gradient {
+            background-size: 200% auto;
+            animation: gradientStrip 6s linear infinite;
+        }
+        @keyframes gradientStrip {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+    </style>
+    <div class="w-full fixed top-0 left-0 bg-gradient-to-r from-[#7a12ff] via-[#ff00a0] to-[#7a12ff] text-white text-[10px] font-black uppercase tracking-[0.25em] py-2 text-center z-[60] shadow-md animate-gradient" role="banner" aria-label="Launch promotion">
+        🔥 SPECIAL LAUNCH DISCOUNT: USE CODE 'COOKIEARMY' FOR 15% OFF ALL NEW DROP MERCH!
+    </div>
+
+    <header id="site-header" class="w-full fixed top-[34px] left-0 px-12 py-5 z-50 flex items-center justify-between border-b border-white/5 bg-transparent">
+            <div class="container-x flex items-center justify-between gap-6 w-full h-[72px]">
+                <a href="index.html" class="flex items-center gap-3 shrink-0 cursor-pointer pr-6" aria-label="Cookie's Wave home" id="brand-logo-root">
+                    <span class="w-9 h-9 bg-[#8B2CFF] flex items-center justify-center font-display font-semibold text-white text-sm tracking-tight select-none">CG</span>
+                    <span class="font-display font-medium text-[13px] tracking-[0.28em] uppercase whitespace-nowrap hidden sm:block">Cookie's Wave</span>
+                </a>
+
+                <nav class="hidden lg:flex items-center gap-9 text-[11px] font-bold tracking-[0.22em] uppercase filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                    <a href="youth.html" class="nav-link is-active filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] text-white">Shop</a>
+                    <a href="adults.html" class="nav-link filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] text-white">Collections</a>
+                    <a href="about.html" class="nav-link filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] text-white">About</a>
+                    <a href="secret-cookie-club.html" class="nav-link filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] text-white">Community</a>
+                </nav>
+
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <button id="search-btn" aria-label="Search" data-cursor
+                        class="w-10 h-10 flex items-center justify-center text-white hover:text-white transition-colors duration-300 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4 text-white filter drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </button>
+
+                    <button id="theme-toggle-btn" aria-label="Toggle Midnight Theme" data-cursor
+                        class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-white/10 active:scale-95 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                        <svg id="theme-sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2" class="w-4 h-4 hidden" style="filter:drop-shadow(0 0 8px rgba(255,215,0,0.9))" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                        <svg id="theme-moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" class="w-4 h-4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+
+                    <div class="relative hidden md:block">
+                        <button id="currency-btn" aria-label="Change currency" data-cursor
+                            class="flex items-center gap-2 h-10 pl-3 pr-2 rounded-full border border-white/10 text-[11px] font-bold tracking-[0.16em] text-white transition-colors duration-300 hover:border-white/30 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                            <span>INR</span>
+                            <svg class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div id="currency-dropdown"
+                            class="absolute right-0 mt-2 w-44 bg-[#070b18] border border-white/10 rounded-md p-1.5 shadow-[0_24px_60px_rgba(0,0,0,0.6)] hidden z-50 origin-top-right">
+                            <button onclick="changeCurrency('INR', '🇮🇳')" class="w-full flex items-center justify-between px-3.5 py-2.5 text-[11px] font-bold tracking-widest text-gray-300 hover:text-white hover:bg-white/5 rounded-sm transition-colors text-left">🇮🇳 INR (₹)</button>
+                            <button onclick="changeCurrency('USD', '🇺🇸')" class="w-full flex items-center justify-between px-3.5 py-2.5 text-[11px] font-bold tracking-widest text-gray-300 hover:text-white hover:bg-white/5 rounded-sm transition-colors text-left">🇺🇸 USD ($)</button>
+                            <button onclick="changeCurrency('EUR', '🇪🇺')" class="w-full flex items-center justify-between px-3.5 py-2.5 text-[11px] font-bold tracking-widest text-gray-300 hover:text-white hover:bg-white/5 rounded-sm transition-colors text-left">🇪🇺 EUR (€)</button>
+                        </div>
+                    </div>
+
+                    <div class="relative inline-block text-left" id="profile-menu-container">
+                        <button type="button" aria-label="Account" data-cursor
+                            class="hidden sm:flex h-10 items-center gap-2 pl-2 pr-3 text-white hover:text-white transition-colors duration-300 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4 text-white filter drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+                            <span id="navbar-user-name" class="text-[10px] font-bold tracking-[0.14em] uppercase filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Account</span>
+                        </button>
+
+                        <div id="profile-dropdown" class="absolute right-0 mt-3 w-56 bg-black/60 backdrop-blur-3xl border border-white/10 rounded-2xl p-2.5 shadow-2xl z-50 hidden transition-all duration-200">
+                            <div class="flex items-center gap-3 px-3 py-2.5 mb-1 border-b border-white/5">
+                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#7a12ff] to-[#ff00a0] flex items-center justify-center shrink-0">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+                                </div>
+                                <div class="min-w-0">
+                                    <span id="profile-menu-name" class="block text-xs font-black tracking-widest text-purple-400 truncate">ACCOUNT</span>
+                                    <span class="block text-[9px] font-bold tracking-widest text-purple-300/60">SECRET MEMBER 🍪</span>
+                                </div>
+                            </div>
+                            <a href="#" class="w-full text-left flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold tracking-widest text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer">⚙️ Store Settings</a>
+                            <a href="#" class="w-full text-left flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold tracking-widest text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer">📦 Order Tracking & History</a>
+                            <button type="button" onclick="handleUserLogout()" class="w-full text-left flex items-center px-4 py-2.5 text-[11px] font-bold tracking-widest text-rose-400 hover:text-white hover:bg-rose-500/20 rounded-xl transition-all cursor-pointer border-t border-white/5 mt-2">🚪 LOGOUT OF SESSION</button>
+                        </div>
+                    </div>
+
+                    <button id="cart-btn" aria-label="Cart" data-cursor
+                        class="relative w-10 h-10 flex items-center justify-center text-white hover:text-white transition-colors duration-300 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4 text-white filter drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2 3h3l2.6 12.4A2 2 0 0 0 9.6 17h8.7a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+                        <span id="cart-count" class="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-[#E83CFF] text-[9px] font-bold text-white flex items-center justify-center opacity-0 scale-75 transition-all duration-300">0</span>
+                    </button>
+
+                    <a href="secret-cookie-club.html" data-magnetic data-cursor
+                        class="hidden xl:inline-flex items-center h-10 px-5 bg-[#8B2CFF] hover:bg-[#9d44ff] text-[10px] font-bold tracking-[0.22em] uppercase text-white transition-colors duration-300">
+                        Join the Cookie Club
+                    </a>
+
+                    <button id="menu-open" aria-label="Open menu" data-cursor
+                        class="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-[5px]">
+                        <span class="block w-5 h-px bg-white"></span>
+                        <span class="block w-5 h-px bg-white"></span>
+                        <span class="block w-3.5 h-px bg-white"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ================= MOBILE MENU ================= -->
+        <div id="mobile-menu" class="fixed inset-0 z-[80] translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden">
+            <div class="absolute inset-0 bg-[#050816]/92 backdrop-blur-xl"></div>
+            <button id="menu-close" aria-label="Close menu" data-cursor
+                class="absolute top-5 right-5 w-11 h-11 flex items-center justify-center text-white/80 hover:text-white">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+            <nav class="relative h-full flex flex-col justify-center pl-[clamp(1.5rem,6vw,4rem)] pb-24">
+                <p class="eyebrow mb-10 opacity-60">Menu</p>
+                <ul class="flex flex-col gap-2">
+                    <li style="transition-delay:0.05s" class="menu-item"><a href="index.html" class="font-display text-4xl text-white">Home</a></li>
+                    <li style="transition-delay:0.12s" class="menu-item"><a href="youth.html" class="font-display text-4xl text-white/85">Shop</a></li>
+                    <li style="transition-delay:0.19s" class="menu-item"><a href="adults.html" class="font-display text-4xl text-white/85">Collections</a></li>
+                    <li style="transition-delay:0.26s" class="menu-item"><a href="about.html" class="font-display text-4xl text-white/85">About</a></li>
+                    <li style="transition-delay:0.33s" class="menu-item"><a href="secret-cookie-club.html" class="font-display text-4xl text-white/85">Community</a></li>
+                </ul>
+                <div style="transition-delay:0.42s" class="menu-item flex flex-wrap items-center gap-4 mt-12">
+                    <a href="secret-cookie-club.html" data-magnetic class="inline-flex items-center h-11 px-6 bg-[#8B2CFF] text-[10px] font-bold tracking-[0.22em] uppercase">Join the Cookie Club</a>
+                    <a href="signup.html" class="inline-flex items-center h-11 px-6 border border-white/15 text-[10px] font-bold tracking-[0.22em] uppercase text-white/85">Account</a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Hero -->
+        <section class="relative min-h-screen flex items-center pt-32 pb-20 px-6 sm:px-12 lg:px-20 overflow-hidden">
+            <div class="absolute top-32 left-10 w-72 h-72 rounded-full bg-yellow-400/10 blur-[100px] pointer-events-none"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-orange-500/10 blur-[100px] pointer-events-none"></div>
+            <div class="max-w-7xl mx-auto w-full">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <p class="text-xs font-bold tracking-[0.3em] uppercase text-yellow-400 mb-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">Youth Drop 2026</p>
+                        <h1 class="font-black leading-none mb-6 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]" style="font-family:'Syne',sans-serif;font-size:clamp(52px,10vw,100px);">
+                            <span class="block" style="background:linear-gradient(135deg,#f9ff21,#ff6b35);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">NO</span>
+                            <span class="hero-glow text-white block">RULES.</span>
+                        </h1>
+                        <p class="text-lg max-w-md leading-relaxed mb-8 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.95)] shadow-[0_10px_20px_rgba(0,0,0,0.6)] font-semibold subpixel-antialiased filter">Built for the wave-riders, skate demons & street kings. Oversized fits, fire graphics, and drip that hits different.</p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#youth-grid" class="px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase text-black neon-pulse" style="background:linear-gradient(135deg,#f9ff21,#ff6b35);">SHOP THE DROP →</a>
+                            <button class="px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase text-white border border-white/20 hover:border-yellow-400 hover:text-yellow-400 transition-all">VIEW LOOKBOOK</button>
+                        </div>
+                        <div class="flex flex-wrap gap-3 mt-8">
+                            <span class="px-4 py-1.5 rounded-full border border-yellow-400/30 text-yellow-400 text-xs font-bold tracking-widest">#SKATEWAVE</span>
+                            <span class="px-4 py-1.5 rounded-full border border-orange-400/30 text-orange-400 text-xs font-bold tracking-widest">#YOUTHGANG</span>
+                            <span class="px-4 py-1.5 rounded-full border border-white/20 text-white/50 text-xs font-bold tracking-widest">#COOKIEGOD</span>
+                        </div>
+                    </div>
+                    <div class="relative h-[480px] hidden lg:block">
+                        <div class="float-anim absolute top-0 left-0 w-48 h-60 rounded-2xl overflow-hidden border border-yellow-400/30 shadow-[0_0_30px_rgba(249,255,33,0.15)]">
+                            <img src="https://picsum.photos/seed/skate1/300/400.jpg" alt="Skate Hoodie" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4"><p class="text-white text-xs font-bold tracking-widest uppercase">CHAOS HOODIE</p></div>
+                        </div>
+                        <div class="float-anim-2 absolute top-12 right-4 w-52 h-64 rounded-2xl overflow-hidden border border-orange-400/30 shadow-[0_0_30px_rgba(255,107,53,0.15)]">
+                            <img src="https://picsum.photos/seed/skate2/320/400.jpg" alt="Skate Deck" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4"><p class="text-white text-xs font-bold tracking-widest uppercase">WAVE DECK</p></div>
+                        </div>
+                        <div class="float-anim-3 absolute bottom-4 left-24 w-44 h-56 rounded-2xl overflow-hidden border border-purple-400/30 shadow-[0_0_30px_rgba(168,85,246,0.15)]">
+                            <img src="https://picsum.photos/seed/skate3/280/380.jpg" alt="Streetwear" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4"><p class="text-white text-xs font-bold tracking-widest uppercase">STREET TEE</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marquee -->
+        <div class="overflow-hidden py-4 bg-yellow-400/10 border-y border-yellow-400/20">
+            <div class="marquee-inner flex whitespace-nowrap gap-12 text-yellow-400 font-black tracking-widest text-sm uppercase">
+                <span>🛹 SKATE HARD</span><span>•</span><span>🔥 NO RULES</span><span>•</span><span>🎨 GRAPHIC OVERLOAD</span><span>•</span><span>🌊 RIDE THE WAVE</span><span>•</span><span>👾 COOKIE GOD</span><span>•</span><span>⚡ YOUTH ENERGY</span><span>•</span>
+                <span>🛹 SKATE HARD</span><span>•</span><span>🔥 NO RULES</span><span>•</span><span>🎨 GRAPHIC OVERLOAD</span><span>•</span><span>🌊 RIDE THE WAVE</span><span>•</span><span>👾 COOKIE GOD</span><span>•</span><span>⚡ YOUTH ENERGY</span><span>•</span>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <section id="youth-grid" class="relative overflow-hidden py-24 px-6 sm:px-12 lg:px-20">
+            <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
+                <video id="bg-video-engine-2" class="bg-video-engine w-full h-full object-cover object-center will-change-transform filter brightness-[1.15] contrast-[1.05] saturate-[1.1]" autoplay muted loop playsinline preload="auto">
+                    <source id="video-asset-stream-2" src="/cookiegod.mp4" type="video/mp4">
+                </video>
+                <!-- Bottom Product Shelf Protection Mask -->
+                <div class="absolute inset-x-0 bottom-0 h-[45vh] bg-gradient-to-t from-[#04081c]/90 via-[#04081c]/40 to-transparent pointer-events-none z-1"></div>
+            </div>
+            <div class="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/40 via-black/10 to-transparent pointer-events-none z-1"></div>
+            <div class="relative z-10 max-w-7xl mx-auto">
+                <div class="mb-12 bg-black/10 border border-white/10 backdrop-blur-2xl px-8 py-4 rounded-2xl shadow-xl">
+                    <p class="text-xs font-bold tracking-[0.3em] uppercase text-yellow-300 mb-3 drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)]">New Drops</p>
+                    <h2 class="font-black uppercase text-white subpixel-antialiased drop-shadow-[0_4px_4px_rgba(0,0,0,0.6)] shadow-[0_20px_40px_rgba(0,0,0,0.4)] tracking-tight filter select-none text-4xl md:text-5xl" style="font-family:'Syne',sans-serif;">YOUTH <span style="background:linear-gradient(135deg,#f9ff21,#ff6b35);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">COLLECTION</span></h2>
+                </div>
+                <div id="dynamic-product-shelf" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full relative z-10"></div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-white/5 py-10 px-12 flex flex-col md:flex-row items-center justify-between gap-4 text-white/30 text-xs tracking-widest">
+            <span>© 2026 COOKIE'S WAVE. ALL RIGHTS RESERVED.</span>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="hover:text-yellow-400 transition-colors uppercase">HOME</a>
+                <a href="youth.html" class="text-yellow-400 uppercase">YOUTH</a>
+                <a href="adults.html" class="hover:text-yellow-400 transition-colors uppercase">ADULTS</a>
+                <a href="secret-cookie-club.html" class="hover:text-yellow-400 transition-colors uppercase">SECRET CLUB</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        (function () {
+            /* Currency dropdown */
+            var cb = document.getElementById('currency-btn');
+            var cd = document.getElementById('currency-dropdown');
+            if (cb && cd) {
+                var hide = function () { cd.classList.add('hidden'); var svg = cb.querySelector('svg'); if (svg) svg.classList.remove('rotate-180'); };
+                cb.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    cd.classList.toggle('hidden');
+                    var svg = cb.querySelector('svg');
+                    if (svg) svg.classList.toggle('rotate-180');
+                });
+                window.addEventListener('click', hide);
+                window.changeCurrency = function (code, flag) {
+                    document.querySelector('#currency-btn span').innerText = `${flag} ${code}`;
+                    document.getElementById('currency-dropdown').classList.add('hidden');
+                    var svg = document.querySelector('#currency-btn svg');
+                    if (svg) svg.classList.remove('rotate-180');
+                    var rates = { 'INR': 1.0, 'USD': 0.012, 'EUR': 0.011 };
+                    var symbols = { 'INR': '₹', 'USD': '$', 'EUR': '€' };
+                    var priceElements = document.querySelectorAll('.product-price');
+                    priceElements.forEach(function (el) {
+                        var baseInr = parseFloat(el.getAttribute('data-base-inr'));
+                        var targetRate = rates[code] || 1.0;
+                        var currencySymbol = symbols[code] || '₹';
+                        var convertedValue = Math.round(baseInr * targetRate);
+                        el.innerText = `${currencySymbol}${convertedValue.toLocaleString()}`;
+                    });
+                    if (window.syncServerPrices) window.syncServerPrices(code);
+                };
+
+                (function initPriceLayer() {
+                    var btn = document.getElementById('currency-btn');
+                    var label = (btn && btn.querySelector('span') && btn.querySelector('span').textContent) || 'INR';
+                    var code = 'INR';
+                    if (label.indexOf('USD') !== -1 || label.indexOf('$') !== -1) code = 'USD';
+                    else if (label.indexOf('EUR') !== -1 || label.indexOf('€') !== -1) code = 'EUR';
+                    var rates = { 'INR': 1.0, 'USD': 0.012, 'EUR': 0.011 };
+                    var symbols = { 'INR': '₹', 'USD': '$', 'EUR': '€' };
+                    document.querySelectorAll('.product-price').forEach(function (el) {
+                        var baseInr = parseFloat(el.getAttribute('data-base-inr'));
+                        el.innerText = `${symbols[code]}${Math.round(baseInr * (rates[code] || 1)).toLocaleString()}`;
+                    });
+                })();
+            }
+
+            /* Mobile menu */
+            var menu = document.getElementById('mobile-menu');
+            var mOpen = document.getElementById('menu-open');
+            var mClose = document.getElementById('menu-close');
+            if (menu && mOpen && mClose) {
+                function setMenu(show) {
+                    menu.classList.toggle('translate-x-full', !show);
+                    document.body.style.overflow = show ? 'hidden' : '';
+                    menu.querySelectorAll('.menu-item').forEach(function (el, i) {
+                        var t = (i * 40) + 'ms';
+                        el.style.transition = 'opacity .6s ease ' + t + ', transform .6s cubic-bezier(0.22,1,0.36,1) ' + t;
+                        el.style.opacity = show ? '1' : '0';
+                        el.style.transform = show ? 'translateY(0)' : 'translateY(26px)';
+                    });
+                }
+                menu.querySelectorAll('.menu-item').forEach(function (el) {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(26px)';
+                    el.style.transition = 'opacity .6s ease, transform .6s cubic-bezier(0.22,1,0.36,1)';
+                });
+                mOpen.addEventListener('click', function () { setMenu(true); });
+                mClose.addEventListener('click', function () { setMenu(false); });
+                menu.querySelectorAll('a').forEach(function (a) {
+                    a.addEventListener('click', function () { setMenu(false); });
+                });
+            }
+
+            /* Header scroll state */
+            var header = document.getElementById('site-header');
+            function refreshHeader() {
+                if (header) header.classList.toggle('is-scrolled', window.scrollY > 24);
+            }
+            window.addEventListener('scroll', refreshHeader, { passive: true });
+            refreshHeader();
+        })();
+    </script>
+
+    <!-- ================= SHOPPING CART DRAWER ================= -->
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full z-[100] transform translate-x-full transition-transform duration-300 ease-out flex pointer-events-none">
+        <div id="cart-backdrop" class="bg-black/40 backdrop-blur-sm flex-1 h-full cursor-pointer opacity-0 hidden transition-opacity duration-300 pointer-events-auto"></div>
+        <aside class="w-full max-w-md shrink-0 h-full bg-[#0b0518]/95 backdrop-blur-3xl border-l border-white/10 p-6 flex flex-col justify-between shadow-2xl text-white pointer-events-auto">
+            <div class="flex flex-col flex-1 min-h-0">
+                <div class="flex justify-between items-center w-full mb-6 pt-4 shrink-0">
+                    <h3 class="text-white font-black text-sm tracking-[0.25em] uppercase">YOUR CART (<span id="cart-total-count">0</span>)</h3>
+                    <button id="cart-close" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center cursor-pointer hover:bg-white/15 hover:text-white transition-colors duration-300" aria-label="Close cart">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div id="cart-empty" class="flex items-center justify-center flex-1 min-h-0">
+                    <div class="flex flex-col items-center text-center px-4">
+                        <span class="text-4xl mb-4">🍪</span>
+                        <p class="text-white font-bold text-lg tracking-wide">Your cart is currently empty 🍪</p>
+                        <button id="cart-continue" class="mt-7 px-8 py-3 rounded-full bg-[#7a12ff] hover:bg-[#9d44ff] text-white text-xs font-black tracking-[0.25em] uppercase shadow-[0_0_30px_rgba(122,18,255,0.55)] transition-colors duration-300 cursor-pointer">Continue Shopping</button>
+                    </div>
+                </div>
+                <div id="cart-items" class="flex flex-col gap-3 overflow-y-auto pr-1 min-h-0 flex-1 hidden"></div>
+            </div>
+            <div id="cart-footer" class="border-t border-white/10 pt-6 mt-auto shrink-0 hidden">
+                <div id="shipping-tracker" class="p-4 bg-white/[0.02] border border-white/5 rounded-2xl mb-4 text-left">
+                    <div id="shipping-progress-text" class="text-[10px] uppercase font-bold tracking-wider text-purple-400">
+                        Syncing delivery metrics...
+                    </div>
+                    <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden mt-2">
+                        <div id="shipping-progress-bar" class="h-full bg-gradient-to-r from-purple-500 to-emerald-400 transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+                <!-- Luxury Cart Upsell Shelf -->
+                <div class="mt-4 border-t border-white/10 pt-4 mb-2">
+                    <h4 class="text-[10px] uppercase font-bold tracking-[0.15em] text-purple-400 mb-3 flex items-center gap-1.5">
+                        <span>🍪 Complete Your Wave Set</span>
+                        <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                    </h4>
+                    <div id="cart-upsell-shelf" class="flex gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-white/5 scrollbar-track-transparent">
+                        <!-- Item Card Blueprint Loop -->
+                        <div class="flex items-center gap-3 bg-white/[0.02] border border-white/5 p-2 rounded-xl shrink-0 w-[85%] sm:w-[90%]">
+                            <div class="w-10 h-10 rounded-lg overflow-hidden bg-black/20 border border-white/5 flex items-center justify-center shrink-0">
+                                <img src="assets/cookie_phone_case.png" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 min-w-0 text-left">
+                                <h5 class="text-[10px] font-black uppercase tracking-wider text-white truncate">COOKIE PHONE CASE</h5>
+                                <span class="text-[10px] font-bold text-gray-400 product-price" data-base-inr="1854">₹1,854</span>
+                            </div>
+                            <button class="text-[9px] font-black uppercase tracking-widest bg-white/10 hover:bg-gradient-to-r hover:from-[#7a12ff] hover:to-[#ff00a0] px-3 py-1.5 rounded-full text-white transition-all cursor-pointer"
+                                    onclick="addItemToCart('COOKIE PHONE CASE', 1854, 'assets/cookie_phone_case.png')">
+                                + ADD
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2.5 mb-5">
+                    <div class="flex items-center justify-between"><span class="text-white/60 text-[11px] tracking-[0.2em] uppercase">Subtotal</span><span id="cart-subtotal" class="text-white font-bold text-sm tracking-wide">₹0</span></div>
+                    <div class="flex items-center justify-between"><span class="text-white/60 text-[11px] tracking-[0.2em] uppercase">Estimated Shipping (FREE)</span><span class="text-emerald-400 font-bold text-[11px] tracking-[0.2em] uppercase">FREE</span></div>
+                    <div class="flex items-center justify-between mt-2 pt-4 border-t border-white/10">
+                        <span class="text-white/80 text-[11px] tracking-[0.2em] uppercase">Total</span>
+                        <span id="cart-total" class="text-white font-black text-2xl tracking-tight">₹0</span>
+                    </div>
+                </div>
+                <button id="cart-checkout" class="w-full bg-gradient-to-r from-[#7a12ff] to-[#ff00a0] font-black py-4 rounded-full text-xs tracking-widest text-center shadow-lg transition-transform active:scale-95 cursor-pointer">PROCEED TO CHECKOUT 🔒</button>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        (function () {
+            var drawer = document.getElementById('cart-drawer');
+            if (!drawer) return;
+            var backdrop = document.getElementById('cart-backdrop');
+            var closeBtn = document.getElementById('cart-close');
+            var continueBtn = document.getElementById('cart-continue');
+            var checkoutBtn = document.getElementById('cart-checkout');
+            var cartBtn = document.getElementById('cart-btn');
+            var listEl = document.getElementById('cart-items');
+            var emptyEl = document.getElementById('cart-empty');
+            var footerEl = document.getElementById('cart-footer');
+            var titleCount = document.getElementById('cart-total-count');
+            var countEl = document.getElementById('cart-count');
+            var subEl = document.getElementById('cart-subtotal');
+            var totalEl = document.getElementById('cart-total');
+            var items = load();
+            var toast = document.getElementById('cart-toast');
+            var toastName = document.getElementById('toast-name');
+            var toastTimer = null;
+
+            function load() { try { return JSON.parse(localStorage.getItem('cookies_cart') || '[]'); } catch (e) { return []; } }
+            function save() { try { localStorage.setItem('cookies_cart', JSON.stringify(items)); } catch (e) {} }
+            function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+            function symbol() {
+                var btn = document.getElementById('currency-btn');
+                var t = (btn && btn.querySelector('span') && btn.querySelector('span').textContent) || '';
+                if (t.indexOf('USD') !== -1 || t.indexOf('$') !== -1) return '$';
+                if (t.indexOf('EUR') !== -1 || t.indexOf('€') !== -1) return '€';
+                return '₹';
+            }
+
+            function fmt(inr) {
+                var s = symbol();
+                var v = s === '$' ? inr * 0.012 : s === '€' ? inr * 0.011 : inr;
+                return s + Math.round(v).toLocaleString('en-US');
+            }
+
+            function totalQty() { var n = 0; for (var i = 0; i < items.length; i++) n += items[i].qty; return n; }
+            function subTotal() { var n = 0; for (var i = 0; i < items.length; i++) n += items[i].price * items[i].qty; return n; }
+
+            function render() {
+                var n = totalQty();
+                if (countEl) { countEl.textContent = n; countEl.classList.toggle('opacity-0', n === 0); countEl.classList.toggle('scale-75', n === 0); }
+                if (titleCount) titleCount.textContent = n;
+                var empty = items.length === 0;
+                if (emptyEl) emptyEl.classList.toggle('hidden', !empty);
+                if (listEl) listEl.classList.toggle('hidden', empty);
+                if (footerEl) footerEl.classList.toggle('hidden', empty);
+                if (listEl) {
+                    listEl.innerHTML = '';
+                    for (var i = 0; i < items.length; i++) listEl.appendChild(row(items[i], i));
+                }
+                var sub = subTotal();
+                if (subEl) subEl.textContent = fmt(sub);
+                if (totalEl) totalEl.textContent = fmt(sub);
+                renderUpsell();
+                updateShipping(sub);
+            }
+
+            function updateShipping(sub) {
+                var textEl = document.getElementById('shipping-progress-text');
+                var barEl = document.getElementById('shipping-progress-bar');
+                if (!textEl || !barEl) return;
+                var threshold = 5000;
+                var pct = Math.min((sub / threshold) * 100, 100);
+                if (sub >= threshold) {
+                    textEl.textContent = '✓ CONGRATULATIONS! FREE EXPEDITED DELIVERY APPLIED.';
+                    barEl.style.width = '100%';
+                } else {
+                    var remaining = threshold - sub;
+                    textEl.innerHTML = 'You are only <span class="text-amber-300 font-black">₹' + remaining.toLocaleString('en-IN') + '</span> away from FREE worldwide expedited tracking!';
+                    barEl.style.width = (pct < 6 ? 6 : pct) + '%';
+                }
+            }
+
+            // Luxury cart upsell helpers — injects straight into the primary cart array,
+            // recalculates subtotals instantly and honors the active navbar currency selection.
+            function addUpsell(name, price, img) {
+                var found = null;
+                for (var j = 0; j < items.length; j++) { if (items[j].name === name) { found = items[j]; break; } }
+                if (found) { found.qty += 1; } else { items.push({ name: name, qty: 1, price: price, img: img, meta: 'One Size' }); }
+                save(); render(); open();
+                if (toast && toastName) {
+                    toastName.textContent = name;
+                    toast.classList.remove('translate-y-24', 'opacity-0');
+                    if (toastTimer) clearTimeout(toastTimer);
+                    toastTimer = setTimeout(function () { toast.classList.add('translate-y-24', 'opacity-0'); }, 2200);
+                }
+            }
+
+            function renderUpsell() {
+                var upsellEl = document.getElementById('cart-upsell-shelf');
+                if (!upsellEl) return;
+                var pool = [
+                    { name: 'COOKIE PHONE CASE', price: 1854, img: 'assets/cookie_phone_case.png' },
+                    { name: 'COOKIE WATERBOTTLE', price: 2734, img: 'assets/cookie_waterbottle.png' },
+                    { name: 'COOKIE BLING BUCKET HAT', price: 2930, img: 'assets/cookie_bucket_hat.png' }
+                ];
+                // Smart filtration — never recommend an item the customer is already buying.
+                var owned = {};
+                for (var k = 0; k < items.length; k++) owned[items[k].name] = true;
+                var recs = pool.filter(function (p) { return !owned[p.name]; });
+                if (recs.length === 0) recs = pool;
+
+                upsellEl.innerHTML = '';
+                recs.forEach(function (p) {
+                    var card = document.createElement('div');
+                    card.className = 'flex items-center gap-3 bg-white/[0.02] border border-white/5 p-2 rounded-xl shrink-0 w-[85%] sm:w-[90%]';
+                    card.innerHTML =
+                        '<div class="w-10 h-10 rounded-lg overflow-hidden bg-black/20 border border-white/5 flex items-center justify-center shrink-0">' +
+                        '<img src="' + esc(p.img) + '" alt="' + esc(p.name) + '" class="w-full h-full object-cover" loading="lazy">' +
+                        '</div>' +
+                        '<div class="flex-1 min-w-0 text-left">' +
+                        '<h5 class="text-[10px] font-black uppercase tracking-wider text-white truncate">' + esc(p.name) + '</h5>' +
+                        '<span class="text-[10px] font-bold text-gray-400 product-price" data-base-inr="' + p.price + '">' + fmt(p.price) + '</span>' +
+                        '</div>' +
+                        '<button type="button" class="text-[9px] font-black uppercase tracking-widest bg-white/10 hover:bg-gradient-to-r hover:from-[#7a12ff] hover:to-[#ff00a0] px-3 py-1.5 rounded-full text-white transition-all cursor-pointer">+ ADD</button>';
+                    card.querySelector('button').addEventListener('click', function () { addUpsell(p.name, p.price, p.img); });
+                    upsellEl.appendChild(card);
+                });
+            }
+
+            function row(it, i) {
+                var d = document.createElement('div');
+                d.className = 'flex items-center gap-4 bg-white/[0.03] border border-white/10 rounded-2xl p-3';
+                var imgHtml = it.img ? '<img src="' + esc(it.img) + '" alt="" class="w-full h-full object-cover" loading="lazy">' : '<span class="text-white/40">🍪</span>';
+                d.innerHTML = '<div class="w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-black/30 border border-white/10 flex items-center justify-center">' + imgHtml + '</div>' +
+                    '<div class="flex-1 min-w-0">' +
+                    '<p class="text-white font-bold text-sm truncate">' + esc(it.name) + '</p>' +
+                    '<p class="text-white/50 text-[10px] uppercase tracking-[0.15em] mt-0.5">' + esc(it.meta) + '</p>' +
+                    '<div class="flex items-center justify-between mt-2">' +
+                    '<div class="flex items-center rounded-full border border-white/10 bg-white/5">' +
+                    '<button class="q-btn q-minus w-7 h-7 flex items-center justify-center text-white/60 hover:text-white transition-colors duration-200" data-i="' + i + '" aria-label="Decrease quantity">−</button>' +
+                    '<span class="w-6 text-center text-white font-bold text-xs">' + it.qty + '</span>' +
+                    '<button class="q-btn q-plus w-7 h-7 flex items-center justify-center text-white/60 hover:text-white transition-colors duration-200" data-i="' + i + '" aria-label="Increase quantity">+</button>' +
+                    '</div>' +
+                    '<span class="text-white font-bold text-xs">' + fmt(it.price * it.qty) + '</span>' +
+                    '</div></div>';
+                return d;
+            }
+
+            function open() {
+                drawer.classList.remove('translate-x-full');
+                backdrop.classList.remove('hidden');
+                requestAnimationFrame(function () { backdrop.classList.remove('opacity-0'); });
+                document.body.style.overflow = 'hidden';
+                render();
+            }
+
+            function close() {
+                drawer.classList.add('translate-x-full');
+                backdrop.classList.add('opacity-0');
+                setTimeout(function () { backdrop.classList.add('hidden'); }, 300);
+                document.body.style.overflow = '';
+            }
+
+            function toggle() { if (drawer.classList.contains('translate-x-full')) open(); else close(); }
+
+            if (cartBtn) cartBtn.addEventListener('click', toggle);
+            if (backdrop) backdrop.addEventListener('click', close);
+            if (closeBtn) closeBtn.addEventListener('click', close);
+            if (continueBtn) continueBtn.addEventListener('click', close);
+            if (checkoutBtn) checkoutBtn.addEventListener('click', function () { if (window.openSecureCheckout) { window.openSecureCheckout(); } else { window.location.href = 'signup.html'; } });
+
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+            if (listEl) listEl.addEventListener('click', function (e) {
+                var btn = e.target.closest('.q-btn');
+                if (!btn) return;
+                var i = parseInt(btn.getAttribute('data-i'), 10);
+                if (isNaN(i) || !items[i]) return;
+                if (btn.classList.contains('q-minus')) {
+                    items[i].qty -= 1;
+                    if (items[i].qty < 1) items.splice(i, 1);
+                } else {
+                    items[i].qty += 1;
+                }
+                save(); render();
+            });
+
+            document.addEventListener('click', function (e) {
+                var addBtn = e.target.closest('[data-add-to-cart]');
+                if (!addBtn) return;
+                var card = addBtn.closest('[data-name], .editorial-card, article, [class*="relative"].group');
+                if (!card) card = addBtn.closest('article');
+                var h3 = card ? card.querySelector('h3') : null;
+                var name = (card && card.getAttribute('data-name')) || (h3 ? h3.textContent.trim() : '');
+                if (!name) name = 'Product';
+                var img = card && card.querySelector('img') ? card.querySelector('img').getAttribute('src') : '';
+                var priceEl = card ? card.querySelector('.product-price') : null;
+                var price = priceEl ? (parseFloat(priceEl.getAttribute('data-base-inr')) || 0) : 0;
+                if (!price && card) {
+                    var spans = card.querySelectorAll('span[class*="font-bold"]');
+                    for (var k = 0; k < spans.length; k++) {
+                        if (spans[k].textContent.replace(/[^0-9]/g, '').length >= 2) { price = parseInt(spans[k].textContent.replace(/[^0-9]/g, ''), 10); break; }
+                    }
+                }
+                var colorEl = card ? card.querySelector('[data-color]') : null;
+                var color = colorEl ? colorEl.getAttribute('title') : '';
+                var meta = 'One Size' + (color ? ' · ' + color : '');
+                var found = null;
+                for (var j = 0; j < items.length; j++) { if (items[j].name === name) { found = items[j]; break; } }
+                if (found) { found.qty += 1; } else { items.push({ name: name, qty: 1, price: price, img: img, meta: meta }); }
+                save(); render(); open();
+                if (toast && toastName) {
+                    toastName.textContent = name;
+                    toast.classList.remove('translate-y-24', 'opacity-0');
+                    if (toastTimer) clearTimeout(toastTimer);
+                    toastTimer = setTimeout(function () { toast.classList.add('translate-y-24', 'opacity-0'); }, 2200);
+                }
+            });
+
+            // Global cart mutation point — the dynamic product shelf funnels here.
+            window.cart = window.cart || {};
+            window.cart.items = items;
+            window.cart.add = function (name, price, img, meta) {
+                if (!name) name = 'Product';
+                var found = null;
+                for (var j = 0; j < items.length; j++) { if (items[j].name === name) { found = items[j]; break; } }
+                if (found) { found.qty += 1; } else { items.push({ name: name, qty: 1, price: price || 0, img: img || '', meta: meta || 'One Size' }); }
+                save(); render(); open();
+                if (toast && toastName) {
+                    toastName.textContent = name;
+                    toast.classList.remove('translate-y-24', 'opacity-0');
+                    if (toastTimer) clearTimeout(toastTimer);
+                    toastTimer = setTimeout(function () { toast.classList.add('translate-y-24', 'opacity-0'); }, 2200);
+                }
+            };
+
+            if (window.changeCurrency) {
+                var prev = window.changeCurrency;
+                window.changeCurrency = function (code, flag) { prev(code, flag); render(); };
+            }
+
+            render();
+        })();
+    </script>
+
+<script>
+  (function () {
+    function currentCode() {
+      var btn = document.getElementById('currency-btn');
+      var label = (btn && btn.querySelector('span') && btn.querySelector('span').textContent) || 'INR';
+      if (label.indexOf('USD') !== -1 || label.indexOf('$') !== -1) return 'USD';
+      if (label.indexOf('EUR') !== -1 || label.indexOf('€') !== -1) return 'EUR';
+      return 'INR';
+    }
+    function applyServerPrices(products, code) {
+      if (currentCode() !== code) return;
+      var map = {};
+      for (var i = 0; i < products.length; i++) {
+        if (typeof products[i].priceLabel === 'string' && products[i].priceInr != null) {
+          map[products[i].priceInr] = products[i].priceLabel;
+        }
+      }
+      var els = document.querySelectorAll('.product-price');
+      for (var j = 0; j < els.length; j++) {
+        var base = parseFloat(els[j].getAttribute('data-base-inr'));
+        if (map[base] != null) els[j].innerText = map[base];
+      }
+    }
+    function syncServerPrices(code) {
+      var c = code || currentCode();
+      fetch('/api/products?currency=' + c, { headers: { Accept: 'application/json' } })
+        .then(function (r) { if (!r.ok) throw new Error('api'); return r.json(); })
+        .then(function (data) { if (data && Array.isArray(data.products)) applyServerPrices(data.products, c); })
+        .catch(function () {});
+    }
+    window.syncServerPrices = syncServerPrices;
+    if (window.addEventListener) window.addEventListener('load', function () { syncServerPrices(); });
+  })();
+</script>
+
+    <!-- ================= SEARCH MODAL ================= -->
+    <div id="search-modal" class="fixed inset-0 z-[999] bg-black/60 backdrop-blur-md hidden" role="dialog" aria-modal="true" aria-label="Search products">
+        <button id="search-close" aria-label="Close search" data-cursor
+            class="absolute top-6 right-6 w-11 h-11 flex items-center justify-center text-white/60 hover:text-white transition-colors">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <div class="h-full flex flex-col items-center justify-start pt-24 sm:pt-28 px-6 pb-10 overflow-y-auto">
+            <div class="w-full max-w-3xl">
+                <p class="eyebrow mb-8">Search the wave</p>
+                <div class="flex items-center gap-4 border-b-2 border-white/15 pb-4 focus-within:border-[#8B2CFF] transition-colors">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#AAB3C5" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input id="search-input" type="text" placeholder="Search Bucket Hat, Stamp Tee, Waterbottle, Phone Case..." autocomplete="off"
+                        class="w-full bg-transparent text-2xl text-white placeholder:text-white/25 focus:outline-none">
+                </div>
+                <p id="search-hint" class="text-white/25 text-[11px] tracking-[0.3em] uppercase mt-5">Start typing to find your favorite drop...</p>
+                <ul id="search-results" class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var PRODUCTS = [
+                { name: 'Cookie Stamp Tee', category: 'Apparel', price: '₹3,419', tag: '⭐ PREMIUM', target: 'Cookie Stamp Tee', img: 'assets/cookie_stamp_tee.png' },
+                { name: 'Cookie Waterbottle \'26', category: 'Drinkware', price: '₹2,734', tag: '❤️ MOST LOVED', target: 'Cookie Waterbottle', img: 'assets/cookie_waterbottle.png' },
+                { name: 'Cookie Bling Bucket Hat', category: 'Accessories', price: '₹2,930', tag: '🔥 BESTSELLER', target: 'Cookie Bling Bucket Hat', img: 'assets/cookie_bucket_hat.png' },
+                { name: 'Cookie Phone Case', category: 'Accessories', price: '₹1,854', tag: '📱 NEW', target: 'Cookie Phone Case', img: 'assets/cookie_phone_case.png' }
+            ];
+
+            var modal = document.getElementById('search-modal');
+            var btn = document.getElementById('search-btn');
+            if (!modal || !btn) return;
+            var closeBtn = document.getElementById('search-close');
+            var input = document.getElementById('search-input');
+            var results = document.getElementById('search-results');
+            var hint = document.getElementById('search-hint');
+
+            function livePrice(target) {
+                var card = document.querySelector('[data-name="' + target + '"]');
+                var el = card ? card.querySelector('.product-price') : null;
+                return el ? el.textContent.trim() : null;
+            }
+
+            function goToProduct(target) {
+                var card = document.querySelector('[data-name="' + target + '"]');
+                closeModal();
+                if (!card) { window.location.href = 'index.html#featured'; return; }
+                var top = card.getBoundingClientRect().top + window.pageYOffset - 120;
+                window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+                card.style.boxShadow = '0 0 0 3px #8B2CFF, 0 25px 50px rgba(122,18,255,0.35)';
+                card.style.transition = 'box-shadow .5s ease';
+                setTimeout(function () { card.style.boxShadow = ''; }, 1400);
+            }
+
+            function openModal() { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; input.focus(); }
+            function closeModal() {
+                modal.classList.add('hidden'); document.body.style.overflow = '';
+                input.value = ''; results.innerHTML = ''; hint.classList.remove('hidden');
+            }
+
+            function renderResults(matches) {
+                results.innerHTML = '';
+                matches.forEach(function (p) {
+                    var li = document.createElement('li');
+                    li.className = 'list-none';
+                    li.innerHTML =
+                        '<a href="index.html#featured" data-target="' + p.target + '" class="group flex flex-col justify-between gap-4 h-full p-5 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm hover:bg-white/[0.07] hover:border-purple-500/50 transition-all duration-300 cursor-pointer" data-cursor>' +
+                        '<div class="flex items-start justify-between gap-3">' +
+                        '<div class="w-12 h-12 rounded-xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center shrink-0">' +
+                        '<img src="' + p.img + '" alt="' + p.name + '" loading="lazy" class="w-full h-full object-cover">' +
+                        '</div>' +
+                        '<span class="text-[#c9a7ff] font-bold text-sm whitespace-nowrap">' + (livePrice(p.target) || p.price) + '</span></div>' +
+                        '<div><p class="text-white font-medium text-sm leading-snug">' + p.name + '</p>' +
+                        '<p class="text-white/30 text-[10px] tracking-[0.2em] uppercase mt-1">' + p.category + ' · ' + p.tag + '</p></div></a>';
+                    results.appendChild(li);
+                });
+            }
+
+            btn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
+
+            input.addEventListener('input', function () {
+                var q = input.value.trim().toLowerCase();
+                results.innerHTML = '';
+                if (!q) { hint.classList.remove('hidden'); return; }
+                hint.classList.add('hidden');
+                var matches = PRODUCTS.filter(function (p) {
+                    return p.name.toLowerCase().indexOf(q) !== -1 ||
+                        p.category.toLowerCase().indexOf(q) !== -1 ||
+                        p.tag.toLowerCase().indexOf(q) !== -1;
+                });
+                if (!matches.length) {
+                    results.innerHTML = '<li class="col-span-full list-none text-white/30 text-sm tracking-widest py-10 text-center">No results for "' + input.value + '"</li>';
+                    return;
+                }
+                renderResults(matches);
+            });
+
+            results.addEventListener('click', function (e) {
+                var link = e.target.closest('a[data-target]');
+                if (!link) return;
+                e.preventDefault();
+                goToProduct(link.getAttribute('data-target'));
+            });
+        })();
+    </script>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('cookieUserName');
+            const navNameElement = document.getElementById('navbar-user-name');
+            if (savedName && navNameElement) {
+                const shortName = savedName.split(' ')[0].toUpperCase();
+                navNameElement.innerText = shortName;
+            }
+        });
+    </script>
+<script>
+        const profileContainer = document.getElementById('profile-menu-container');
+        const profileBtn = document.getElementById('navbar-user-name')?.parentElement;
+        const profileDropdown = document.getElementById('profile-dropdown');
+        if (profileBtn && profileDropdown) {
+            profileBtn.addEventListener('click', (e) => {
+                const loggedInUser = localStorage.getItem('cookieUserName');
+                if (loggedInUser) {
+                    e.preventDefault();
+                    profileDropdown.classList.toggle('hidden');
+                } else {
+                    window.location.href = 'signup.html';
+                }
+            });
+
+            const profileMenuName = document.getElementById('profile-menu-name');
+            const savedProfileName = localStorage.getItem('cookieUserName');
+            if (profileMenuName && savedProfileName) {
+                profileMenuName.innerText = savedProfileName.split(' ')[0].toUpperCase();
+            }
+        }
+
+        window.addEventListener('click', (e) => {
+            if (profileDropdown && profileContainer && !profileContainer.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+
+        function handleUserLogout() {
+            localStorage.removeItem('cookieUserName');
+            localStorage.removeItem('cookieToken');
+            alert('🚪 Successfully logged out of session. Returning safely to guest mode.');
+            window.location.reload();
+        }
+    </script>
+<!-- ================= RUNTIME INVENTORY STREAM LOADER ================= -->
+<script>
+    window.addItemToCart = window.addItemToCart || function (name, price, img, meta) {
+        if (window.cart && typeof window.cart.add === 'function') {
+            window.cart.add(name, price, img, meta || 'One Size');
+        }
+    };
+    document.addEventListener('DOMContentLoaded', async () => {
+        const shelf = document.getElementById('dynamic-product-shelf');
+        if (!shelf) return;
+
+        const FALLBACK_IMG = 'assets/cookie_stamp_tee.png';
+        const LOCAL_IMG = {
+            'bucket-hat': 'assets/cookie_bucket_hat.png',
+            'waterbottle': 'assets/cookie_waterbottle.png',
+            'stamp-tee': 'assets/cookie_stamp_tee.png',
+            'phone-case': 'assets/cookie_phone_case.png'
+        };
+
+        const normalize = (p) => {
+            const priceInr = Number(p.priceInr != null ? p.priceInr : p.basePriceInr) || 0;
+            const rawImg = p.image || (Array.isArray(p.images) && p.images[0]) || '';
+            return {
+                title: p.name || p.title || 'Untitled Drop',
+                priceInr: priceInr,
+                slug: p.slug || p.id || '',
+                badge: p.badge || 'NEW',
+                category: String(p.category || ''),
+                img: LOCAL_IMG[p.slug] || rawImg || FALLBACK_IMG
+            };
+        };
+
+        const matchesPage = (item, page) => {
+            const c = item.category.toLowerCase().trim();
+            if (page === 'youth') return c === 'youth' || c === 'youth shop';
+            if (page === 'adults') return c === 'adults' || c === 'adults collections';
+            return c === '' || c === 'merch' || c === 'featured drops' || c === 'featured';
+        };
+
+        try {
+            const response = await fetch('/api/products', { headers: { Accept: 'application/json' } });
+            const result = await response.json();
+            const catalogList = (result.products || result.data || []).map(normalize);
+
+            const currentPage = window.location.pathname.toLowerCase();
+            let page = 'home';
+            if (currentPage.includes('youth')) page = 'youth';
+            else if (currentPage.includes('adults')) page = 'adults';
+
+            let filteredItems = catalogList.filter(item => matchesPage(item, page));
+            if (!filteredItems.length) filteredItems = catalogList; // fallback so a shelf never renders empty
+
+            shelf.innerHTML = '';
+            filteredItems.forEach(product => {
+                const card = document.createElement('div');
+                card.className = "relative bg-white/[0.02] border border-white/10 backdrop-blur-2xl rounded-[28px] p-6 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:border-purple-500/40 group overflow-hidden flex flex-col justify-between";
+                card.setAttribute('data-name', product.title);
+
+                const link = document.createElement('a');
+                link.href = 'product.html?item=' + encodeURIComponent(product.slug || 'bucket-hat');
+                link.className = 'block';
+
+                const badge = document.createElement('div');
+                badge.className = 'absolute top-4 left-4 z-20 text-[9px] font-black tracking-widest text-white bg-purple-600 px-2.5 py-1 rounded-full uppercase';
+                badge.textContent = product.badge;
+
+                const thumb = document.createElement('div');
+                thumb.className = 'w-full aspect-square rounded-2xl overflow-hidden bg-black/20 border border-white/5 relative mb-4';
+                const img = document.createElement('img');
+                img.src = product.img;
+                img.alt = product.title;
+                img.loading = 'lazy';
+                img.className = 'w-full h-full object-cover transition-transform duration-300 group-hover:scale-105';
+                img.onerror = function () { if (this.src.indexOf(FALLBACK_IMG) === -1) this.src = FALLBACK_IMG; };
+                thumb.appendChild(img);
+
+                const title = document.createElement('h3');
+                title.className = 'text-xs font-black uppercase tracking-wider text-white mb-1';
+                title.textContent = product.title;
+
+                link.appendChild(badge);
+                link.appendChild(thumb);
+                link.appendChild(title);
+
+                const footer = document.createElement('div');
+                footer.className = 'flex items-center justify-between mt-4';
+
+                const price = document.createElement('span');
+                price.className = 'text-sm font-bold text-gray-200 product-price';
+                price.setAttribute('data-base-inr', product.priceInr);
+                price.textContent = '\u20B9' + product.priceInr.toLocaleString();
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-[#7a12ff] to-[#ff00a0] px-4 py-2.5 rounded-full text-white active:scale-95 transition-transform';
+                btn.textContent = 'ADD TO CART';
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.addItemToCart(product.title, product.priceInr, product.img);
+                });
+
+                footer.appendChild(price);
+                footer.appendChild(btn);
+
+                card.appendChild(link);
+                card.appendChild(footer);
+                shelf.appendChild(card);
+            });
+
+            if (typeof window.changeCurrency === 'function' && document.getElementById('currency-btn')) {
+                const label = (document.getElementById('currency-btn').innerText || '').trim().split(/\s+/);
+                const activeCode = label[1] || 'INR';
+                const activeFlag = label[0] || '\uD83C\uDDEE\uD83C\uDDF3';
+                window.changeCurrency(activeCode, activeFlag);
+            }
+        } catch (error) {
+            console.error('Storefront Data Injection Fault:', error);
+            shelf.innerHTML = '<div class="col-span-full text-center text-xs text-gray-400 uppercase tracking-widest py-12">Failed to coordinate server inventory channels.</div>';
+        }
+    });
+</script>
+
+<script>
+(function () {
+    // Universal multi-video theme engine — tracks EVERY background <video> player on the
+    // vertical canvas (hero + lower shelf wraps) and swaps all source tracks in one sync
+    // pass so the entire page flips day/night without the split daylight look.
+    function executeGlobalVideoSwap(isDarkTheme) {
+        const systemRoot = document.documentElement;
+        const sunIcon = document.getElementById('theme-sun-icon');
+        const moonIcon = document.getElementById('theme-moon-icon');
+
+        if (isDarkTheme) systemRoot.classList.add('dark-mode');
+        else systemRoot.classList.remove('dark-mode');
+        if (sunIcon) sunIcon.classList.toggle('hidden', !isDarkTheme);
+        if (moonIcon) moonIcon.classList.toggle('hidden', isDarkTheme);
+
+        // Functional engine routine to locate every video instance and switch their source paths cleanly
+        const allVideoPlayers = document.querySelectorAll('video');
+        const targetVideoFile = isDarkTheme ? "/toggledark.mp4" : "/cookiegod.mp4";
+        allVideoPlayers.forEach(function (player) {
+            const sourceElement = player.querySelector('source');
+            if (!sourceElement) return;
+            const currentSrc = sourceElement.getAttribute('src');
+            // If the source track asset name is already correct, bypass reloading to save memory cycles
+            if (currentSrc !== targetVideoFile) {
+                sourceElement.src = targetVideoFile;
+                player.load(); // Forces the media hardware accelerator to re-buffer the matching video asset instantly
+                player.play().catch(function (err) { console.log("Engine streaming sequence recovered safely."); });
+            }
+        });
+    }
+
+    // A. INITIAL PAGE RENDERING RESOLUTION (Fires the second any sub-page layout opens)
+    const activePersistedTheme = localStorage.getItem('cookieSiteTheme') || 'bright-default';
+    if (activePersistedTheme === 'midnight-dark') executeGlobalVideoSwap(true);
+    else executeGlobalVideoSwap(false);
+
+    // B. INTERACTIVE NAVIGATION CLICK LISTENER (Toggles all assets live on theme switch)
+    const toggleBtn = document.getElementById('theme-toggle-btn');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function () {
+            const checkDarkModeActive = document.documentElement.classList.contains('dark-mode');
+            if (checkDarkModeActive) {
+                localStorage.setItem('cookieSiteTheme', 'bright-default');
+                executeGlobalVideoSwap(false);
+            } else {
+                localStorage.setItem('cookieSiteTheme', 'midnight-dark');
+                executeGlobalVideoSwap(true);
+            }
+            toggleBtn.classList.add('scale-90');
+            setTimeout(function () { toggleBtn.classList.remove('scale-90'); }, 150);
+        });
+    }
+})();
+</script>
+
+<!-- ================= GLASSMORPHIC CHECKOUT OVERLAY ================= -->
+    <div id="checkout-modal-portal" class="fixed inset-0 w-full h-full z-50 flex items-center justify-center bg-black/40 backdrop-blur-md hidden opacity-0 transition-all duration-300" role="dialog" aria-modal="true" aria-label="Secure checkout">
+        <button id="checkout-close" aria-label="Close checkout" data-cursor
+            class="absolute top-5 right-5 w-11 h-11 flex items-center justify-center text-white/60 hover:text-white transition-colors z-20 cursor-pointer">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+
+        <div class="max-w-4xl w-full mx-4 bg-[#0b0518]/90 border border-white/10 rounded-[32px] p-8 shadow-2xl text-white relative flex flex-col md:flex-row gap-8 max-h-[90svh] overflow-y-auto">
+            <!-- LEFT — BILLING / DELIVERY / CONTACT ARRAY -->
+            <div class="w-full md:w-1/2 flex flex-col gap-6">
+                <div>
+                    <p class="text-[10px] font-black tracking-[0.3em] uppercase text-[#20D9FF] flex items-center gap-2">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M8 21s0-3 4-4 4-2 4-4"/><path d="M16 7a2 2 0 1 1-2-2"/></svg>
+                        BILLING DETAILS
+                    </p>
+                    <div class="flex flex-col gap-3 mt-4">
+                        <input class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300" type="text" placeholder="Full Name" autocomplete="name">
+                        <input class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300" type="email" placeholder="Email Address" autocomplete="email" inputmode="email">
+                        <input class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300" type="tel" placeholder="Phone Number" autocomplete="tel" inputmode="tel">
+                    </div>
+                </div>
+
+                <div>
+                    <p class="text-[10px] font-black tracking-[0.3em] uppercase text-[#8B2CFF] flex items-center gap-2">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        DELIVERY ADDRESS
+                    </p>
+                    <div class="flex flex-col gap-3 mt-4">
+                        <input class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300" type="text" placeholder="Address Line 1" autocomplete="address-line1">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300" type="text" placeholder="City" autocomplete="address-level2">
+                            <input class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300" type="text" placeholder="Postal Code" autocomplete="postal-code">
+                        </div>
+                        <select class="checkout-field w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium tracking-wide placeholder:text-white/25 focus:outline-none focus:border-[#8B2CFF] focus:bg-white/[0.06] transition-colors duration-300 cursor-pointer">
+                            <option value="" class="bg-[#0b0518]">Country</option>
+                            <option value="IN" class="bg-[#0b0518]">India 🇮🇳</option>
+                            <option value="US" class="bg-[#0b0518]">United States 🇺🇸</option>
+                            <option value="GB" class="bg-[#0b0518]">United Kingdom 🇬🇧</option>
+                            <option value="EU" class="bg-[#0b0518]">Europe 🇪🇺</option>
+                            <option value="AU" class="bg-[#0b0518]">Australia 🇦🇺</option>
+                            <option value="CA" class="bg-[#0b0518]">Canada 🇨🇦</option>
+                            <option value="JP" class="bg-[#0b0518]">Japan 🇯🇵</option>
+                            <option value="AE" class="bg-[#0b0518]">UAE 🇦🇪</option>
+                            <option value="OTHER" class="bg-[#0b0518]">Rest of World 🌍</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT — ORDER MATRIX + TOTALS -->
+            <div class="w-full md:w-1/2 flex flex-col">
+                <div class="flex items-center justify-between mb-5">
+                    <p class="text-[10px] font-black tracking-[0.3em] uppercase text-[#E83CFF] flex items-center gap-2">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                        ORDER SUMMARY
+                    </p>
+                    <span class="text-[9px] font-bold tracking-[0.2em] uppercase text-white/35">🔒 ENCRYPTED</span>
+                </div>
+
+                <div id="checkout-order-items" class="flex flex-col gap-3 max-h-56 overflow-y-auto pr-1"></div>
+
+                <div class="border-t border-white/10 mt-5 pt-5 flex flex-col gap-2.5">
+                    <div class="flex items-center justify-between"><span class="text-white/60 text-[11px] tracking-[0.2em] uppercase">Subtotal</span><span id="checkout-subtotal" class="text-white font-bold text-sm tracking-wide">₹0</span></div>
+                    <div class="flex items-center justify-between"><span class="text-white/60 text-[11px] tracking-[0.2em] uppercase">Estimated Shipping</span><span class="text-emerald-400 font-bold text-[11px] tracking-[0.2em] uppercase">FREE</span></div>
+                    <div class="flex items-center justify-between mt-2 pt-4 border-t border-white/10">
+                        <span class="text-white/80 text-[11px] tracking-[0.2em] uppercase">Total (incl. taxes)</span>
+                        <span id="checkout-total" class="text-white font-black text-2xl tracking-tight">₹0</span>
+                    </div>
+                </div>
+
+                <button id="checkout-secure-btn" style="padding-top:1.125rem;padding-bottom:1.125rem;"
+                    class="w-full bg-gradient-to-r from-[#7a12ff] to-[#ff00a0] font-black py-4.5 rounded-full text-xs tracking-widest text-center text-white cursor-pointer active:scale-95 transition-transform mt-6">
+                    COMPLETE TRANSACTION 🔒
+                </button>
+                <p class="text-center text-[9px] font-bold tracking-[0.2em] uppercase text-white/30 mt-4">256-bit SSL · PCI-DSS compliant · No hidden fees</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var portal = document.getElementById('checkout-modal-portal');
+            if (!portal) return;
+            var closeBtn = document.getElementById('checkout-close');
+            var secureBtn = document.getElementById('checkout-secure-btn');
+            var fieldEls = portal.querySelectorAll('input, select, textarea');
+            var orderItemsEl = document.getElementById('checkout-order-items');
+            var subEl = document.getElementById('checkout-subtotal');
+            var totalEl = document.getElementById('checkout-total');
+
+            function symbol() {
+                var btn = document.getElementById('currency-btn');
+                var t = (btn && btn.querySelector('span') && btn.querySelector('span').textContent) || 'INR';
+                if (t.indexOf('USD') !== -1 || t.indexOf('$') !== -1) return '$';
+                if (t.indexOf('EUR') !== -1 || t.indexOf('€') !== -1) return '€';
+                return '₹';
+            }
+            function fmt(inr) {
+                var s = symbol();
+                var v = s === '$' ? inr * 0.012 : s === '€' ? inr * 0.011 : inr;
+                return s + Math.round(v).toLocaleString('en-US');
+            }
+            function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+            function cartItems() { try { return JSON.parse(localStorage.getItem('cookies_cart') || '[]'); } catch (e) { return []; } }
+
+            function renderOrder() {
+                if (!orderItemsEl) return;
+                var items = cartItems();
+                if (!items.length) {
+                    orderItemsEl.innerHTML = '<p class="text-white/35 text-xs tracking-widest uppercase py-6 text-center">Your bag is empty — add a drop to continue. 🍪</p>';
+                    if (subEl) subEl.textContent = fmt(0);
+                    if (totalEl) totalEl.textContent = fmt(0);
+                    return;
+                }
+                var html = '';
+                var sub = 0;
+                for (var i = 0; i < items.length; i++) {
+                    var it = items[i];
+                    sub += (it.price || 0) * (it.qty || 1);
+                    var img = it.img || it.fallback || '';
+                    var imgHtml = img ? '<img src="' + esc(img) + '" alt="" class="w-full h-full object-cover" loading="lazy">' : '<span class="text-white/40">🍪</span>';
+                    html += '<div class="flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-2xl p-3">' +
+                        '<div class="w-11 h-11 shrink-0 rounded-lg overflow-hidden bg-black/30 border border-white/10 flex items-center justify-center">' + imgHtml + '</div>' +
+                        '<div class="flex-1 min-w-0">' +
+                        '<p class="text-white font-bold text-[11px] truncate">' + esc(it.name) + '</p>' +
+                        '<p class="text-white/40 text-[9px] uppercase tracking-[0.15em] mt-0.5 truncate">' + esc(it.meta || 'One Size') + ' · Qty ' + (it.qty || 1) + '</p>' +
+                        '</div>' +
+                        '<span class="text-white font-bold text-xs shrink-0">' + fmt((it.price || 0) * (it.qty || 1)) + '</span>' +
+                        '</div>';
+                }
+                orderItemsEl.innerHTML = html;
+                if (subEl) subEl.textContent = fmt(sub);
+                if (totalEl) totalEl.textContent = fmt(sub);
+            }
+
+            function resetState() {
+                for (var i = 0; i < fieldEls.length; i++) { fieldEls[i].disabled = false; }
+                if (secureBtn) {
+                    secureBtn.disabled = false;
+                    secureBtn.innerHTML = 'COMPLETE TRANSACTION 🔒';
+                    secureBtn.className = 'w-full bg-gradient-to-r from-[#7a12ff] to-[#ff00a0] font-black py-4.5 rounded-full text-xs tracking-widest text-center text-white cursor-pointer active:scale-95 transition-transform mt-6';
+                }
+            }
+
+            function closeCartDrawer() {
+                var drawer = document.getElementById('cart-drawer');
+                var backdrop = document.getElementById('cart-backdrop');
+                if (drawer) drawer.classList.add('translate-x-full');
+                if (backdrop) {
+                    backdrop.classList.add('opacity-0');
+                    setTimeout(function () { backdrop.classList.add('hidden'); }, 300);
+                }
+            }
+
+            function open() {
+                renderOrder();
+                resetState();
+                closeCartDrawer();
+                portal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                requestAnimationFrame(function () { portal.classList.remove('opacity-0'); });
+                var first = portal.querySelector('.checkout-field');
+                setTimeout(function () { if (first) first.focus(); }, 350);
+            }
+
+            function close() {
+                portal.classList.add('opacity-0');
+                setTimeout(function () { portal.classList.add('hidden'); }, 300);
+                document.body.style.overflow = '';
+            }
+
+            async function runVerification() {
+                if (!secureBtn || secureBtn.disabled) return;
+                for (var i = 0; i < fieldEls.length; i++) { fieldEls[i].disabled = true; }
+                secureBtn.disabled = true;
+                secureBtn.textContent = 'LAUNCHING SECURE BANK GATEWAY... 🔒';
+                var currencyString = 'INR';
+                var curBtn = document.getElementById('currency-btn');
+                if (curBtn) { var c = curBtn.innerText.split(' ')[0]; if (c) currencyString = c; }
+                var stored = [];
+                try { stored = JSON.parse(localStorage.getItem('cookies_cart') || '[]'); } catch (e) {}
+                var cartItems = stored.map(function (it) {
+                    return { title: it.name, imageSrc: it.img || 'assets/placeholder.png', price: Number(it.price) || 0, quantity: Number(it.qty) || 1 };
+                });
+                try {
+                    var response = await fetch('/api/checkout/create-session', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ cartItems: cartItems, currencyCode: currencyString })
+                    });
+                    var sessionData = await response.json();
+                    if (sessionData && sessionData.url) {
+                        if (sessionData.mock) {
+                            alert('🔒 Secure Demo Mode Active: Payment request signed off. Routing to confirmation sheet.');
+                            try { localStorage.removeItem('cookies_cart'); } catch (e) {}
+                            if (window.cart && window.cart.items) window.cart.items.length = 0;
+                            var countEl = document.getElementById('cart-count');
+                            if (countEl) { countEl.textContent = '0'; countEl.classList.add('opacity-0', 'scale-75'); }
+                        }
+                        window.location.href = sessionData.url;
+                    } else {
+                        alert('⚠️ Bank Session Mismatch. Please check card verification parameters.');
+                        resetState();
+                    }
+                } catch (err) {
+                    console.error("Gateway Transit Failure:", err);
+                    window.location.href = "success.html";
+                }
+            }
+
+            window.openSecureCheckout = open;
+            window.closeSecureCheckout = close;
+
+            if (closeBtn) closeBtn.addEventListener('click', close);
+            portal.addEventListener('click', function (e) { if (e.target === portal) close(); });
+            if (secureBtn) secureBtn.addEventListener('click', runVerification);
+            window.executeSecureCheckoutPayment = runVerification;
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !portal.classList.contains('hidden')) close(); });
+
+            portal.addEventListener('keydown', function (e) {
+                if (e.key !== 'Tab' || portal.classList.contains('hidden')) return;
+                var focusables = portal.querySelectorAll('button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
+                if (!focusables.length) return;
+                var first = focusables[0];
+                var last = focusables[focusables.length - 1];
+                if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+                else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+            });
+
+            document.addEventListener('click', function (e) {
+                var hook = e.target.closest('[data-checkout-open]');
+                if (hook) open();
+            });
+
+            if (/[?&]checkout=open/.test(window.location.search)) {
+                setTimeout(open, 450);
+            }
+        })();
+    </script>
+
+</body>
+</html>

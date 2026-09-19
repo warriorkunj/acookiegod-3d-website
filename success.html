@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Order confirmation — your Cookie's Wave drop is locked in. Welcome to the army.">
+    <meta name="theme-color" content="#050816">
+    <title>Order Confirmed | Cookie's Wave</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://api.fontshare.com">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --ink: #050816;
+            --surface: #0a1220;
+            --violet: #8B2CFF;
+            --fuchsia: #E83CFF;
+            --aqua: #20D9FF;
+            --text-dim: #AAB3C5;
+            --hairline: rgba(255, 255, 255, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Satoshi', 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+            background: var(--ink);
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .font-display {
+            font-family: 'Clash Display', 'Syne', ui-sans-serif, system-ui, sans-serif;
+            letter-spacing: -0.015em;
+        }
+
+        .font-serif-ed {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-style: italic;
+        }
+
+        .h-display {
+            font-family: 'Clash Display', ui-sans-serif, system-ui, sans-serif;
+            font-weight: 600;
+            line-height: 0.92;
+            letter-spacing: -0.025em;
+        }
+
+        ::selection {
+            background: var(--violet);
+            color: #fff;
+        }
+
+        .glass-panel {
+            background: linear-gradient(180deg, rgba(13, 20, 38, 0.82), rgba(7, 11, 24, 0.9));
+            border: 1px solid var(--hairline);
+            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .hairline-top {
+            border-top: 1px solid var(--hairline);
+        }
+
+        .vignette {
+            background: radial-gradient(ellipse at 50% -20%, rgba(139, 44, 255, 0.28), transparent 55%),
+                linear-gradient(180deg, rgba(5, 8, 22, 0.55), rgba(5, 8, 22, 0.9));
+        }
+
+        .check-ring {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            animation: stroke 0.7s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .check-tick {
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.7s forwards;
+        }
+
+        .check-scale {
+            transform: scale(0);
+            transform-origin: center;
+            animation: scaleIn 0.5s cubic-bezier(0.65, 0, 0.45, 1) 0.45s forwards;
+        }
+
+        @keyframes stroke {
+            100% { stroke-dashoffset: 0; }
+        }
+
+        @keyframes scaleIn {
+            70% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .token-fade-in {
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div class="fixed inset-0 w-full h-full object-cover z-0 pointer-events-none">
+        <video autoplay muted loop playsinline poster="assets/poster.jpg" class="h-full w-full object-cover">
+            <source src="/cookiegod.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 vignette"></div>
+    </div>
+
+    <main class="relative z-10 min-h-screen flex items-center justify-center px-5 py-16">
+        <div class="glass-panel token-fade-in w-full max-w-xl rounded-[2rem] px-6 py-12 sm:px-12 sm:py-14 text-center">
+
+            <div class="check-scale mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-400/30">
+                <svg class="h-14 w-14" viewBox="0 0 52 52">
+                    <circle class="check-ring" cx="26" cy="26" r="24" fill="none" stroke="#34D399" stroke-width="2.5"/>
+                    <path class="check-tick" fill="none" stroke="#34D399" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M15 27.5 23 35 L37 19"/>
+                </svg>
+            </div>
+
+            <p class="eyebrow text-[11px] tracking-[0.42em] uppercase font-medium" style="color: var(--aqua);">Gateway Verification Complete</p>
+
+            <h1 class="h-display mt-5 text-3xl sm:text-[2.6rem]">
+                🍪 ORDER COMPLETED -<br>
+                <span style="background: linear-gradient(90deg, var(--violet), var(--fuchsia)); -webkit-background-clip: text; background-clip: text; color: transparent;">WELCOME TO THE ARMY!</span>
+            </h1>
+
+            <p class="font-serif-ed mt-5 text-lg sm:text-xl text-white/75">
+                Your drop is locked in. The wave has officially accepted you — keep an eye on your inbox for the delivery coordinates.
+            </p>
+
+            <div class="mt-9 rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-6">
+                <p class="text-[10px] uppercase tracking-[0.3em] text-white/40 font-bold">Order Reference Token</p>
+                <p id="order-token" class="font-display mt-2 text-xl sm:text-2xl font-semibold tracking-[0.08em]" style="color: var(--aqua);">ACG-••••••</p>
+                <p id="session-line" class="mt-3 text-[10px] uppercase tracking-[0.2em] text-white/35 font-bold"></p>
+            </div>
+
+            <div class="mt-5 flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.22em] text-white/35 font-bold">
+                <span>🔒 256-bit SSL</span><span class="text-white/20">·</span><span>PCI-DSS compliant</span><span class="text-white/20">·</span><span>Fraud shielded</span>
+            </div>
+
+            <div class="mt-9 flex flex-col sm:flex-row gap-3">
+                <a href="index.html"
+                   class="flex-1 rounded-full bg-gradient-to-r from-[#7a12ff] to-[#ff00a0] px-6 py-4 text-center text-[11px] font-black tracking-widest text-white transition-transform active:scale-95 hover:brightness-110">
+                    CONTINUE SHOPPING →
+                </a>
+                <a href="secret-cookie-club.html"
+                   class="flex-1 rounded-full border border-white/15 bg-white/[0.04] px-6 py-4 text-center text-[11px] font-black tracking-widest text-white transition-colors hover:bg-white/[0.08]">
+                    ENTER SECRET CLUB 🔓
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        (function () {
+            try { localStorage.removeItem('cookies_cart'); } catch (e) {}
+            if (window.cart && window.cart.items) window.cart.items.length = 0;
+            var countEl = document.getElementById('cart-count');
+            if (countEl) countEl.textContent = '0';
+
+            var params = new URLSearchParams(window.location.search);
+            var sessionId = params.get('session_id') || '';
+
+            var stamp = Date.now().toString(36).toUpperCase().slice(-6);
+            var rand = Math.floor(Math.random() * 46655 + 46656).toString(36).toUpperCase() + Math.floor(Math.random() * 46655 + 46656).toString(36).toUpperCase();
+            var token = 'ACG-' + rand.slice(0, 6) + '-' + stamp;
+
+            var tokenEl = document.getElementById('order-token');
+            if (tokenEl) tokenEl.textContent = token;
+
+            var sessionEl = document.getElementById('session-line');
+            if (sessionEl) {
+                sessionEl.textContent = sessionId
+                    ? 'Stripe Session: ' + sessionId
+                    : 'Reference logged · Demo gate';
+            }
+        })();
+    </script>
+
+</body>
+</html>

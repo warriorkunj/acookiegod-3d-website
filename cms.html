@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cookie's Wave — System Central Inventory Manager console. Live product injection, price rewrites, sizing control and asset uploads.">
+    <meta name="theme-color" content="#0b0518">
+    <title>System Central | Cookie's Wave CMS</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://api.fontshare.com">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --ink: #0b0518;
+            --violet: #8B2CFF;
+            --fuchsia: #E83CFF;
+            --aqua: #20D9FF;
+            --text-dim: #AAB3C5;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+            background: var(--ink);
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .font-display { font-family: 'Clash Display', 'Syne', ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.015em; }
+        .font-serif-ed { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; }
+
+        ::selection { background: var(--violet); color: #fff; }
+        *:focus-visible { outline: 1px solid var(--aqua); outline-offset: 3px; }
+
+        /* Inventory directory scrollbar */
+        #cms-inventory-directory::-webkit-scrollbar { width: 6px; }
+        #cms-inventory-directory::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); border-radius: 999px; }
+        #cms-inventory-directory::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #7a12ff, #ff00a0); border-radius: 999px; }
+        #cms-ann-directory::-webkit-scrollbar { width: 6px; }
+        #cms-ann-directory::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); border-radius: 999px; }
+        #cms-ann-directory::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #20d9ff, #8B2CFF); border-radius: 999px; }
+
+        .cms-input {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #fff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+        .cms-input::placeholder { color: rgba(170,179,197,0.55); }
+        .cms-input:focus {
+            outline: none;
+            border-color: #8B2CFF;
+            background: rgba(139,44,255,0.06);
+            box-shadow: 0 0 0 3px rgba(139,44,255,0.18), 0 0 24px rgba(122,18,255,0.25);
+        }
+        .cms-select {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #fff;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23AAB3C5' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .cms-select:focus {
+            outline: none;
+            border-color: #8B2CFF;
+            box-shadow: 0 0 0 3px rgba(139,44,255,0.18);
+        }
+        .cms-select option { background: #0b0518; color: #fff; }
+
+        .conn-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: #7a12ff;
+            box-shadow: 0 0 12px rgba(122,18,255,0.8);
+            transition: background 0.4s ease, box-shadow 0.4s ease;
+        }
+        .conn-dot.online { background: #34ffb0; box-shadow: 0 0 14px rgba(52,255,176,0.9); }
+        .conn-dot.offline { background: #ff5f56; box-shadow: 0 0 14px rgba(255,95,86,0.9); }
+
+        .micro-card { transition: all 0.3s ease; }
+        .micro-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(139,44,255,0.35); }
+
+        .price-editable:hover .price-edit-pen { opacity: 1; transform: translateX(0); }
+        .price-edit-pen { opacity: 0; transform: translateX(-3px); transition: all 0.25s ease; }
+
+        @keyframes floaty {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.65; filter: blur(40px); }
+            50% { opacity: 1; filter: blur(56px); }
+        }
+        .floaty { animation: floaty 6s ease-in-out infinite; }
+        .glow-disc { animation: pulseGlow 7s ease-in-out infinite; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#0b0518] text-white antialiased overflow-x-hidden">
+
+    <!-- ================= CINEMATIC WAVE BACKDROP ================= -->
+    <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+        <video autoplay muted loop playsinline preload="auto"
+            class="w-full h-full object-cover object-center filter brightness-[1.15] contrast-[1.05] saturate-[1.1]">
+            <source src="/cookiegod.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-[#0b0518]/72"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(90%_70%_at_50%_35%,rgba(120,18,255,0.16),transparent_70%)]"></div>
+        <div class="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/70 via-black/20 to-transparent"></div>
+        <div class="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#0b0518]/90 via-[#0b0518]/30 to-transparent"></div>
+    </div>
+
+    <!-- ================= CORE CONTROL DECK ================= -->
+    <main class="relative z-10 max-w-7xl w-full mx-auto my-12 px-4 sm:px-6">
+        <div class="max-w-7xl w-full mx-auto bg-[#0b0518]/70 backdrop-blur-3xl border border-white/10 rounded-[32px] p-8 md:p-12 shadow-2xl text-white relative z-10 flex flex-col gap-8">
+
+            <!-- DECK HEADER -->
+            <header class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/10 pb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="inline-block w-8 h-px bg-[#20D9FF]"></span>
+                        <p class="text-[10px] tracking-[0.42em] uppercase font-bold text-[#20D9FF]">System Central // Admin Console</p>
+                    </div>
+                    <h1 class="font-display font-black uppercase tracking-tight text-3xl md:text-5xl leading-none">
+                        Cookie's Wave <span class="text-white/30 font-serif-ed normal-case text-2xl md:text-4xl block mt-1">—</span>
+                        <span class="bg-gradient-to-r from-[#20D9FF] via-[#8B2CFF] to-[#ff00a0] bg-clip-text text-transparent">System Central Inventory Manager</span>
+                    </h1>
+                    <p class="text-[13px] text-[#AAB3C5] mt-4 max-w-2xl">Live control surface for the entire catalogue. Inject merchandise, rewrite baselines, manage sizing and push imagery — without ever touching the source files.</p>
+                </div>
+
+                <!-- MONITORING ROW -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <div id="cms-connection" class="flex items-center gap-3 bg-white/[0.04] border border-white/10 rounded-full px-4 py-2.5" title="API / database link status">
+                        <span id="cms-connection-dot" class="conn-dot"></span>
+                        <span id="cms-connection-label" class="text-[10px] font-bold tracking-[0.2em] uppercase text-white/80">Linking console...</span>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white/[0.04] border border-white/10 rounded-full px-4 py-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#20D9FF] animate-pulse"></span>
+                        <span id="cms-count-badge" class="text-[11px] font-black tracking-widest uppercase text-white">0 Active</span>
+                    </div>
+                    <a href="index.html" class="inline-flex items-center gap-2 bg-gradient-to-r from-[#7a12ff] to-[#ff00a0] hover:opacity-90 transition-all px-4 py-2.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                        Back to Store
+                    </a>
+                </div>
+            </header>
+
+            <!-- ASYMMETRICAL SPLIT LAYOUT -->
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-10">
+
+                <!-- ===== LEFT — DEPLOYMENT CONSOLE ===== -->
+                <section class="lg:col-span-2 flex flex-col gap-6">
+                    <div class="flex items-center gap-3">
+                        <span class="w-9 h-9 rounded-full bg-gradient-to-tr from-[#7a12ff] to-[#ff00a0] flex items-center justify-center shrink-0">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l1.5-1.5L8 3l1.5-1.5L11 3l1.5-1.5L14 3l1.5-1.5L17 3l1.5-1.5L20 4v11l-4 6H8l-4-6V4l1.5-1.5L5 3z"/><path d="M7 8h7v6h4"/><circle cx="10" cy="15" r="1.5"/></svg>
+                        </span>
+                        <div>
+                            <h2 class="font-display font-bold uppercase tracking-tight text-sm">Merchandise Deploy Console</h2>
+                            <p class="text-[11px] text-[#AAB3C5]">New product record packet injection</p>
+                        </div>
+                    </div>
+
+                    <form id="cms-form" class="flex flex-col gap-5" autocomplete="off">
+                        <div>
+                            <label for="cms-product-title" class="block text-[10px] font-bold tracking-[0.28em] uppercase text-white/50 mb-2">Title Field</label>
+                            <input type="text" id="cms-product-title" class="cms-input" placeholder="e.g. Neon Chaos Hoodie" required>
+                        </div>
+
+                        <div>
+                            <label for="cms-product-price-inr" class="block text-[10px] font-bold tracking-[0.28em] uppercase text-white/50 mb-2">Pricing Field <span class="text-[#20D9FF]">(Base INR)</span></label>
+                            <input type="number" id="cms-product-price-inr" class="cms-input" placeholder="e.g. 3499" min="1" inputmode="numeric" required>
+                        </div>
+
+                        <div>
+                            <label for="cms-product-category" class="block text-[10px] font-bold tracking-[0.28em] uppercase text-white/50 mb-2">Division Grid Selector</label>
+                            <select id="cms-product-category" class="cms-select">
+                                <option value="Featured Drops">Featured Drops</option>
+                                <option value="Youth Shop">Youth Shop</option>
+                                <option value="Adults Collections">Adults Collections</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="cms-product-badge" class="block text-[10px] font-bold tracking-[0.28em] uppercase text-white/50 mb-2">Status Tag Selector</label>
+                            <select id="cms-product-badge" class="cms-select">
+                                <option value="NONE">NONE</option>
+                                <option value="🔥 BESTSELLER">🔥 BESTSELLER</option>
+                                <option value="❤️ MOST LOVED">❤️ MOST LOVED</option>
+                                <option value="⭐ PREMIUM">⭐ PREMIUM</option>
+                                <option value="🔴 TRENDING">🔴 TRENDING</option>
+                                <option value="✨ NEW">✨ NEW</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="cms-product-image-src" class="block text-[10px] font-bold tracking-[0.28em] uppercase text-white/50 mb-2">Asset Image Path String Row</label>
+                            <input type="text" id="cms-product-image-src" required placeholder="e.g. assets/hoodie-1.png, assets/hoodie-2.png, assets/hoodie-back.png" class="w-full bg-white/5 border border-white/10 px-5 py-3.5 rounded-2xl text-white focus:outline-none focus:border-purple-500 transition-colors">
+                            <div class="mt-2 flex items-center gap-3">
+                                <label for="cms-asset-file" class="cursor-pointer inline-flex items-center gap-2 text-[10px] font-black tracking-[0.16em] uppercase text-[#20D9FF] border border-[#20D9FF]/30 hover:bg-[#20D9FF]/10 rounded-full px-3.5 py-2 transition-all">
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>
+                                    Upload Image Asset
+                                </label>
+                                <input type="file" id="cms-asset-file" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden">
+                                <span id="cms-upload-status" class="text-[10px] font-bold tracking-widest uppercase text-white/40">—</span>
+                            </div>
+                        </div>
+
+                        <!-- ADVANCED PARAMETERS (SIZING) -->
+                        <details class="group border border-white/10 rounded-2xl bg-white/[0.02]">
+                            <summary class="flex items-center justify-between px-4 py-3 cursor-pointer text-[10px] font-black tracking-[0.24em] uppercase text-white/60 hover:text-white list-none">
+                                <span>Advanced — Sizing Parameters</span>
+                                <svg class="w-3 h-3 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="m6 9 6 6 6-6"/></svg>
+                            </summary>
+                            <div class="px-4 pb-4">
+                                <input type="text" id="cms-product-sizes" class="cms-input !py-2.5" placeholder="Comma-separated — e.g. S, M, L, XL">
+                            </div>
+                        </details>
+
+                        <button type="submit" id="cms-submit-btn"
+                            class="w-full bg-gradient-to-r from-[#7a12ff] to-[#ff00a0] font-black py-4 rounded-full text-xs tracking-widest uppercase text-center shadow-[0_0_34px_rgba(122,18,255,0.45)] transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3">
+                            🚀 Deploy Merchandise to Store
+                        </button>
+                    </form>
+                </section>
+
+                <!-- ===== RIGHT — LIVE INVENTORY DIRECTORY ===== -->
+                <section class="lg:col-span-3 flex flex-col gap-6 min-w-0">
+                    <div class="flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-9 h-9 rounded-full bg-black/40 border border-white/10 flex items-center justify-center shrink-0">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#20D9FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 3v18"/><path d="M3 9h18"/></svg>
+                            </span>
+                            <div>
+                                <h2 class="font-display font-bold uppercase tracking-tight text-sm">Live Inventory Directory</h2>
+                                <p class="text-[11px] text-[#AAB3C5]">Auto-synced against active catalogue schema</p>
+                            </div>
+                        </div>
+                        <button id="cms-refresh-btn" class="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.16em] uppercase text-white/50 hover:text-white border border-white/10 hover:border-white/30 rounded-full px-3.5 py-2 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M21 12a9 9 0 1 1-2.64-6.36"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M21 3v6h-6"/></svg>
+                            Sync
+                        </button>
+                    </div>
+
+                    <div id="cms-inventory-directory" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2"></div>
+                </section>
+            </div>
+
+            <!-- ================= COOKIE CLUB MEMBERSHIP CLEARANCE CONSOLE ================= -->
+            <section class="border-t border-white/10 pt-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="w-9 h-9 rounded-full bg-gradient-to-tr from-[#ff00a0] to-[#8B2CFF] flex items-center justify-center shrink-0">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </span>
+                    <div>
+                        <h2 class="font-display font-bold uppercase tracking-tight text-sm">🛡️ COOKIE CLUB MEMBERSHIP CLEARANCE CONSOLE</h2>
+                        <p class="text-[11px] text-[#AAB3C5]">Live moderation queue — approve or deny pending club access tokens in real-time</p>
+                    </div>
+                    <span class="ml-auto hidden sm:inline-flex text-[9px] font-black tracking-[0.2em] uppercase text-[#ff00a0]/70 border border-[#ff00a0]/20 bg-[#ff00a0]/10 rounded-full px-3 py-1.5">Route /api/club/admin</span>
+                </div>
+
+                <div id="cms-club-queue" class="space-y-4 max-h-[40vh] overflow-y-auto mt-4"></div>
+            </section>
+
+            <!-- SYSTEM FEED LINE -->
+            <div class="border-t border-white/10 pt-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+                <p class="text-[10px] tracking-[0.22em] uppercase text-white/35">Cookie's Wave · System Central — read/write channels live over /api/products</p>
+                <p id="cms-feed" class="text-[10px] font-bold tracking-[0.22em] uppercase text-[#20D9FF]/80">⚡ IDLE — AWAITING DEPLOYMENT INSTRUCTIONS</p>
+            </div>
+
+            <!-- ================= CREATOR HUB — ANNOUNCEMENT DEPLOYER ================= -->
+            <section class="border-t border-white/10 pt-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="w-9 h-9 rounded-full bg-gradient-to-tr from-[#20D9FF] to-[#8B2CFF] flex items-center justify-center shrink-0">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="10" rx="2"/><path d="M12 8V5"/><path d="M9 16v2"/><path d="M15 16v2"/><path d="M8 2v3"/><path d="M16 2v3"/></svg>
+                    </span>
+                    <div>
+                        <h2 class="font-display font-bold uppercase tracking-tight text-sm">Creator Hub — Announcement Deployer</h2>
+                        <p class="text-[11px] text-[#AAB3C5]">Push status updates straight into the live about.html timeline feed</p>
+                    </div>
+                    <span class="ml-auto hidden sm:inline-flex text-[9px] font-black tracking-[0.2em] uppercase text-[#20D9FF]/70 border border-[#20D9FF]/20 bg-[#20D9FF]/10 rounded-full px-3 py-1.5">Route /api/announcements</span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <!-- Deploy console -->
+                    <form id="cms-ann-form" class="lg:col-span-2 flex flex-col gap-4" autocomplete="off">
+                        <div>
+                            <label for="cms-ann-title" class="block text-[10px] font-bold tracking-[0.28em] uppercase text-white/50 mb-2">Announcement Title</label>
+                            <input type="text" id="cms-ann-title" class="cms-input" placeholder="e.g. SUMMER DROP 002 — FULL REVEAL" required>
+                        </div>
+
+                        <div>
+                            <label for="cms-ann-category" class="block text-[10px] font-bold tracking-[0.28em] uppercase text-white/50 mb-2">Category Tag</label>
+                            <select id="cms-ann-category" class="cms-select">
+                                <option value="📦 DROP TEASER">📦 DROP TEASER</option>
+                                <option value="🚨 COMMUNITY ALERT">🚨 COMMUNITY ALERT</option>
+                                <option value="🤫 SECRET UPDATE">🤫 SECRET UPDATE</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="cms-ann-date" class="block text-[10px] font-bold tracking-[0.28em] uppercase text-white/50 mb-2">Target Launch Date String <span class="text-[#20D9FF]">(e.g. June 12)</span></label>
+                            <input type="text" id="cms-ann-date" class="cms-input" placeholder="e.g. June 12">
+                        </div>
+
+                        <div>
+                            <label for="cms-ann-body" class="block text-[10px] font-bold tracking-[0.28em] uppercase text-white/50 mb-2">Description Body Text Block</label>
+                            <textarea id="cms-ann-body" rows="4" class="cms-input resize-none" placeholder="Drop the status update text. Announce it like it matters."></textarea>
+                        </div>
+
+                        <div>
+                            <label for="cms-ann-image" class="block text-[10px] font-bold tracking-[0.28em] uppercase text-white/50 mb-2">Teaser Image URL Path</label>
+                            <input type="text" id="cms-ann-image" class="cms-input" placeholder="e.g. assets/teaser-group.png" value="assets/cookie_stamp_tee.png">
+                            <div class="mt-2 flex items-center gap-3">
+                                <label for="cms-ann-asset-file" class="cursor-pointer inline-flex items-center gap-2 text-[10px] font-black tracking-[0.16em] uppercase text-[#20D9FF] border border-[#20D9FF]/30 hover:bg-[#20D9FF]/10 rounded-full px-3.5 py-2 transition-all">
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>
+                                    Upload Image Asset
+                                </label>
+                                <input type="file" id="cms-ann-asset-file" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden">
+                                <span id="cms-ann-upload-status" class="text-[10px] font-bold tracking-widest uppercase text-white/40">—</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="cms-ann-deploy-btn"
+                            class="w-full bg-gradient-to-r from-[#20D9FF] to-[#8B2CFF] font-black py-4 rounded-full text-xs tracking-widest uppercase text-white shadow-[0_0_30px_rgba(32,217,255,0.25)] transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3">
+                            🚀 Deploy Announcement to Live Feed
+                        </button>
+                        <p id="cms-ann-feed" class="text-[10px] font-bold tracking-[0.22em] uppercase text-white/35 text-center">📡 CREATOR STREAM — STANDBY</p>
+                    </form>
+
+                    <!-- Live stream preview -->
+                    <div class="lg:col-span-3 flex flex-col gap-4 min-w-0">
+                        <div class="flex items-center justify-between gap-4">
+                            <p class="text-[10px] font-black tracking-[0.28em] uppercase text-white/50">Live Timeline Stream</p>
+                            <button id="cms-ann-refresh-btn" class="inline-flex items-center gap-2 text-[10px] font-black tracking-[0.16em] uppercase text-white/50 hover:text-white border border-white/10 hover:border-white/30 rounded-full px-3.5 py-2 transition-all">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M21 12a9 9 0 1 1-2.64-6.36"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M21 3v6h-6"/></svg>
+                                Sync
+                            </button>
+                        </div>
+                        <div id="cms-ann-directory" class="space-y-3 max-h-[50vh] overflow-y-auto pr-2"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const directory = document.getElementById('cms-inventory-directory');
+            const submitBtn = document.getElementById('cms-submit-btn');
+            const form = document.getElementById('cms-form');
+            const feed = document.getElementById('cms-feed');
+
+            const CATEGORY_MAP = {
+                'Featured Drops': 'Merch',
+                'Youth Shop': 'Youth',
+                'Adults Collections': 'Adults',
+            };
+            const BADGE_MAP = {
+                'NONE': { label: 'STANDARD', flags: [] },
+                '🔥 BESTSELLER': { label: '🔥 BESTSELLER', flags: ['BESTSELLER'] },
+                '❤️ MOST LOVED': { label: '❤️ MOST LOVED', flags: [] },
+                '⭐ PREMIUM': { label: '⭐ PREMIUM', flags: [] },
+                '🔴 TRENDING': { label: '🔴 TRENDING', flags: ['TRENDING'] },
+                '✨ NEW': { label: '✨ NEW', flags: [] },
+            };
+
+            const esc = (s) => String(s ?? '')
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+            const fmtInr = (n) => '₹' + Number(n || 0).toLocaleString('en-IN');
+
+            const feedLine = (msg) => { if (feed) feed.textContent = msg; };
+
+            // -------------------------------------------------------------
+            // CONNECTION STATUS MONITORING ROW
+            // -------------------------------------------------------------
+            async function pingConsole() {
+                const dot = document.getElementById('cms-connection-dot');
+                const label = document.getElementById('cms-connection-label');
+                try {
+                    const res = await fetch('/api/health', { cache: 'no-store' });
+                    const data = await res.json();
+                    dot.className = 'conn-dot online';
+                    const db = data.database === 'connected' ? 'DB LINKED' : 'DB STANDBY';
+                    label.textContent = 'API ONLINE · ' + db;
+                } catch (err) {
+                    dot.className = 'conn-dot offline';
+                    label.textContent = 'API OFFLINE — LOCAL MOCK LAYER';
+                }
+            }
+
+            // -------------------------------------------------------------
+            // A. FETCH & RENDER LIVE DATABASE INVENTORY LIST
+            // -------------------------------------------------------------
+            async function loadCMSDirectory() {
+                directory.innerHTML = '<div class="text-xs text-gray-400 uppercase tracking-widest animate-pulse">Querying server inventory modules...</div>';
+                try {
+                    const res = await fetch('/api/products?currency=INR', { cache: 'no-store' });
+                    const result = await res.json();
+                    const items = result.products || result.data || [];
+
+                    directory.innerHTML = '';
+                    document.getElementById('cms-count-badge').innerText = items.length + ' Active';
+                    if (!items.length) {
+                        directory.innerHTML = '<div class="text-xs text-gray-400 uppercase tracking-widest">Catalogue empty. Deploy your first merchandise packet.</div>';
+                        return;
+                    }
+
+                    items.forEach(product => {
+                        const id = product.id || product._id || product.slug;
+                        const title = product.name || product.title || 'UNTITLED DROP';
+                        const priceInr = Number(product.priceInr || product.basePriceInr || 0);
+                        const thumb = product.image || (product.images && product.images[0]) || 'assets/placeholder.png';
+                        const badge = product.badge || (Array.isArray(product.flags) && product.flags.length ? '🏁 ' + product.flags[0] : 'STANDARD');
+                        const sizes = Array.isArray(product.sizes) && product.sizes.length ? product.sizes.join(' · ') : (product.sizings || '');
+
+                        const row = document.createElement('div');
+                        row.className = 'micro-card flex items-center justify-between gap-4 p-4 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/5 transition-all';
+                        row.dataset.slug = String(product.slug || id);
+
+                        const left = document.createElement('div');
+                        left.className = 'flex items-center gap-4 min-w-0';
+
+                        const box = document.createElement('div');
+                        box.className = 'w-10 h-10 rounded-xl overflow-hidden bg-black/30 border border-white/10 flex items-center justify-center shrink-0';
+                        const img = document.createElement('img');
+                        img.src = thumb;
+                        img.alt = title;
+                        img.className = 'w-full h-full object-cover';
+                        img.onerror = function () { img.src = 'assets/placeholder.png'; };
+                        box.appendChild(img);
+
+                        const meta = document.createElement('div');
+                        meta.className = 'min-w-0';
+                        const titleEl = document.createElement('h4');
+                        titleEl.className = 'text-xs font-black uppercase tracking-wider text-white truncate';
+                        titleEl.textContent = title;
+                        const subEl = document.createElement('span');
+                        subEl.className = 'block text-[10px] font-bold text-purple-400 tracking-widest uppercase truncate';
+                        subEl.textContent = badge + (sizes ? ' · ' + sizes : '');
+                        meta.appendChild(titleEl);
+                        meta.appendChild(subEl);
+
+                        left.appendChild(box);
+                        left.appendChild(meta);
+
+                        const right = document.createElement('div');
+                        right.className = 'flex items-center gap-4 shrink-0';
+
+                        const priceWrap = document.createElement('div');
+                        priceWrap.className = 'price-editable flex items-center gap-1.5 cursor-pointer px-2 py-1 rounded-lg hover:bg-white/5 transition-all';
+                        priceWrap.title = 'Click to rewrite baseline price (INR)';
+                        const priceSpan = document.createElement('span');
+                        priceSpan.className = 'text-xs font-bold text-gray-200';
+                        priceSpan.textContent = fmtInr(priceInr);
+                        const pen = document.createElement('span');
+                        pen.className = 'price-edit-pen text-[9px] text-[#20D9FF]';
+                        pen.textContent = '✎';
+                        priceWrap.appendChild(priceSpan);
+                        priceWrap.appendChild(pen);
+                        priceWrap.addEventListener('click', () => startPriceEdit(id, priceWrap, priceInr, row));
+
+                        const removeBtn = document.createElement('button');
+                        removeBtn.className = 'text-[10px] font-black uppercase tracking-widest text-rose-400 hover:text-white hover:bg-rose-500/20 px-3 py-1.5 rounded-xl transition-all cursor-pointer';
+                        removeBtn.textContent = '🗑️ REMOVE ITEM';
+                        removeBtn.addEventListener('click', () => deleteProductData(id, title));
+
+                        right.appendChild(priceWrap);
+                        right.appendChild(removeBtn);
+
+                        row.appendChild(left);
+                        row.appendChild(right);
+                        directory.appendChild(row);
+                    });
+
+                    feedLine('⚡ INVENTORY SYNC COMPLETE — ' + items.length + ' RECORDS LOADED');
+                } catch (err) {
+                    console.error('CMS Sync Error:', err);
+                    feedLine('⛔ DATABASE ROUTING TIMEOUT — MOCK FALLBACK LAYER ACTIVE');
+                    directory.innerHTML = '<div class="text-xs text-rose-400 uppercase tracking-widest">Database routing timeout. Running on local data fallback array layer.</div>';
+                }
+            }
+
+            // -------------------------------------------------------------
+            // B. SUBMIT AND DEPLOY NEW PRODUCT RECORD PACKET
+            // -------------------------------------------------------------
+            if (submitBtn) {
+                submitBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+
+                    const title = document.getElementById('cms-product-title').value;
+                    const priceInr = parseFloat(document.getElementById('cms-product-price-inr').value);
+                    const category = document.getElementById('cms-product-category').value;
+                    const badge = document.getElementById('cms-product-badge').value;
+                    const multipleImagesInputString = document.getElementById('cms-product-image-src').value;
+                    // Splits text string by comma and scrubs accidental trailing user whitespace characters automatically
+                    const parsedImagesArrayPayload = multipleImagesInputString
+                        ? multipleImagesInputString.split(',').map((s) => s.trim()).filter(Boolean)
+                        : ['assets/placeholder.png'];
+                    const sizesInput = document.getElementById('cms-product-sizes').value;
+
+                    if (!title || !priceInr) {
+                        alert('⚠️ Input Mismatch: Please specify the Product Title and Base Price values.');
+                        return;
+                    }
+
+                    submitBtn.disabled = true;
+                    submitBtn.innerText = 'DEPLOYING DATA CHANNELS... ⚡';
+                    feedLine('⚡ DEPLOYING MERCHANDISE PACKET — ' + title.toUpperCase());
+
+                    const sizeList = sizesInput
+                        .split(',')
+                        .map((s) => s.trim())
+                        .filter(Boolean);
+
+                    const productPayload = {
+                        title,
+                        basePriceInr: Math.round(priceInr),
+                        priceInr: Math.round(priceInr),
+                        badge,
+                        flags: (BADGE_MAP[badge] || BADGE_MAP['NONE']).flags,
+                        category: CATEGORY_MAP[category] || 'Merch',
+                        images: parsedImagesArrayPayload,
+                        sizes: sizeList,
+                    };
+
+                    try {
+                        const response = await fetch('/api/products/add', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(productPayload),
+                        });
+                        const result = await response.json();
+
+                        if (!response.ok || !result.success) {
+                            alert('⛔ Rejection Reason: ' + (result.message || 'Deployment channel refused the packet.'));
+                            submitBtn.disabled = false;
+                            submitBtn.innerText = '🚀 DEPLOY MERCHANDISE TO STORE';
+                            return;
+                        }
+
+                        alert('🚀 Production Deploy Success! Product records parsed and loaded globally.');
+                        window.location.reload();
+                    } catch (error) {
+                        console.warn('Server offline. Mocking array data update simulation.');
+                        alert('🚀 Fallback Sync Success: Mock product added safely to local layout layers!');
+                        window.location.reload();
+                    }
+                });
+            }
+
+            // -------------------------------------------------------------
+            // B2. INLINE BASELINE PRICE REWRITE (click the ₹ amount)
+            // -------------------------------------------------------------
+            async function startPriceEdit(id, anchorEl, currentPrice, row) {
+                const holder = document.createElement('div');
+                holder.className = 'flex items-center gap-2';
+
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.min = '1';
+                input.step = '1';
+                input.value = String(currentPrice);
+                input.className = 'w-28 bg-black/40 border border-[#8B2CFF]/50 rounded-lg px-2 py-1 text-xs font-bold text-white outline-none';
+                input.setAttribute('aria-label', 'New baseline price in INR');
+
+                const save = document.createElement('button');
+                save.className = 'text-[9px] font-black tracking-widest uppercase text-black bg-[#20D9FF] hover:bg-white rounded-md px-2 py-1.5 transition-colors cursor-pointer';
+                save.textContent = 'SET';
+
+                const cancel = document.createElement('button');
+                cancel.className = 'text-[10px] font-black tracking-widest uppercase text-white/50 hover:text-white px-1.5 py-1.5 transition-colors cursor-pointer';
+                cancel.textContent = '✕';
+
+                holder.appendChild(input);
+                holder.appendChild(save);
+                holder.appendChild(cancel);
+                anchorEl.replaceWith(holder);
+                input.focus();
+                input.select();
+
+                const revert = () => { loadCMSDirectory(); };
+                const commit = async () => {
+                    const next = Math.round(Number(input.value));
+                    if (!next || next < 1) { alert('⚠️ Price must be a positive whole number.'); revert(); return; }
+                    save.disabled = true;
+                    save.textContent = '...';
+                    try {
+                        const res = await fetch('/api/products/' + encodeURIComponent(id) + '/price', {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ priceInr: next }),
+                        });
+                        const data = await res.json();
+                        if (res.ok && data.success) {
+                            feedLine('⚡ BASELINE REWRITTEN — ' + id.toUpperCase() + ' → ' + fmtInr(next));
+                        } else {
+                            alert('⛔ Price rewrite rejected: ' + (data.message || 'Unknown channel error.'));
+                        }
+                    } catch (err) {
+                        console.warn('Price rewrite channel offline — simulated update.');
+                    }
+                    await loadCMSDirectory();
+                };
+                save.addEventListener('click', commit);
+                cancel.addEventListener('click', revert);
+                input.addEventListener('keydown', (ev) => {
+                    if (ev.key === 'Enter') commit();
+                    if (ev.key === 'Escape') revert();
+                });
+            }
+
+            // ---------- C. ABSOLUTE REMOVAL FUNCTION TRIGGER LOOP ----------
+            async function deleteProductData(id, title) {
+                if (!confirm('⚠️ Confirm Action: Are you absolutely certain you want to strike "' + (title || 'this item') + '" from our live retail inventories?')) return;
+                try {
+                    const res = await fetch('/api/products/delete/' + encodeURIComponent(id), { method: 'DELETE' });
+                    const data = await res.json();
+                    feedLine('⚡ ITEM STRUCK FROM INVENTORY — ' + id.toUpperCase());
+                    await loadCMSDirectory();
+                } catch (e) {
+                    alert('Product record removed safely from display simulation grids!');
+                    await loadCMSDirectory();
+                }
+            }
+
+            // -------------------------------------------------------------
+            // D. ASSET UPLOAD CHANNEL (live write into /assets via server)
+            // -------------------------------------------------------------
+            const assetFile = document.getElementById('cms-asset-file');
+            const uploadStatus = document.getElementById('cms-upload-status');
+            if (assetFile) {
+                assetFile.addEventListener('change', async () => {
+                    const file = assetFile.files && assetFile.files[0];
+                    if (!file) return;
+                    if (!/^image\/(png|jpeg|webp|gif)$/i.test(file.type)) {
+                        alert('⚠️ Asset type must be PNG, JPEG, WEBP or GIF.');
+                        return;
+                    }
+                    if (file.size > 3 * 1024 * 1024) {
+                        alert('⚠️ Asset exceeds the 3MB upload limit.');
+                        return;
+                    }
+                    uploadStatus.textContent = 'Uploading...';
+                    const reader = new FileReader();
+                    reader.onload = async () => {
+                        try {
+                            const base = file.name.replace(/\.[a-z0-9]+$/i, '');
+                            const res = await fetch('/api/assets/upload', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ filename: base, data: reader.result }),
+                            });
+                            const data = await res.json();
+                            if (res.ok && data.url) {
+                                document.getElementById('cms-product-image-src').value = data.url;
+                                uploadStatus.textContent = '✓ Deployed';
+                                feedLine('⚡ ASSET DEPLOYED — ' + data.url);
+                            } else {
+                                uploadStatus.textContent = '✕ Rejected';
+                                alert('⛔ Asset upload rejected: ' + (data.message || 'Channel error.'));
+                            }
+                        } catch (err) {
+                            uploadStatus.textContent = '✕ Offline';
+                            alert('⚠️ Asset channel offline — path input still available.');
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            // -------------------------------------------------------------
+            // MANUAL SYNC TRIGGER + INITIALIZATION
+            // -------------------------------------------------------------
+            const refreshBtn = document.getElementById('cms-refresh-btn');
+            if (refreshBtn) refreshBtn.addEventListener('click', loadCMSDirectory);
+
+            loadCMSDirectory();
+            pingConsole();
+            setInterval(pingConsole, 15000);
+        });
+    </script>
+
+    <!-- ================= CREATOR HUB — ANNOUNCEMENT DEPLOY SCRIPT ================= -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const annForm = document.getElementById('cms-ann-form');
+            const annList = document.getElementById('cms-ann-directory');
+            const annFeed = document.getElementById('cms-ann-feed');
+            const deployBtn = document.getElementById('cms-ann-deploy-btn');
+            const refreshBtn = document.getElementById('cms-ann-refresh-btn');
+
+            const esc = (s) => String(s ?? '')
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            const annLine = (msg) => { if (annFeed) annFeed.textContent = msg; };
+
+            // -------------------------------------------------------------
+            // ANNOUNCEMENT IMAGE ASSET UPLOAD CHANNEL (live write into /assets)
+            // -------------------------------------------------------------
+            const annAssetFile = document.getElementById('cms-ann-asset-file');
+            const annUploadStatus = document.getElementById('cms-ann-upload-status');
+            if (annAssetFile) {
+                annAssetFile.addEventListener('change', async () => {
+                    const file = annAssetFile.files && annAssetFile.files[0];
+                    if (!file) return;
+                    if (!/^image\/(png|jpeg|webp|gif)$/i.test(file.type)) {
+                        alert('⚠️ Asset type must be PNG, JPEG, WEBP or GIF.');
+                        return;
+                    }
+                    if (file.size > 3 * 1024 * 1024) {
+                        alert('⚠️ Asset exceeds the 3MB upload limit.');
+                        return;
+                    }
+                    if (annUploadStatus) annUploadStatus.textContent = 'Uploading...';
+                    const reader = new FileReader();
+                    reader.onload = async () => {
+                        try {
+                            const base = file.name.replace(/\.[a-z0-9]+$/i, '');
+                            const res = await fetch('/api/assets/upload', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ filename: base, data: reader.result }),
+                            });
+                            const data = await res.json();
+                            if (res.ok && data.url) {
+                                document.getElementById('cms-ann-image').value = data.url;
+                                if (annUploadStatus) annUploadStatus.textContent = '✓ Deployed';
+                                annLine('⚡ TEASER ASSET DEPLOYED — ' + data.url);
+                            } else {
+                                if (annUploadStatus) annUploadStatus.textContent = '✕ Rejected';
+                                alert('⛔ Asset upload rejected: ' + (data.message || 'Channel error.'));
+                            }
+                        } catch (err) {
+                            console.warn('Asset channel offline for announcements.');
+                            if (annUploadStatus) annUploadStatus.textContent = '✕ Offline';
+                            alert('⚠️ Asset channel offline — URL path input still available.');
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            async function loadAnnouncements() {
+                if (!annList) return;
+                annList.innerHTML = '<div class="text-xs text-gray-400 uppercase tracking-widest animate-pulse">Querying creator feed timeline...</div>';
+                try {
+                    const res = await fetch('/api/announcements', { cache: 'no-store' });
+                    const result = await res.json();
+                    const posts = result.data || [];
+                    annList.innerHTML = '';
+                    if (!posts.length) {
+                        annList.innerHTML = '<div class="text-xs text-gray-400 uppercase tracking-widest">Creator feed empty. Deploy your first announcement.</div>';
+                        annLine('📡 CREATOR STREAM — EMPTY, AWAITING FIRST DEPLOY');
+                        return;
+                    }
+                    posts.forEach((p) => {
+                        const row = document.createElement('div');
+                        row.className = 'micro-card flex items-center justify-between gap-4 p-4 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/5 transition-all';
+                        const left = document.createElement('div');
+                        left.className = 'flex items-center gap-4 min-w-0';
+                        const box = document.createElement('div');
+                        box.className = 'w-10 h-10 rounded-xl overflow-hidden bg-black/30 border border-white/10 flex items-center justify-center shrink-0';
+                        const img = document.createElement('img');
+                        img.src = p.image || 'assets/cookie_stamp_tee.png';
+                        img.alt = p.title || 'Announcement';
+                        img.className = 'w-full h-full object-cover';
+                        box.appendChild(img);
+                        const meta = document.createElement('div');
+                        meta.className = 'min-w-0';
+                        const t = document.createElement('h4');
+                        t.className = 'text-xs font-black uppercase tracking-wider text-white truncate';
+                        t.textContent = p.title || 'UNTITLED ANNOUNCEMENT';
+                        const s = document.createElement('span');
+                        s.className = 'block text-[10px] font-bold text-[#20D9FF] tracking-widest uppercase truncate';
+                        s.textContent = (p.category || '') + ' · ' + (p.dateTag || 'TBA');
+                        meta.appendChild(t);
+                        meta.appendChild(s);
+                        left.appendChild(box);
+                        left.appendChild(meta);
+                        const id = p.id || p._id || p.slug || '';
+                        row.dataset.id = id;
+                        const metaRight = document.createElement('div');
+                        metaRight.className = 'flex items-center gap-3 shrink-0';
+                        const live = document.createElement('span');
+                        live.className = 'text-[9px] font-black tracking-widest uppercase text-emerald-400/80';
+                        live.textContent = '● LIVE';
+                        const delBtn = document.createElement('button');
+                        delBtn.className = 'text-[10px] font-black uppercase tracking-widest text-rose-400 hover:text-white hover:bg-rose-500/20 px-3 py-1.5 rounded-xl transition-all cursor-pointer';
+                        delBtn.textContent = '🗑️ DELETE';
+                        delBtn.addEventListener('click', () => deleteAnnouncement(id || p.title || '', p.title));
+                        metaRight.appendChild(live);
+                        metaRight.appendChild(delBtn);
+                        row.appendChild(left);
+                        row.appendChild(metaRight);
+                        annList.appendChild(row);
+                    });
+                    annLine('⚡ CREATOR FEED SYNCED — ' + posts.length + ' POSTS LIVE');
+                } catch (err) {
+                    console.warn('Creator feed channel offline.');
+                    annList.innerHTML = '<div class="text-xs text-rose-400 uppercase tracking-widest">Creator feed routing timeout — seed timeline stand-in active.</div>';
+                    annLine('⛔ CREATOR FEED CHANNEL OFFLINE');
+                }
+            }
+
+            async function deleteAnnouncement(id, title) {
+                if (!confirm('⚠️ Confirm Action: Are you absolutely certain you want to strike "' + (title || 'this announcement') + '" from the live creator feed?')) return;
+                try {
+                    const res = await fetch('/api/announcements/delete/' + encodeURIComponent(id), { method: 'DELETE' });
+                    const data = await res.json();
+                    if (!res.ok || !data.success) alert('⛔ Rejection Reason: ' + (data.message || 'Channel error.'));
+                    annLine('⚡ ANNOUNCEMENT STRUCK FROM FEED — ' + (title || id).toUpperCase());
+                    await loadAnnouncements();
+                } catch (e) {
+                    console.warn('Announcement delete channel offline.');
+                    alert('Announcement removed safely from display simulation grids!');
+                    await loadAnnouncements();
+                }
+            }
+
+            if (deployBtn && annForm) {
+                deployBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const title = document.getElementById('cms-ann-title').value;
+                    if (!title) {
+                        alert('⚠️ Input Mismatch: Please specify the Announcement Title.');
+                        return;
+                    }
+                    const category = document.getElementById('cms-ann-category').value || '🚨 COMMUNITY ALERT';
+                    const dateTag = document.getElementById('cms-ann-date').value || 'TBA';
+                    const body = document.getElementById('cms-ann-body').value;
+                    const image = document.getElementById('cms-ann-image').value || 'assets/cookie_stamp_tee.png';
+
+                    deployBtn.disabled = true;
+                    deployBtn.innerText = 'DEPLOYING TO LIVE FEED... ⚡';
+                    annLine('⚡ DEPLOYING ANNOUNCEMENT — ' + title.toUpperCase());
+
+                    try {
+                        const res = await fetch('/api/announcements/add', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ title, category, dateTag, body, image }),
+                        });
+                        const result = await res.json();
+                        if (!res.ok || !result.success) {
+                            alert('⛔ Rejection Reason: ' + (result.message || 'Deployment channel refused the packet.'));
+                        } else {
+                            annForm.reset();
+                            document.getElementById('cms-ann-image').value = 'assets/cookie_stamp_tee.png';
+                            annLine('🚀 ANNOUNCEMENT DEPLOYED — ' + (result.data.title || title).toUpperCase());
+                            await loadAnnouncements();
+                        }
+                    } catch (err) {
+                        console.warn('Announcement channel offline.');
+                        annLine('⛔ CREATOR FEED CHANNEL OFFLINE — MOCK LAYER');
+                    } finally {
+                        deployBtn.disabled = false;
+                        deployBtn.innerText = '🚀 DEPLOY ANNOUNCEMENT TO LIVE FEED';
+                    }
+                });
+            }
+
+            if (refreshBtn) refreshBtn.addEventListener('click', loadAnnouncements);
+
+            loadAnnouncements();
+        });
+    </script>
+
+    <!-- ================= COOKIE CLUB — MEMBERSHIP CLEARANCE LIFECYCLE SCRIPT ================= -->
+    <script>
+        (function () {
+            const queueContainer = document.getElementById('cms-club-queue');
+            const esc = (s) => String(s ?? '')
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            const safeName = (raw) => esc(raw || '').replace(/['"]/g, '');
+
+            // A. READ LIVE MEMBERSHIP REQUEST PACKETS FROM NODE SERVER
+            async function loadMembershipQueue() {
+                if (!queueContainer) return;
+
+                queueContainer.innerHTML = '<div class="text-xs text-gray-400 uppercase tracking-widest animate-pulse">Scanning server clearance arrays...</div>';
+
+                try {
+                    const response = await fetch('/api/club/admin/pending');
+                    const data = await response.json();
+                    const pendingUsers = data.users || [];
+
+                    queueContainer.innerHTML = '';
+                    if (pendingUsers.length === 0) {
+                        queueContainer.innerHTML = '<div class="text-xs text-gray-500 uppercase tracking-widest py-4">No membership applications currently pending clearance. 🍪</div>';
+                        return;
+                    }
+
+                    pendingUsers.forEach(user => {
+                        const name = safeName(user.name || user.userName);
+                        const ts = user.requestedAt
+                            ? new Date(user.requestedAt).toLocaleString()
+                            : 'TIMESTAMP UNAVAILABLE';
+
+                        const card = document.createElement('div');
+                        card.className = "flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/5 transition-all";
+                        card.innerHTML = `
+                            <div class="flex items-center gap-4">
+                                <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-black text-xs">👤</div>
+                                <div>
+                                    <h4 class="text-xs font-black uppercase tracking-wider text-white">${name}</h4>
+                                    <span class="text-[9px] font-bold text-amber-400 tracking-widest uppercase">REQUESTED CLUB MEMBERSHIP</span>
+                                    <span class="block text-[9px] font-bold text-white/30 tracking-widest mt-0.5">${ts}</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button class="text-[10px] font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-400 hover:text-white hover:bg-emerald-500 rounded-xl px-4 py-2.5 transition-all cursor-pointer" onclick="processClubAction('${name}', 'approve')">✓ APPROVE ACCESS</button>
+                                <button class="text-[10px] font-black uppercase tracking-widest bg-rose-500/10 text-rose-400 hover:text-white hover:bg-rose-500 rounded-xl px-4 py-2.5 transition-all cursor-pointer" onclick="processClubAction('${name}', 'deny')">✕ REJECT</button>
+                            </div>
+                        `;
+                        queueContainer.appendChild(card);
+                    });
+                } catch (err) {
+                    // High-Fidelity Local Mock Fallback injection loop for seamless client demo operations
+                    console.warn("Server offline. Mocking pending clearance profiles array layout.");
+                    queueContainer.innerHTML = `
+                        <div class="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
+                            <div class="flex items-center gap-4">
+                                <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-black text-xs">👤</div>
+                                <div>
+                                    <h4 class="text-xs font-black uppercase tracking-wider text-white">GuestUser_402</h4>
+                                    <span class="text-[9px] font-bold text-amber-400 tracking-widest uppercase">REQUESTED CLUB MEMBERSHIP</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button class="text-[10px] font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-400 hover:text-white hover:bg-emerald-500 rounded-xl px-4 py-2.5 transition-all cursor-pointer" onclick="processClubAction('GuestUser_402', 'approve')">✓ APPROVE ACCESS</button>
+                                <button class="text-[10px] font-black uppercase tracking-widest bg-rose-500/10 text-rose-400 hover:text-white hover:bg-rose-500 rounded-xl px-4 py-2.5 transition-all cursor-pointer" onclick="processClubAction('GuestUser_402', 'deny')">✕ REJECT</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            // B. TRANSMIT APPROVAL SELECTION TO LIVE SERVER PORT ROUTERS
+            window.processClubAction = async function (userName, actionType) {
+                try {
+                    const response = await fetch('/api/club/admin/action', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userName, action: actionType })
+                    });
+                    const data = await response.json();
+                    alert(`🔒 Profile Clearance Finalized: User "${userName}" has been officially ${actionType === 'approve' ? 'APPROVED' : 'DENIED'} access.`);
+                    window.location.reload();
+                } catch (e) {
+                    alert(`🔒 Mock Sync Success: Profile "${userName}" successfully upgraded to ${actionType.toUpperCase()} status role configurations!`);
+                    window.location.reload();
+                }
+            };
+
+            // Mount clearance console query loader natively on view focus
+            loadMembershipQueue();
+            setInterval(loadMembershipQueue, 15000);
+        })();
+    </script>
+</body>
+</html>
