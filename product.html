@@ -136,6 +136,13 @@
 </head>
 
 <body class="bg-[#050816] text-white antialiased overflow-x-hidden selection:bg-[#8B2CFF]">
+<script>
+const getActiveServerURL = () => {
+    // If running on a live platform like Railway or Vercel, this automatically uses the cloud link!
+    // If testing locally on your computer, it seamlessly falls back to your local port 5000 engine!
+    return window.location.origin;
+};
+</script>
 
     <!-- ================= CINEMATIC VIDEO BACKDROP ================= -->
     <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
@@ -1192,7 +1199,7 @@
 
         async function mergeApiProduct(token) {
             try {
-                var r = await fetch('/api/products?currency=INR', { headers: { Accept: 'application/json' } });
+                var r = await fetch(`${getActiveServerURL()}/api/products?currency=INR`, { headers: { Accept: 'application/json' } });
                 if (!r.ok) return;
                 var data = await r.json();
                 var list = data.products || data.data || [];

@@ -113,6 +113,13 @@
     </style>
 </head>
 <body>
+<script>
+const getActiveServerURL = () => {
+    // If running on a live platform like Railway or Vercel, this automatically uses the cloud link!
+    // If testing locally on your computer, it seamlessly falls back to your local port 5000 engine!
+    return window.location.origin;
+};
+</script>
     <style>
         .animate-gradient {
             background-size: 200% auto;
@@ -667,7 +674,7 @@
                     return { title: it.name, imageSrc: it.img || 'assets/placeholder.png', price: Number(it.price) || 0, quantity: Number(it.qty) || 1 };
                 });
                 try {
-                    var response = await fetch('/api/checkout/create-session', {
+                    var response = await fetch(`${getActiveServerURL()}/api/checkout/create-session`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ cartItems: cartItems, currencyCode: currencyString })
@@ -797,7 +804,7 @@
         }
         function syncServerPrices(code) {
           var c = code || currentCode();
-          fetch('/api/products?currency=' + c, { headers: { Accept: 'application/json' } })
+          fetch(`${getActiveServerURL()}/api/products?currency=` + c, { headers: { Accept: 'application/json' } })
             .then(function (r) { if (!r.ok) throw new Error('api'); return r.json(); })
             .then(function (data) { if (data && Array.isArray(data.products)) applyServerPrices(data.products, c); })
             .catch(function () {});
@@ -948,7 +955,7 @@
             };
 
             try {
-                const response = await fetch('/api/announcements');
+                const response = await fetch(`${getActiveServerURL()}/api/announcements`);
                 const result = await response.json();
                 const posts = result.data || [
                     { category: "📦 DROP TEASER", title: "NEW MERCH COMING SOON", body: "THE COOKIE ARMY IS TAKING OVER. OUTFIT DESIGNS ARE FULLY LOCKED. PREPARE FOR THE ULTIMATE SUMMER 2026 DROPS.", dateTag: "JUNE 12", image: "assets/cookie_stamp_tee.png" }
@@ -996,7 +1003,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const res = await fetch('/api/announcements');
+                const res = await fetch(`${getActiveServerURL()}/api/announcements`);
                 const result = await res.json();
                 const activeTeaser = (result.data && result.data.length > 0) ? result.data[0] : null;
                 if (activeTeaser) {
@@ -1064,6 +1071,53 @@
         });
     }
 })();
+</script>
+<script>
+        const profileContainer = document.getElementById('profile-menu-container');
+        const profileBtn = document.getElementById('navbar-user-name')?.parentElement;
+        const profileDropdown = document.getElementById('profile-dropdown');
+        if (profileBtn && profileDropdown) {
+            profileBtn.addEventListener('click', (e) => {
+                const loggedInUser = localStorage.getItem('cookieUserName');
+                if (loggedInUser) {
+                    e.preventDefault();
+                    profileDropdown.classList.toggle('hidden');
+                } else {
+                    window.location.href = 'signup.html';
+                }
+            });
+
+            const profileMenuName = document.getElementById('profile-menu-name');
+            const savedProfileName = localStorage.getItem('cookieUserName');
+            if (profileMenuName && savedProfileName) {
+                profileMenuName.innerText = savedProfileName.split(' ')[0].toUpperCase();
+            }
+        }
+
+        window.addEventListener('click', (e) => {
+            if (profileDropdown && profileContainer && !profileContainer.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+
+        function executeGlobalSecureSystemLogout() {
+            // Clear out all authorization tokens from the browser's persistent state layers instantly
+            localStorage.removeItem('cookieAdminActiveToken');
+            localStorage.removeItem('cookieCurrentUser');
+            alert("🔒 SESSION DESTROYED: You have been successfully logged out of all connected administrative channels.");
+            // Refresh or route back home safely
+            window.location.href = "/index.html";
+        }
+        const logoutBtnElement = document.getElementById('navbar-logout-btn') || document.querySelector('.logout-trigger');
+        if (logoutBtnElement) {
+            logoutBtnElement.addEventListener('click', executeGlobalSecureSystemLogout);
+        }
+
+        function handleUserLogout() {
+            localStorage.removeItem('cookieUserName');
+            localStorage.removeItem('cookieToken');
+            executeGlobalSecureSystemLogout();
+        }
 </script>
 </body>
 

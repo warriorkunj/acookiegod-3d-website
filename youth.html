@@ -107,6 +107,13 @@
     </style>
 </head>
 <body>
+<script>
+const getActiveServerURL = () => {
+    // If running on a live platform like Railway or Vercel, this automatically uses the cloud link!
+    // If testing locally on your computer, it seamlessly falls back to your local port 5000 engine!
+    return window.location.origin;
+};
+</script>
     <div class="fixed inset-0 w-full h-full object-cover z-0 pointer-events-none">
         <video id="bg-video-engine" autoplay loop muted playsinline class="bg-video-engine w-full h-full object-cover filter brightness-[1.15] contrast-[1.05] saturate-[1.1]">
             <source id="video-asset-stream" src="/cookiegod.mp4" type="video/mp4">
@@ -738,7 +745,7 @@
     }
     function syncServerPrices(code) {
       var c = code || currentCode();
-      fetch('/api/products?currency=' + c, { headers: { Accept: 'application/json' } })
+      fetch(`${getActiveServerURL()}/api/products?currency=` + c, { headers: { Accept: 'application/json' } })
         .then(function (r) { if (!r.ok) throw new Error('api'); return r.json(); })
         .then(function (data) { if (data && Array.isArray(data.products)) applyServerPrices(data.products, c); })
         .catch(function () {});
@@ -894,11 +901,23 @@
             }
         });
 
+        function executeGlobalSecureSystemLogout() {
+            // Clear out all authorization tokens from the browser's persistent state layers instantly
+            localStorage.removeItem('cookieAdminActiveToken');
+            localStorage.removeItem('cookieCurrentUser');
+            alert("🔒 SESSION DESTROYED: You have been successfully logged out of all connected administrative channels.");
+            // Refresh or route back home safely
+            window.location.href = "/index.html";
+        }
+        const logoutBtnElement = document.getElementById('navbar-logout-btn') || document.querySelector('.logout-trigger');
+        if (logoutBtnElement) {
+            logoutBtnElement.addEventListener('click', executeGlobalSecureSystemLogout);
+        }
+
         function handleUserLogout() {
             localStorage.removeItem('cookieUserName');
             localStorage.removeItem('cookieToken');
-            alert('🚪 Successfully logged out of session. Returning safely to guest mode.');
-            window.location.reload();
+            executeGlobalSecureSystemLogout();
         }
     </script>
 <!-- ================= RUNTIME INVENTORY STREAM LOADER ================= -->
@@ -941,7 +960,7 @@
         };
 
         try {
-            const response = await fetch('/api/products', { headers: { Accept: 'application/json' } });
+            const response = await fetch(`${getActiveServerURL()}/api/products`, { headers: { Accept: 'application/json' } });
             const result = await response.json();
             const catalogList = (result.products || result.data || []).map(normalize);
 
@@ -1264,7 +1283,7 @@
                     return { title: it.name, imageSrc: it.img || 'assets/placeholder.png', price: Number(it.price) || 0, quantity: Number(it.qty) || 1 };
                 });
                 try {
-                    var response = await fetch('/api/checkout/create-session', {
+                    var response = await fetch(`${getActiveServerURL()}/api/checkout/create-session`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ cartItems: cartItems, currencyCode: currencyString })

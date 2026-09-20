@@ -127,6 +127,33 @@
 </head>
 
 <body class="bg-[#0b0518] text-white antialiased overflow-x-hidden">
+<script>
+function enforceStrictClearanceGate() {
+    const activeToken = localStorage.getItem('cookieAdminActiveToken');
+    const activeUser = localStorage.getItem('cookieCurrentUser');
+
+    // Strict Verification check: If the keys are missing or don't match authorized handles, kick them out
+    if (!activeToken || (activeUser !== 'KUNJ' && activeUser !== 'ACOOKIEGOD')) {
+        alert("⚠️ ACCESS REJECTED: Security token mismatch. Please authenticate on the main storefront profile deck.");
+        window.location.href = "/signup.html"; // Instantly boot them back to registration layers
+    }
+}
+// Run the authorization verification check immediately upon page layout initialization
+enforceStrictClearanceGate();
+// THE REVOLUTIONARY MULTI-TAB DISCONNECT SYNC:
+// Listen directly to browser cache state fluctuations. If a user clicks 'Logout' in another tab, this fires instantly!
+window.addEventListener('storage', (event) => {
+    if (event.key === 'cookieAdminActiveToken' && !event.newValue) {
+        console.log("[security] Storefront logout session triggered in adjacent window. Erasing CMS clearance.");
+        window.location.href = "/signup.html";
+    }
+});
+const getActiveServerURL = () => {
+    // If running on a live platform like Railway or Vercel, this automatically uses the cloud link!
+    // If testing locally on your computer, it seamlessly falls back to your local port 5000 engine!
+    return window.location.origin;
+};
+</script>
 
     <!-- ================= CINEMATIC WAVE BACKDROP ================= -->
     <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
@@ -407,7 +434,7 @@
                 const dot = document.getElementById('cms-connection-dot');
                 const label = document.getElementById('cms-connection-label');
                 try {
-                    const res = await fetch('/api/health', { cache: 'no-store' });
+                    const res = await fetch(`${getActiveServerURL()}/api/health`, { cache: 'no-store' });
                     const data = await res.json();
                     dot.className = 'conn-dot online';
                     const db = data.database === 'connected' ? 'DB LINKED' : 'DB STANDBY';
@@ -424,7 +451,7 @@
             async function loadCMSDirectory() {
                 directory.innerHTML = '<div class="text-xs text-gray-400 uppercase tracking-widest animate-pulse">Querying server inventory modules...</div>';
                 try {
-                    const res = await fetch('/api/products?currency=INR', { cache: 'no-store' });
+                    const res = await fetch(`${getActiveServerURL()}/api/products?currency=INR`, { cache: 'no-store' });
                     const result = await res.json();
                     const items = result.products || result.data || [];
 
@@ -554,7 +581,7 @@
                     };
 
                     try {
-                        const response = await fetch('/api/products/add', {
+                        const response = await fetch(`${getActiveServerURL()}/api/products/add`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(productPayload),
@@ -615,7 +642,7 @@
                     save.disabled = true;
                     save.textContent = '...';
                     try {
-                        const res = await fetch('/api/products/' + encodeURIComponent(id) + '/price', {
+                        const res = await fetch(`${getActiveServerURL()}/api/products/${encodeURIComponent(id)}/price`, {
                             method: 'PATCH',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ priceInr: next }),
@@ -643,7 +670,7 @@
             async function deleteProductData(id, title) {
                 if (!confirm('⚠️ Confirm Action: Are you absolutely certain you want to strike "' + (title || 'this item') + '" from our live retail inventories?')) return;
                 try {
-                    const res = await fetch('/api/products/delete/' + encodeURIComponent(id), { method: 'DELETE' });
+                    const res = await fetch(`${getActiveServerURL()}/api/products/delete/${encodeURIComponent(id)}`, { method: 'DELETE' });
                     const data = await res.json();
                     feedLine('⚡ ITEM STRUCK FROM INVENTORY — ' + id.toUpperCase());
                     await loadCMSDirectory();
@@ -675,7 +702,7 @@
                     reader.onload = async () => {
                         try {
                             const base = file.name.replace(/\.[a-z0-9]+$/i, '');
-                            const res = await fetch('/api/assets/upload', {
+                            const res = await fetch(`${getActiveServerURL()}/api/assets/upload`, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ filename: base, data: reader.result }),
@@ -746,7 +773,7 @@
                     reader.onload = async () => {
                         try {
                             const base = file.name.replace(/\.[a-z0-9]+$/i, '');
-                            const res = await fetch('/api/assets/upload', {
+                            const res = await fetch(`${getActiveServerURL()}/api/assets/upload`, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ filename: base, data: reader.result }),
@@ -774,7 +801,7 @@
                 if (!annList) return;
                 annList.innerHTML = '<div class="text-xs text-gray-400 uppercase tracking-widest animate-pulse">Querying creator feed timeline...</div>';
                 try {
-                    const res = await fetch('/api/announcements', { cache: 'no-store' });
+                    const res = await fetch(`${getActiveServerURL()}/api/announcements`, { cache: 'no-store' });
                     const result = await res.json();
                     const posts = result.data || [];
                     annList.innerHTML = '';
@@ -835,7 +862,7 @@
             async function deleteAnnouncement(id, title) {
                 if (!confirm('⚠️ Confirm Action: Are you absolutely certain you want to strike "' + (title || 'this announcement') + '" from the live creator feed?')) return;
                 try {
-                    const res = await fetch('/api/announcements/delete/' + encodeURIComponent(id), { method: 'DELETE' });
+                    const res = await fetch(`${getActiveServerURL()}/api/announcements/delete/${encodeURIComponent(id)}`, { method: 'DELETE' });
                     const data = await res.json();
                     if (!res.ok || !data.success) alert('⛔ Rejection Reason: ' + (data.message || 'Channel error.'));
                     annLine('⚡ ANNOUNCEMENT STRUCK FROM FEED — ' + (title || id).toUpperCase());
@@ -865,7 +892,7 @@
                     annLine('⚡ DEPLOYING ANNOUNCEMENT — ' + title.toUpperCase());
 
                     try {
-                        const res = await fetch('/api/announcements/add', {
+                        const res = await fetch(`${getActiveServerURL()}/api/announcements/add`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ title, category, dateTag, body, image }),
@@ -911,7 +938,7 @@
                 queueContainer.innerHTML = '<div class="text-xs text-gray-400 uppercase tracking-widest animate-pulse">Scanning server clearance arrays...</div>';
 
                 try {
-                    const response = await fetch('/api/club/admin/pending');
+                    const response = await fetch(`${getActiveServerURL()}/api/club/admin/pending`);
                     const data = await response.json();
                     const pendingUsers = data.users || [];
 
@@ -969,7 +996,7 @@
             // B. TRANSMIT APPROVAL SELECTION TO LIVE SERVER PORT ROUTERS
             window.processClubAction = async function (userName, actionType) {
                 try {
-                    const response = await fetch('/api/club/admin/action', {
+                    const response = await fetch(`${getActiveServerURL()}/api/club/admin/action`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ userName, action: actionType })

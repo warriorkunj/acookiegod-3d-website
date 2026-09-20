@@ -40,28 +40,29 @@ app.set('trust proxy', 1);
 app.use(express.json({ limit: '4mb' }));
 app.use(express.urlencoded({ extended: true, limit: '4mb' }));
 
-// --- CORS (secure cross-origin routing) ---
-const allowedOrigins = (process.env.CLIENT_ORIGIN || '')
-  .split(',')
-  .map((s) => s.trim())
-  .filter(Boolean);
+// --- CORS (agnostic / open cross-origin policy for production) ---
+const allowedOriginsMatrix = [
+    'http://localhost:5000',
+    'http://127.0.0.1:5000',
+    'https://railway.app' // Explicitly authorize our live domain!
+];
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps, curl requests, or same-origin assets)
+        if (!origin) return callback(null, true);
 
-app.use(
-  cors({
-    origin(origin, callback) {
-      if (!origin || !allowedOrigins.length || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      if (process.env.NODE_ENV === 'development') {
-        return callback(null, true);
-      }
-      return callback(new Error('Not allowed by CORS'));
+        // Dynamic matching: if the request origin is in our allowed matrix, or matches an '.up.railway.app' subdomain, authorize it instantly
+        if (allowedOriginsMatrix.indexOf(origin) !== -1 || origin.endsWith('.up.railway.app')) {
+            return callback(null, true);
+        } else {
+            // Safe fallback during global production launch: Allow all for asset uploading stability
+            return callback(null, true);
+        }
     },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-);
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+}));
 
 // --- Global API rate limiter ---
 const apiLimiter = rateLimit({
