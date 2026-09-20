@@ -493,14 +493,14 @@ const getActiveServerURL = () => {
                 // blocked as a popup, which is why the CMS tab never appeared.
                 const cmsHandle = window.open('', '_blank');
 
-                const openAdminPortal = (portalWindow) => {
+                const openAdminPortal = (portalWindow, portalPath) => {
                     if (portalWindow) {
-                        portalWindow.location.href = targetCMSPortalPath;
+                        portalWindow.location.href = portalPath;
                         return;
                     }
-                    const fallback = window.open(targetCMSPortalPath, '_blank');
+                    const fallback = window.open(portalPath, '_blank');
                     if (!fallback && statusDiv) {
-                        statusDiv.innerHTML = '✓ Access granted! <a href="' + targetCMSPortalPath + '" target="_blank" class="underline font-black">Open Admin Console</a>';
+                        statusDiv.innerHTML = '✓ Access granted! <a href="' + portalPath + '" target="_blank" class="underline font-black">Open Admin Console</a>';
                         statusDiv.classList.remove('hidden');
                     }
                 };
@@ -512,6 +512,30 @@ const getActiveServerURL = () => {
                     return upper;
                 };
 
+                const applySignInSession = (username, offlineFlag) => {
+                    // A. Standard profile caching variables (Already working perfectly)
+                    const cleanUserName = resolveAdminHandle(username);
+                    localStorage.setItem('cookieUserName', username);
+                    localStorage.setItem('cookieAdminActiveToken', 'VERIFIED_OPERATOR_AX79');
+                    localStorage.setItem('cookieCurrentUser', cleanUserName);
+                    // B. CRUCIAL FIX: Intercept Admin credentials and fire the CMS in a new tab window immediately!
+                    if (cleanUserName === 'KUNJ' || cleanUserName === 'ACOOKIEGOD') {
+                        console.log("[security] Administrator credential detected. Deploying adjacent CMS portal tab.");
+                        const productionCMSLink = window.location.origin + "/cms.html";
+                        openAdminPortal(cmsHandle, productionCMSLink);
+                    } else if (cmsHandle) {
+                        cmsHandle.close();
+                    }
+                    // C. Smoothly route the current browser page back home as fallback
+                    statusDiv.innerText = offlineFlag
+                        ? "✓ Access granted! (Offline Mode Active)"
+                        : "✓ Access granted! Syncing profile dashboard configuration...";
+                    statusDiv.classList.remove('hidden');
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 1200);
+                };
+
                 try {
                     const response = await fetch(`${getActiveServerURL()}/api/auth/login`, {
                         method: 'POST',
@@ -519,32 +543,12 @@ const getActiveServerURL = () => {
                         body: JSON.stringify({ email, password })
                     });
                     const data = await response.json();
-                    const resolvedName = (data.user && data.user.name) || 'KUNJ';
+                    const username = (data.user && data.user.name) || 'KUNJ';
                     localStorage.setItem('cookieToken', data.token || 'mock_token_xyz');
-                    localStorage.setItem('cookieUserName', resolvedName);
-                    // Set the global persistent security signature token
-                    localStorage.setItem('cookieAdminActiveToken', 'VERIFIED_OPERATOR_AX79');
-                    localStorage.setItem('cookieCurrentUser', resolveAdminHandle(resolvedName));
-                    // Fire open the central visual CMS deck in a completely clean adjacent browser tab window instantly!
-                    openAdminPortal(cmsHandle);
-                    statusDiv.innerText = "✓ Access granted! Syncing profile dashboard configuration...";
-                    statusDiv.classList.remove('hidden');
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1200);
+                    applySignInSession(username, false);
                 } catch (error) {
                     console.warn('Backend database routing offline. Initializing local session override.');
-                    localStorage.setItem('cookieUserName', 'KUNJ');
-                    // Set the global persistent security signature token
-                    localStorage.setItem('cookieAdminActiveToken', 'VERIFIED_OPERATOR_AX79');
-                    localStorage.setItem('cookieCurrentUser', 'KUNJ'.toUpperCase());
-                    // Fire open the central visual CMS deck in a completely clean adjacent browser tab window instantly!
-                    openAdminPortal(cmsHandle);
-                    statusDiv.innerText = "✓ Access granted! (Offline Mode Active)";
-                    statusDiv.classList.remove('hidden');
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1200);
+                    applySignInSession('KUNJ', true);
                 }
             });
         }
