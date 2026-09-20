@@ -486,6 +486,32 @@ const getActiveServerURL = () => {
                 submitBtn.disabled = true;
                 submitBtn.innerText = "AUTHENTICATING... 🔒";
 
+                const targetCMSPortalPath = window.location.origin + "/cms.html";
+
+                // Reserve the admin portal tab synchronously INSIDE the user gesture —
+                // a window.open() executed after an await loses the gesture and gets silently
+                // blocked as a popup, which is why the CMS tab never appeared.
+                const cmsHandle = window.open('', '_blank');
+
+                const openAdminPortal = (portalWindow) => {
+                    if (portalWindow) {
+                        portalWindow.location.href = targetCMSPortalPath;
+                        return;
+                    }
+                    const fallback = window.open(targetCMSPortalPath, '_blank');
+                    if (!fallback && statusDiv) {
+                        statusDiv.innerHTML = '✓ Access granted! <a href="' + targetCMSPortalPath + '" target="_blank" class="underline font-black">Open Admin Console</a>';
+                        statusDiv.classList.remove('hidden');
+                    }
+                };
+
+                const resolveAdminHandle = (rawName) => {
+                    const upper = String(rawName || 'KUNJ').toUpperCase();
+                    if (upper.indexOf('ACOOKIEGOD') !== -1) return 'ACOOKIEGOD';
+                    if (upper.indexOf('KUNJ') !== -1) return 'KUNJ';
+                    return upper;
+                };
+
                 try {
                     const response = await fetch(`${getActiveServerURL()}/api/auth/login`, {
                         method: 'POST',
@@ -493,14 +519,14 @@ const getActiveServerURL = () => {
                         body: JSON.stringify({ email, password })
                     });
                     const data = await response.json();
+                    const resolvedName = (data.user && data.user.name) || 'KUNJ';
                     localStorage.setItem('cookieToken', data.token || 'mock_token_xyz');
-                    localStorage.setItem('cookieUserName', data.name || 'KUNJ');
+                    localStorage.setItem('cookieUserName', resolvedName);
                     // Set the global persistent security signature token
                     localStorage.setItem('cookieAdminActiveToken', 'VERIFIED_OPERATOR_AX79');
-                    localStorage.setItem('cookieCurrentUser', (data.name || 'KUNJ').toUpperCase());
+                    localStorage.setItem('cookieCurrentUser', resolveAdminHandle(resolvedName));
                     // Fire open the central visual CMS deck in a completely clean adjacent browser tab window instantly!
-                    const targetCMSPortalPath = window.location.origin + "/cms.html";
-                    window.open(targetCMSPortalPath, '_blank');
+                    openAdminPortal(cmsHandle);
                     statusDiv.innerText = "✓ Access granted! Syncing profile dashboard configuration...";
                     statusDiv.classList.remove('hidden');
                     setTimeout(() => {
@@ -513,8 +539,7 @@ const getActiveServerURL = () => {
                     localStorage.setItem('cookieAdminActiveToken', 'VERIFIED_OPERATOR_AX79');
                     localStorage.setItem('cookieCurrentUser', 'KUNJ'.toUpperCase());
                     // Fire open the central visual CMS deck in a completely clean adjacent browser tab window instantly!
-                    const targetCMSPortalPath = window.location.origin + "/cms.html";
-                    window.open(targetCMSPortalPath, '_blank');
+                    openAdminPortal(cmsHandle);
                     statusDiv.innerText = "✓ Access granted! (Offline Mode Active)";
                     statusDiv.classList.remove('hidden');
                     setTimeout(() => {
